@@ -45,14 +45,36 @@ namespace UDT.Core
         }
     }
 
-    public class StandardComponent<T> : StandardComponent where T : System<T>
+    /// <summary>
+    /// Use for implementing Standard Components that tie into the Component Data Managaement System
+    /// This will create the Component Data for you, and will allow you to access it via the Data property without casting it yourself.
+    /// </summary>
+    /// <typeparam name="TComponent"></typeparam>
+    public class StandardComponent<TComponent> : StandardComponent where TComponent : ComponentDataBase
     {
-        public T System = System<T>.GetInstance();
+        public new TComponent Data => (TComponent)(object)base.Data;
+        public override void OnInstantiate()
+        {
+            base.OnInstantiate();
+        }
+    }
+    
+    /// <summary>
+    /// Use for implementing Standard Components that tie into the Component Data Managaement System and add it to a System
+    /// This will create the Component Data for you, and will allow you to access it via the Data property without casting it yourself.
+    /// This will also add the object to the System with the specified System Type
+    /// </summary>
+    /// <typeparam name="TComponent"></typeparam>
+    /// <typeparam name="TSystem"></typeparam>
+    public class StandardComponent<TComponent, TSystem> : StandardComponent where TSystem : System<TSystem> where TComponent : ComponentDataBase
+    {
+        public TSystem System = System<TSystem>.GetInstance();
+        public new TComponent Data => (TComponent) base.Data;
 
         public override void OnInstantiate()
         {
             base.OnInstantiate();
-            System<T>.AddObject(this.Object);
+            System<TSystem>.AddObject(this.Object);
         }
     }
 }
