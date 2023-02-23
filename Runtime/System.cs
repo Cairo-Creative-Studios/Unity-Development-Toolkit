@@ -85,7 +85,7 @@ namespace UDT.Core
         /// Stops the specified system, destroying it
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        public static void StopSystem<SystemType>() where SystemType : System<SystemType>
+        public static void StopSystem()
         {
             if (Instance != null)
             {
@@ -190,7 +190,7 @@ namespace UDT.Core
         /// When the System is destroyed, call Stop the System.
         /// </summary>
         ~System(){
-            System<T>.StopSystem<T>();
+            StopSystem();
         }
 
     }
