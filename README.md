@@ -2,6 +2,9 @@
 <img src="https://pbs.twimg.com/media/FpoRpnGX0AEcgS-?format=png&name=small"  style="width:100%;">
 A Toolkit made to simplify Unity Development, without limiting creative control or producing extra performance/development overhead. 
 
+# installation
+It's recommended that you use the Github URL to install through the package manager, but the Releases section has .unitypackages to download as well.
+
 The Unity Development Toolkit (UDT) is a C# library that is designed with an "interface first" approach. This approach focuses on creating a flexible and efficient interface for developers to interact with their Unity projects. The UDT provides various tools to achieve this objective, including runtime singletons, system singletons, standard objects, standard components, and controllables.
 
 ## - Runtime Singletons
