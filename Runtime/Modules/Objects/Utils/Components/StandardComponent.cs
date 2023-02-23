@@ -50,7 +50,7 @@ namespace UDT.Core
     /// This will create the Component Data for you, and will allow you to access it via the Data property without casting it yourself.
     /// </summary>
     /// <typeparam name="TComponent"></typeparam>
-    public class StandardComponent<TComponent> : StandardComponent where TComponent : ComponentDataBase
+    public class StandardComponent<TComponent> : StandardComponent where TComponent : StandardComponent
     {
         public new TComponent Data => (TComponent)(object)base.Data;
         public override void OnInstantiate()
@@ -66,10 +66,10 @@ namespace UDT.Core
     /// </summary>
     /// <typeparam name="TComponent"></typeparam>
     /// <typeparam name="TSystem"></typeparam>
-    public class StandardComponent<TComponent, TSystem> : StandardComponent where TSystem : System<TSystem> where TComponent : ComponentDataBase
+    public class StandardComponent<TComponent, TSystem> : StandardComponent where TSystem : System<TSystem> where TComponent : StandardComponent
     {
         public TSystem System = System<TSystem>.GetInstance();
-        public new TComponent Data => (TComponent) base.Data;
+        public new ComponentData<TComponent> Data => (ComponentData<TComponent>)base.Data;
 
         public override void OnInstantiate()
         {
