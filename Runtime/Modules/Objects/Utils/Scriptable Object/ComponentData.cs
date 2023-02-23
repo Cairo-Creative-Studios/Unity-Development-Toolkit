@@ -11,6 +11,8 @@ namespace UDT.Core
     public class ComponentDataBase : ScriptableObject
     {
         public Type ComponentType;
+        [Tooltip("If true, the Component will have a unique copy of the data for each Object. If false, the Component will have a single copy of the data for all Objects.")]
+        public bool intantiate = false;
     }
     
     /// <summary>

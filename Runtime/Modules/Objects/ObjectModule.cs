@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using NaughtyAttributes;
 using UDT.Reflection;
 using UnityEngine;
@@ -370,10 +371,25 @@ namespace UDT.Core
             //Add Data's Component Datas
             foreach (var data in instance.Components.Values)
             {
-                instance.AddIComponent(data.ComponentType, data);
+                if(data.intantiate)
+                    instance.AddIComponent(data.ComponentType, ComponentDataBase.Instantiate(data));
+                else
+                    instance.AddIComponent(data.ComponentType, data);
+                    
             }
             
             return instance;
+        }
+        
+        /// <summary>
+        /// Set the Data of a Component on a given Instance
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <param name="data"></param>
+        public static void SetComponentData(StandardObject instance, ComponentDataBase data)
+        {
+            var key = instance.Components.Keys.First(c => c.GetType() == data.ComponentType);
+            if (key != null) instance.Components[key] = data;
         }
     }
     
@@ -556,6 +572,14 @@ namespace UDT.Core
         public void RemoveAll(ObjectSelection selection)
         {
             base.RemoveAll(x => selection.Contains(x));
+        }
+
+        public void SetComponentData(ComponentDataBase data)
+        {
+            foreach (var instance in this)
+            {
+                ObjectModule.SetComponentData(instance, data);
+            }
         }
     }
 
