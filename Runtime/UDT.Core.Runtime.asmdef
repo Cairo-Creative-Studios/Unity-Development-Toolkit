@@ -1,0 +1,18 @@
+{
+    "name": "UDT.Core.Runtime",
+    "rootNamespace": "",
+    "references": [
+        "NaughtyAttributes.Core",
+        "Unity.InputSystem",
+        "Cinemachine"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
