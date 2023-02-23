@@ -1,4 +1,3 @@
-# Unity-Development-Toolkit
 <img src="https://pbs.twimg.com/media/FpoRpnGX0AEcgS-?format=png&name=small"  style="width:100%;">
 A Toolkit made to simplify Unity Development, without limiting creative control or producing extra performance/development overhead. 
 
