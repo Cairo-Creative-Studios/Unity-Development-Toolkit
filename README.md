@@ -11,7 +11,7 @@ The UDT's runtime singletons are designed to provide quick control over your gam
 
 The UDT's system singletons are built by extending the System<T> class, where T is the class name of the system. Systems act as a bridge for certain types of objects and components. You can start a system by calling System<T>.StartSystem(params), where "params" can include objects or components for the system to manage. Additionally, components can add themselves upon creation, as is the case for the default systems.
 
-##- Standard Objects and Components
+## - Standard Objects and Components
 
 The UDT's standard objects and components provide a layer on top of Unity's default game object system. These objects and components are designed to pool objects by default and provide many features for picking, instantiating, communicating with, and managing the lifecycles of objects more easily.
 
