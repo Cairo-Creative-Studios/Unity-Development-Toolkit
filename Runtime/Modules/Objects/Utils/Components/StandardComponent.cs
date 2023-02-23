@@ -1,10 +1,11 @@
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace UDT.Core
 {
     public class StandardComponent : MonoBehaviour, IComponentBase
     {
-        public ComponentDataBase Data { get; set; }
+        [Expandable] public ComponentDataBase Data;
         public StandardObject Object { get; set; }
         
         public virtual void OnInstantiate()

@@ -10,10 +10,6 @@ namespace UDT.Core
     public interface IComponentBase
     {
         /// <summary>
-        /// The Data passed to the Component from the Object Module.
-        /// </summary>
-        public ComponentDataBase Data { get; set; }
-        /// <summary>
         /// The parent object of the component
         /// </summary>
         public StandardObject Object { get; set; }
