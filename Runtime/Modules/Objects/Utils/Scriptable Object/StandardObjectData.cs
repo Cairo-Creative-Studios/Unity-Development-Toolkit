@@ -15,11 +15,12 @@ namespace UDT.Core
         /// the Object Module will create a new Game Object to use as the Prefab for the created Object.
         /// </summary>
         public GameObject prefab;
+
         /// <summary>
         /// Components that are added to the Standard Object when it is created. Components can either be generated from
-        /// this list, or can be attached directly to the given Prefab.
+        /// Data included in this list, or can be attached directly to the given Prefab. 
         /// </summary>
-        public string[] components = new string[] { };
+        public List<ComponentDataBase> components = new List<ComponentDataBase>();
         /// <summary>
         /// Data that will be passed to the Components of the 
         /// </summary>

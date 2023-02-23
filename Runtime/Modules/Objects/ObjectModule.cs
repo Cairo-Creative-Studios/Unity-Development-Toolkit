@@ -364,8 +364,15 @@ namespace UDT.Core
                     }
                 }
             }
-
+            
             instance.OnCreate();
+
+            //Add Data's Component Datas
+            foreach (var data in instance.Components.Values)
+            {
+                instance.AddIComponent(data.ComponentType, data);
+            }
+            
             return instance;
         }
     }

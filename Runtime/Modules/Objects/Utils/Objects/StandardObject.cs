@@ -26,9 +26,9 @@ namespace UDT.Core
         public int IID;
         public List<string> tags = new List<string>();
 
-        public List<StandardComponent> Components =
-            new List<StandardComponent>();
-        
+        public SerializableDictionary<StandardComponent, ComponentDataBase> Components =
+            new SerializableDictionary<StandardComponent, ComponentDataBase>();
+
         struct StandardEvents
         {
             //Unity Events
@@ -126,7 +126,7 @@ namespace UDT.Core
 
         public void Free()
         {
-            foreach(var component in Components)
+            foreach(var component in Components.Keys)
             {
                 component.OnFree();
             }
@@ -170,11 +170,16 @@ namespace UDT.Core
         /// Adds the specified Component to the object
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        public IComponentBase AddIComponent<T>() where T : StandardComponent, IComponentBase
+        public IComponentBase AddIComponent<T>(ComponentDataBase data = null) where T : StandardComponent, IComponentBase
         {
-            var component = gameObject.AddComponent<T>();
+            return AddIComponent(typeof(T), data);
+        }
+
+        public IComponentBase AddIComponent(Type type, ComponentDataBase data = null)
+        {
+            var component = (StandardComponent)gameObject.AddComponent(typeof(Type));
             component.Object = this;
-            Components.Add(component);
+            Components.Add(component, data);
             if (instanced)
                 component.OnInstantiate();
             return component;
@@ -189,7 +194,7 @@ namespace UDT.Core
             var component = GetIComponent<T>();
             component.OnFree();
             Destroy(gameObject.GetComponent<T>());
-            foreach (var c in Components)
+            foreach (var c in Components.Keys)
             {
                 if (c.GetType() == typeof(T))
                 {
@@ -206,7 +211,7 @@ namespace UDT.Core
         /// <returns></returns>
         public IComponentBase GetIComponent<T>() where T : MonoBehaviour, IComponentBase
         {
-            return Components.FirstOrDefault(c => c.GetType() == typeof(T));
+            return Components.Keys.FirstOrDefault(c => c.GetType() == typeof(T));
         }
 
         public bool HasComponent<T>(T component = default)

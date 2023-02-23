@@ -33,7 +33,7 @@ namespace UDT.Core
             if (Object == null) Object = gameObject.AddComponent<StandardObject>();
             if (!Object.HasComponent(this.GetType()))
             {
-                Object.Components.Add(this);
+                Object.Components.Add(this, Data);
                 OnAddComponent();
             }
             ObjectModule.OnComponentAdded?.Invoke(this);
