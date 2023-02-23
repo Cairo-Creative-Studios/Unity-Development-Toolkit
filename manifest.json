@@ -1,5 +1,5 @@
 {
   "dependencies": {
-    "com.unity.inputsystem": "1.3.0"
+    "com.cairo.udt": "file:UDTCore.unitypackage"
   }
 }

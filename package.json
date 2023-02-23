@@ -1,0 +1,13 @@
+ {
+    "name": "com.cairo.udt",
+    "displayName": "Unity Development Toolkit",
+    "version": "1.0.0",
+    "unity": "2018.1",
+    "description": "'Interface First' Toolkit for Unity Game Development.",
+    "keywords": [
+        "unity",
+        "toolkit",
+        "framework"
+    ],
+    "category": "Unity"
+}
