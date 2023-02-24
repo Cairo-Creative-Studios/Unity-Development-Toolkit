@@ -47,7 +47,7 @@ namespace UDT.Core
             foreach (Node<IStateNode> node in createdMachine.states.ToArray())
             {
                 node.value.SetField("node", node);
-                node.value.SetField("root", createdMachine);
+                node.value.SetField("root", node.parent.value);
             }
 
             //Call the Enter Method on the active State
