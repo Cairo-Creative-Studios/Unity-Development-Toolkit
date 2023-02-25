@@ -7,6 +7,9 @@ using UnityEngine.InputSystem;
 
 namespace UDT.Core.Controllables
 {
+    /// <summary>
+    /// The Player Controller gets input from the player and passes it to the controllable.
+    /// </summary>
     [AddComponentMenu("Controllers/Player Controller")]
     [RequireComponent(typeof(PlayerInput))]
     public class PlayerController : Controller

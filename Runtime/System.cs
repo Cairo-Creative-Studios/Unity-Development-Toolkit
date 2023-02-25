@@ -6,12 +6,13 @@ using UnityEngine;
 namespace UDT.Core
 {
     /// <summary>
-    /// A System is a Singleton that is used to manage a specific part of the game, such as the Input System, or the Physics System.
+    /// A System is a Singleton that is used to manage a specific part of the game, such as a Character or Camera System
     /// Custom Systems can be constructed by extending this class.
-    /// Systems are meant to be used as a way to manage the objects they're given, and can be used in place of or in conjunction with MonoBehaviours.
+    /// Systems are meant to be used as a way to manage the objects/Components they're given,
+    /// and can be used in place of or in conjunction with MonoBehaviours.
     /// Pairing IComponents with Systems allows for more control and flexibility over the lifecycle of objects.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">The inheriting class's Type</typeparam>
     public class System<T> : Singleton<T>, IFSM where T : System<T>
     {
         /// <summary>
@@ -192,6 +193,5 @@ namespace UDT.Core
         ~System(){
             StopSystem();
         }
-
     }
 }

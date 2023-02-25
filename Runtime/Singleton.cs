@@ -13,9 +13,11 @@ namespace UDT.Core
     }
     
     /// <summary>
-    /// A Singleton is a MonoBehaviour that, when extended, will only ever have one instance in the scene.
+    /// A Singleton is a MonoBehaviour that will only ever have one instance in the Game.
+    /// The Generic type is the new class that is extending this class.
+    /// The Instance property is an instance of the new class, and is created when it is first accessed.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">The inheriting class's Type</typeparam>
     public class Singleton<T> : SingletonBase where T : SingletonBase
     {
         protected static T _instance;

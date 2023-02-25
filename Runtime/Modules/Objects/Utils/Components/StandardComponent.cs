@@ -3,6 +3,10 @@ using UnityEngine;
 
 namespace UDT.Core
 {
+    /// <summary>
+    /// Provides a base class for Standard Compoennts that can be added to the Standard Object.
+    /// This will allow you to use the Standard Object's Component Management System.
+    /// </summary>
     public class StandardComponent : MonoBehaviour, IComponentBase
     {
         [Expandable] public ComponentDataBase Data;

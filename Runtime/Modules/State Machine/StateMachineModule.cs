@@ -124,6 +124,9 @@ namespace UDT.Core
         }
     }
 
+    /// <summary>
+    /// The State Machine Interface
+    /// </summary>
     public interface IFSM : IStateNode
     {
         /// <summary>

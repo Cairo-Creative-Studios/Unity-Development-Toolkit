@@ -6,7 +6,7 @@ namespace UDT.Core
     /// A Runtime Object is a Singleton that can be used to manage the state of the game's Runtime.
     /// Extend this class to create custom Runtimes.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">The inheriting class's Type</typeparam>
     public class Runtime<T> : Singleton<T>, IFSM where T : Runtime<T>
     {        
         public Tree<IStateNode> states { get; set; }
@@ -37,5 +37,6 @@ namespace UDT.Core
             StateMachineModule.AddStateMachine(this);
             stateTree = states;
         }
+
     }
 }

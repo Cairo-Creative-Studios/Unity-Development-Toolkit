@@ -4,6 +4,10 @@ using UnityEngine;
 
 namespace UDT.Core.Controllables
 {
+    /// <summary>
+    /// The Controller is the base class for all controllers.
+    /// Possession of a controllable is handled by the controller.
+    /// </summary>
     public class Controller : MonoBehaviour
     {
         public List<IComponentControllable> Controllables = new List<IComponentControllable>();
