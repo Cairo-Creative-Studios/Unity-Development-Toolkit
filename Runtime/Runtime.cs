@@ -38,5 +38,10 @@ namespace UDT.Core
             stateTree = states;
         }
 
+
+        public void StartRuntime()
+        {
+            Instance.enabled = true;
+        }
     }
 }
