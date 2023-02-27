@@ -53,7 +53,7 @@ namespace UDT.Core
         }
         
         public static T GetInstance()
-        {\
+        {
             return Instance;
         }
     }
