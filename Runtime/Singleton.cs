@@ -22,19 +22,20 @@ namespace UDT.Core
     {
         protected static T _instance;
 
+        private static bool instantiated;
+
         public static T Instance
         {
             get
             {
                 bool init = false;
                 
-                if (_instance == null)
+                if (!instantiated)
                 {
                     init = true;
-                        GameObject go = new GameObject(typeof(T).Name);
-                        _instance = go.AddComponent<T>();
+                    GameObject go = new GameObject(typeof(T).Name);
+                    _instance = go.AddComponent<T>();
                     CoreModule.AddSingleton(_instance);
-                    
                 }
 
                 if (!_instance._nameSet)
@@ -48,15 +49,11 @@ namespace UDT.Core
                     _instance.Init();
                 return _instance;
             }
-            protected set
-            {
-                _instance = value;
-                Instance = _instance;
-            }
+            protected set => _instance = value;
         }
         
         public static T GetInstance()
-        {
+        {\
             return Instance;
         }
     }
