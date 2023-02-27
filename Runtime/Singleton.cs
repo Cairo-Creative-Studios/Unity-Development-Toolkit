@@ -22,7 +22,7 @@ namespace UDT.Core
     {
         protected static T _instance;
 
-        private static bool instantiated;
+        private static bool instantiated = false;
 
         public static T Instance
         {
@@ -32,24 +32,28 @@ namespace UDT.Core
                 
                 if (!instantiated)
                 {
+                    instantiated = true;
                     init = true;
                     GameObject go = new GameObject(typeof(T).Name);
                     _instance = go.AddComponent<T>();
-                    CoreModule.AddSingleton(_instance);
-                }
-
-                if (!_instance._nameSet)
-                {
+                    
                     _instance.gameObject.name =
                         System.Text.RegularExpressions.Regex.Replace(typeof(T).Name, "[A-Z]", " $0");
                     _instance._nameSet = true;
-                }                
                 
-                if(init)
-                    _instance.Init();
+                    _instance.Init();  
+                    
+                    CoreModule.AddSingleton(_instance);
+                }
+
+                Instance = _instance;
                 return _instance;
             }
-            protected set => _instance = value;
+            
+            protected set 
+            {
+                _instance = value;
+            }
         }
         
         public static T GetInstance()

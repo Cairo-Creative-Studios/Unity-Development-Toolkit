@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using UDT.Reflection;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -23,8 +24,8 @@ namespace UDT.Core
             {
                 if(type.ContainsGenericParameters)
                     continue;
-                
-                object runtimeInstance = new GameObject().AddComponent(type);
+
+                object runtimeInstance = type.GetProperty("Instance", BindingFlags.Static |  BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy).GetValue(null);
                 runtimeInstance.CallMethod("StartRuntime");
                 Instance.runtimes.Add(runtimeInstance as MonoBehaviour);
             }

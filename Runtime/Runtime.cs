@@ -33,15 +33,8 @@ namespace UDT.Core
         /// </summary>
         void Awake()
         {
-            Instance.enabled = true;
             StateMachineModule.AddStateMachine(this);
             stateTree = states;
-        }
-
-
-        public void StartRuntime()
-        {
-            Instance.enabled = true;
         }
     }
 }
