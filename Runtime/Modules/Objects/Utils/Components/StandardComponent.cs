@@ -57,6 +57,11 @@ namespace UDT.Core
     /// <typeparam name="TComponentData"></typeparam>
     public class StandardComponent<TComponentData> : StandardComponent where TComponentData : ComponentDataBase
     {
+        [Button("Generate Data")]
+        public void GenerateData()
+        {
+            base.Data = ScriptableObject.CreateInstance<TComponentData>();
+        }
         public new TComponentData Data => (TComponentData)base.Data;
         public override void OnInstantiate()
         {

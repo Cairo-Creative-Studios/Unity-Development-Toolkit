@@ -2,6 +2,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
+using NaughtyAttributes;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -17,8 +19,8 @@ namespace UDT.Data
         [NonSerialized] public Tree<T> tree;
         [NonSerialized] public Node<T> parent;
         [HideInInspector] public int[] index;
+        
         public List<Node<T>> children;
-
         public Node(Tree<T> tree, T value, int[] index, Node<T> parent = null)
         {
             this.tree = tree;
@@ -77,14 +79,15 @@ namespace UDT.Data
 
         public void OnBeforeSerialize()
         {
-            if(value != null)
-                Value = value.ToString();
+            // if(value != null)
+            //     Value = value.ToString();
         }
 
         public void OnAfterDeserialize()
         {
-            if(value != null)
-                Value = value.ToString();
+            // if(value != null)
+            //     Value = value.ToString();
         }
+
     }
 }
