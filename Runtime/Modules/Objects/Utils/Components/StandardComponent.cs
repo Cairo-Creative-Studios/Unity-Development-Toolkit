@@ -38,7 +38,6 @@ namespace UDT.Core
             if (Object == null) Object = gameObject.AddComponent<StandardObject>();
             if (!Object.HasComponent(this.GetType()))
             {
-                if (Object.Components.ContainsKey(this)) return;
                 Object.Components.Add(this, Data);
                 OnAddComponent();
             }

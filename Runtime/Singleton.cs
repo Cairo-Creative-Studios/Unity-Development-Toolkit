@@ -31,8 +31,13 @@ namespace UDT.Core
                 if (_instance == null)
                 {
                     init = true;
-                    GameObject go = new GameObject(typeof(T).Name);
-                    _instance = go.AddComponent<T>();
+                    
+                    _instance = FindObjectOfType<T>();
+                    if (_instance == null)
+                    {
+                        GameObject go = new GameObject(typeof(T).Name);
+                        _instance = go.AddComponent<T>();
+                    }
                     CoreModule.AddSingleton(_instance);
                     
                 }
