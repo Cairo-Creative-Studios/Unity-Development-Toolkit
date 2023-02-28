@@ -79,14 +79,28 @@ namespace UDT.Data
 
         public void OnBeforeSerialize()
         {
-            // if(value != null)
-            //     Value = value.ToString();
+            try
+            {
+                if (value != null)
+                    Value = value.ToString();
+            }
+            catch
+            {
+                //Ignore
+            }
         }
 
         public void OnAfterDeserialize()
         {
-            // if(value != null)
-            //     Value = value.ToString();
+            try
+            {
+                if (value != null)
+                    Value = value.ToString();
+            }
+            catch
+            {
+                //Ignore
+            }
         }
 
     }
