@@ -6,6 +6,7 @@ using NaughtyAttributes;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
@@ -19,7 +20,7 @@ namespace UDT.Core
     [AddComponentMenu("UDT/Standard Object")]
     public class StandardObject : MonoBehaviour
     {
-        public StandardObjectData data;   
+        public ObjectDefinition definition;   
         public GameObject prefab;
         [HideInInspector] public bool instanced;
         public int UID;
@@ -140,7 +141,6 @@ namespace UDT.Core
         public StandardObject Instantiate()
         {
             return ObjectModule.Instantiate(prefab.name);
-            Components.Clear();
         }
 
         public void OnCreate()

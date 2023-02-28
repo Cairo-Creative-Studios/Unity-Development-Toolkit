@@ -1,11 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using NaughtyAttributes;
 using UDT.Reflection;
 using UnityEngine;
-using UnityEngine.UI;
 using Component = UnityEngine.Component;
 
 namespace UDT.Core
@@ -16,7 +13,7 @@ namespace UDT.Core
         private List<StandardObject> _indexedObjects = new List<StandardObject>();
         [SerializeField]
         private SerializableDictionary<string, ObjectPool> _objectPools = new SerializableDictionary<string, ObjectPool>();
-        private StandardObjectData[] _resourceData = new StandardObjectData[] { };
+        private ObjectDefinition[] _resourceData = new ObjectDefinition[] { };
         private int UIDCounter = 0;
         /// <summary>
         /// Subcribe Systems to this event to get notified when a new Component is added to an Object,
@@ -35,11 +32,11 @@ namespace UDT.Core
         /// Subcribe Systems to this event to get notified when an Object is removed from the scene,
         /// </summary>
         public static Action<StandardObject> OnObjectRemoved;
-
+ 
         public override void Init()
         {
             // Get all prefabs in Resources folder
-            _resourceData = Resources.LoadAll<StandardObjectData>("");
+            _resourceData = Resources.LoadAll<ObjectDefinition>("");
         }
 
         /// <summary>
@@ -346,38 +343,49 @@ namespace UDT.Core
         public static StandardObject CreateInstanceFromData(string dataName)
         {
             StandardObject instance = null;
+            ObjectDefinition resource = null;
+            
             for (int i = 0; i < Instance._resourceData.Length; i++)
             {
-                var resource = Instance._resourceData[i];
-                if (resource.name == dataName)
+                if (Instance._resourceData[i].name == dataName)
                 {
-                    GameObject firstInstance;
-                    if (resource.prefab == null)
-                    {
-                        firstInstance = new GameObject() { name = resource.name };
-                        instance = firstInstance.AddComponent<StandardObject>();
-                    }
-                    else
-                    {
-                        firstInstance = GameObject.Instantiate(resource.prefab);
-                        instance = firstInstance.GetComponent<StandardObject>();
-                        instance.prefab = resource.prefab;
-                    }
+                    resource = Instance._resourceData[i];
                 }
             }
-            
-            instance.OnCreate();
 
-            //Add Data's Component Datas
-            foreach (var data in instance.Components.Values)
+            if (resource == null)
             {
-                if(data.intantiate)
-                    instance.AddIComponent(data.ComponentType, ComponentDataBase.Instantiate(data));
-                else
-                    instance.AddIComponent(data.ComponentType, data);
-                    
+                return null;
             }
-            
+
+            if (resource.prefab == null)
+                instance = new GameObject(resource.name).AddComponent<StandardObject>();
+            else
+            {
+                var go = GameObject.Instantiate(resource.prefab);
+                instance = go.GetComponent<StandardObject>();
+                if (instance == null)
+                {
+                    instance = go.AddComponent<StandardObject>();
+                }
+            }
+
+            foreach (var componentData in resource.ComponentData)
+            {
+                bool found = false;
+                foreach(var component in instance.Components.Keys)
+                {
+                    if(componentData.ComponentType == component.GetType())
+                    {
+                        found = true;
+                        component.Data = componentData;
+                        break;
+                    }
+                }
+                if(!found)
+                    instance.AddIComponent(componentData.ComponentType, componentData);
+            }
+
             return instance;
         }
         
