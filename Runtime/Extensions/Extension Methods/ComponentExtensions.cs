@@ -1,6 +1,7 @@
 ﻿//Script Developed for The Cairo Engine, by Richy Mackro (Chad Wolfe), on behalf of Cairo Creative Studios
 
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -28,13 +29,22 @@ public static class ComponentExtensionss
     {
         MemberInfo memberInfo = monoInstanceCaller.GetType();
         RequireComponent[] requiredComponentsAtts = Attribute.GetCustomAttributes(memberInfo, typeof(RequireComponent), true) as RequireComponent[];
-        Object.DestroyImmediate(monoInstanceCaller);
+
+        List<Type> typesToDestroy = new List<Type>();
+        
         foreach (RequireComponent rc in requiredComponentsAtts)
         {
             if (rc != null && monoInstanceCaller.GetComponent(rc.m_Type0) != null)
             {
-                Object.DestroyImmediate(monoInstanceCaller.GetComponent(rc.m_Type0));
+                typesToDestroy.Add(rc.m_Type0);
             }
+        }
+        
+        Object.DestroyImmediate(monoInstanceCaller);
+        
+        foreach (Type type in typesToDestroy)
+        {
+            Object.DestroyImmediate(monoInstanceCaller.GetComponent(type));
         }
     }
 }
