@@ -22,14 +22,14 @@ public static class ComponentExtensionss
     }
     /// <summary>
     /// Destroys all components that are required by the given MonoBehaviour
-    /// Taken from user PizzaPie: https://answers.unity.com/questions/1445663/how-to-auto-remove-the-component-that-was-required.html
+    /// Based on user PizzaPies Answer: https://answers.unity.com/questions/1445663/how-to-auto-remove-the-component-that-was-required.html
     /// </summary>
     /// <param name="monoInstanceCaller"></param>
     public static void DestroyWithRequiredComponents(this MonoBehaviour monoInstanceCaller)
     {
         MemberInfo memberInfo = monoInstanceCaller.GetType();
         RequireComponent[] requiredComponentsAtts = Attribute.GetCustomAttributes(memberInfo, typeof(RequireComponent), true) as RequireComponent[];
-
+        var monoInstance = monoInstanceCaller.gameObject;
         List<Type> typesToDestroy = new List<Type>();
         
         foreach (RequireComponent rc in requiredComponentsAtts)
@@ -44,7 +44,7 @@ public static class ComponentExtensionss
         
         foreach (Type type in typesToDestroy)
         {
-            Object.DestroyImmediate(monoInstanceCaller.GetComponent(type));
+            Object.DestroyImmediate(monoInstance.GetComponent(type));
         }
     }
 }
