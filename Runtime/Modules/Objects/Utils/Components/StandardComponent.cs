@@ -5,7 +5,7 @@ using UnityEngine;
 namespace UDT.Core
 {
     /// <summary>
-    /// Provides a base class for Standard Compoennts that can be added to the Standard Object.
+    /// Provides a base class for Standard Components that can be added to the Standard Object.
     /// This will allow you to use the Standard Object's Component Management System.
     /// </summary>
     public class StandardComponent : MonoBehaviour, IComponentBase
@@ -108,7 +108,7 @@ namespace UDT.Core
         public override void OnInstantiate()
         {
             base.OnInstantiate();
-            System<TSystem>.AddObject(this.Object);
+            System<TSystem>.AddObject(Object);
         }
 
         public override void OnReset()
