@@ -164,12 +164,12 @@ namespace UDT.Core
         /// Adds the specified Component to the object
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        public IComponentBase AddIComponent<T>(ComponentDataBase data = null) where T : StandardComponent, IComponentBase
+        public IComponentBase AddComponent<T>(ComponentDataBase data = null) where T : StandardComponent, IComponentBase
         {
-            return AddIComponent(typeof(T), data);
+            return AddComponent(typeof(T), data);
         }
 
-        public IComponentBase AddIComponent(Type componentType, ComponentDataBase data = null, string childName = "")
+        public IComponentBase AddComponent(Type componentType, ComponentDataBase data = null, string childName = "")
         {
             StandardComponent component;
             if (childName == "")
