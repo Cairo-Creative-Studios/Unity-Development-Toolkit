@@ -1,6 +1,6 @@
-using System.Linq;
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace UDT.Core
 {
@@ -45,8 +45,9 @@ namespace UDT.Core
             var childName = Data.GetAttachedGOPath();
             if (childName != "" && childName != gameObject.name)
             {
-                Object.AddIComponent(GetType(), Data, childName);
+                Object.AddComponent(GetType(), Data, childName);
                 DestroyImmediate(this);
+                this.DestroyRequiredComponents();
             }
             
             if (!Object.HasComponent(this.GetType()))
@@ -95,20 +96,20 @@ namespace UDT.Core
     /// </summary>
     /// <typeparam name="TComponentData"></typeparam>
     /// <typeparam name="TSystem"></typeparam>
-    public class StandardComponent<TComponentData, TSystem> : StandardComponent where TSystem : System<TSystem> where TComponentData : ComponentDataBase
+    public class StandardComponent<TComponentData, TSystem> : StandardComponent where TSystem : ComponentSystem<TSystem, StandardComponent<TComponentData, TSystem>> where TComponentData : ComponentDataBase
     {
         [Button("Generate Data")]
         public void GenerateData()
         {
             base.Data = ScriptableObject.CreateInstance<TComponentData>();
         }
-        public TSystem System = System<TSystem>.GetInstance();
+        public ComponentSystem<TSystem, StandardComponent<TComponentData, TSystem>> system = (ComponentSystem<TSystem, StandardComponent<TComponentData, TSystem>>.GetInstance());
         public new TComponentData Data => (TComponentData)base.Data;
 
         public override void OnInstantiate()
         {
             base.OnInstantiate();
-            System<TSystem>.AddObject(Object);
+            ComponentSystem<TSystem, StandardComponent<TComponentData, TSystem>>.GetInstance();
         }
 
         public override void OnReset()

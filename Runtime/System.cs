@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UDT.Data;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace UDT.Core
 {
@@ -149,7 +150,7 @@ namespace UDT.Core
             return (SystemType)(object)Instance;
         }
         
-        public void OnComponentAdded(StandardComponent component)
+        public virtual void OnComponentAdded(StandardComponent component)
         {
             foreach (var type in managedComponentTypes)
             {
@@ -160,7 +161,7 @@ namespace UDT.Core
             }
         }
 
-        public void OnComponentRemoved(StandardComponent component)
+        public virtual void OnComponentRemoved(StandardComponent component)
         {
             foreach (var type in managedComponentTypes)
             {
@@ -192,6 +193,44 @@ namespace UDT.Core
         /// </summary>
         ~System(){
             StopSystem();
+        }
+    }
+
+    public interface IComponentSystem
+    {
+    }
+    /// <summary>
+    /// A System built for handling a Specific Component Type
+    /// Components with a System Type Argument will automatically be added to the System
+    /// and they can be accessed through the System's components property.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="TComponent"></typeparam>
+    public class ComponentSystem<T, TComponent> : System<ComponentSystem<T, TComponent>>, IComponentSystem
+    {
+        /// <summary>
+        /// The Components that are currently being managed by this system
+        /// </summary>
+        public List<TComponent> components = new List<TComponent>();
+        
+        public override void OnComponentAdded(StandardComponent component)
+        {
+            base.OnComponentAdded(component);
+            
+            if (component is TComponent)
+            {
+                components.Add((TComponent)(object)component);
+            }
+        }
+        
+        public override void OnComponentRemoved(StandardComponent component)
+        {
+            base.OnComponentRemoved(component);
+            
+            if (component is TComponent)
+            {
+                components.Remove((TComponent)(object)component);
+            }
         }
     }
 }
