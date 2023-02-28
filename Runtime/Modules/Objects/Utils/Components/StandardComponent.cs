@@ -104,6 +104,7 @@ namespace UDT.Core
             base.Data = ScriptableObject.CreateInstance<TComponentData>();
         }
         public System<TSystem> system = System<TSystem>.GetInstance();
+
         public new TComponentData Data => (TComponentData)base.Data;
 
         public override void OnInstantiate()
