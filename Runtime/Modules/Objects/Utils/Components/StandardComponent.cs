@@ -46,8 +46,7 @@ namespace UDT.Core
             if (childName != "" && childName != gameObject.name)
             {
                 Object.AddComponent(GetType(), Data, childName);
-                DestroyImmediate(this);
-                this.DestroyRequiredComponents();
+                this.DestroyWithRequiredComponents();
             }
             
             if (!Object.HasComponent(this.GetType()))

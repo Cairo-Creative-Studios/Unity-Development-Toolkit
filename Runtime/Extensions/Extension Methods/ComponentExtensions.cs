@@ -24,10 +24,11 @@ public static class ComponentExtensionss
     /// Taken from user PizzaPie: https://answers.unity.com/questions/1445663/how-to-auto-remove-the-component-that-was-required.html
     /// </summary>
     /// <param name="monoInstanceCaller"></param>
-    public static void DestroyRequiredComponents(this MonoBehaviour monoInstanceCaller)
+    public static void DestroyWithRequiredComponents(this MonoBehaviour monoInstanceCaller)
     {
         MemberInfo memberInfo = monoInstanceCaller.GetType();
         RequireComponent[] requiredComponentsAtts = Attribute.GetCustomAttributes(memberInfo, typeof(RequireComponent), true) as RequireComponent[];
+        Object.DestroyImmediate(monoInstanceCaller);
         foreach (RequireComponent rc in requiredComponentsAtts)
         {
             if (rc != null && monoInstanceCaller.GetComponent(rc.m_Type0) != null)
