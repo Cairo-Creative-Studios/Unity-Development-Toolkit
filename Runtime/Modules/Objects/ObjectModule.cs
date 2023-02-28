@@ -373,6 +373,9 @@ namespace UDT.Core
 
             foreach (var componentData in resource.ComponentData)
             {
+                var componentDataToUse = componentData;
+                if (componentData.intantiate) componentDataToUse = ScriptableObject.Instantiate(componentData);
+                
                 var componentType = componentData.GetType().BaseType.GetGenericArguments()[0];
                 
                 bool found = false;
@@ -386,7 +389,7 @@ namespace UDT.Core
                     }
                 }
                 if(!found)
-                    instance.AddIComponent(componentType, componentData, componentData.GetAttachedGOPath());
+                    instance.AddIComponent(componentType, componentDataToUse, componentData.GetAttachedGOPath());
             }
 
             
@@ -406,6 +409,7 @@ namespace UDT.Core
         /// <param name="data"></param>
         public static void SetComponentData(StandardObject instance, ComponentDataBase data)
         {
+            if (data.intantiate) data = ScriptableObject.Instantiate(data);
             var key = instance.Components.Keys.First(c => c.GetType() == data.GetType().GetGenericArguments()[0]);
             if (key != null) instance.Components[key] = data;
         }
