@@ -12,7 +12,7 @@ namespace UDT.Core
     /// Extend this Scriptable Object class to define Custom Data for 
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    [CreateAssetMenu(fileName = "Standard Object Data", menuName = "UDT/Objects/Data", order = 0)]
+    [CreateAssetMenu(fileName = "Object Definition", menuName = "UDT/ObjectDefinition", order = 0)]
     public class ObjectDefinition : ScriptableObject
     {
         /// <summary>
