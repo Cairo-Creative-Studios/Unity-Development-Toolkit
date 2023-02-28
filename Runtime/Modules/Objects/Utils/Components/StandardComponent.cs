@@ -47,6 +47,7 @@ namespace UDT.Core
             {
                 Object.AddComponent(GetType(), Data, childName);
                 DestroyImmediate(this);
+                this.DestroyRequiredComponents();
             }
             
             if (!Object.HasComponent(this.GetType()))
