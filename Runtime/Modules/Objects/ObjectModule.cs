@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UDT.Reflection;
 using UnityEngine;
 using Component = UnityEngine.Component;
@@ -384,6 +385,13 @@ namespace UDT.Core
                 }
                 if(!found)
                     instance.AddIComponent(componentData.ComponentType, componentData);
+            }
+
+            
+            foreach (var system in resource.SubscribedSystems)
+            {
+                var addObjectMethod = Type.GetType(system)?.GetMethod("AddObject", BindingFlags.Public | BindingFlags.Static);
+                addObjectMethod?.Invoke(null, new object[] { instance });
             }
 
             return instance;
