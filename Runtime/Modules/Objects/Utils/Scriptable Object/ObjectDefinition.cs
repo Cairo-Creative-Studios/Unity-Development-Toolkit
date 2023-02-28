@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NaughtyAttributes;
+using PlasticGui.WorkspaceWindow.Diff;
 using UDT.Reflection;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -12,7 +13,7 @@ namespace UDT.Core
     /// Extend this Scriptable Object class to define Custom Data for 
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    [CreateAssetMenu(fileName = "Object Definition", menuName = "UDT/ObjectDefinition", order = 0)]
+    [CreateAssetMenu(fileName = "Object Definition", menuName = "UDT/Object Definition", order = 0)]
     public class ObjectDefinition : ScriptableObject
     {
         /// <summary>
@@ -69,13 +70,11 @@ namespace UDT.Core
 
         void ValidateSystems()
         {
-            
-            
             var SubSystems = new List<string>();
             
             foreach (var system in SubscribedSystems)
             {
-                if (!SubSystems.Contains(system))
+                if (!SubSystems.Contains(system) && Type.GetType(system) != null)
                     SubSystems.Add(system);
             }
 
