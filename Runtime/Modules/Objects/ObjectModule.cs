@@ -373,10 +373,12 @@ namespace UDT.Core
 
             foreach (var componentData in resource.ComponentData)
             {
+                var componentType = componentData.GetType().BaseType.GetGenericArguments()[0];
+                
                 bool found = false;
                 foreach(var component in instance.Components.Keys)
                 {
-                    if(componentData.ComponentType == component.GetType())
+                    if(componentType == component.GetType())
                     {
                         found = true;
                         component.Data = componentData;
@@ -384,7 +386,7 @@ namespace UDT.Core
                     }
                 }
                 if(!found)
-                    instance.AddIComponent(componentData.ComponentType, componentData);
+                    instance.AddIComponent(componentType, componentData, componentData.GetAttachedGOPath());
             }
 
             
@@ -404,7 +406,7 @@ namespace UDT.Core
         /// <param name="data"></param>
         public static void SetComponentData(StandardObject instance, ComponentDataBase data)
         {
-            var key = instance.Components.Keys.First(c => c.GetType() == data.ComponentType);
+            var key = instance.Components.Keys.First(c => c.GetType() == data.GetType().GetGenericArguments()[0]);
             if (key != null) instance.Components[key] = data;
         }
     }

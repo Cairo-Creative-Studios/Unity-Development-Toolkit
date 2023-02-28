@@ -10,9 +10,13 @@ namespace UDT.Core
     [Serializable]
     public class ComponentDataBase : ScriptableObject
     {
-        public Type ComponentType;
         [Tooltip("If true, the Component will have a unique copy of the data for each Object. If false, the Component will have a single copy of the data for all Objects.")]
         public bool intantiate = false;
+
+        public virtual string GetAttachedGOPath()
+        {
+            return "";
+        }
     }
     
     /// <summary>
@@ -21,9 +25,5 @@ namespace UDT.Core
     /// <typeparam name="T"></typeparam>
     public class ComponentData<T> : ComponentDataBase where T : IComponentBase
     {
-        public ComponentData()
-        {
-            ComponentType = typeof(T);
-        }
     }
 }

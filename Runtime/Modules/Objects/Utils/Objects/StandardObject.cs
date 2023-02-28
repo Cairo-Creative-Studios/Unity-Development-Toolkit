@@ -175,11 +175,31 @@ namespace UDT.Core
             return AddIComponent(typeof(T), data);
         }
 
-        public IComponentBase AddIComponent(Type type, ComponentDataBase data = null)
+        public IComponentBase AddIComponent(Type componentType, ComponentDataBase data = null, string childName = "")
         {
-            var component = (StandardComponent)gameObject.AddComponent(typeof(Type));
-            component.Object = this;
-            Components.Add(component, data);
+            StandardComponent component;
+            if (childName == "")
+                component = (StandardComponent)gameObject.AddComponent(componentType);
+            else
+            {
+                Transform child;
+                try
+                {
+                    child = transform.GetChildren().First(x => x.name == childName);
+                }
+                catch
+                {
+                    child = new GameObject(childName).transform;
+                }
+                child.transform.SetParent(transform);
+                component = (StandardComponent)child.gameObject.AddComponent(componentType);
+            }
+            
+            if (data != null)
+            {
+                component.Data = data;
+                Components[component] = data;
+            }
             if (instanced)
                 component.OnInstantiate();
             return component;

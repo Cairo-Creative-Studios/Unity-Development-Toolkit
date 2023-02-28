@@ -10,10 +10,6 @@ namespace UDT.Core
     public class StandardComponent : MonoBehaviour, IComponentBase
     {
         [Expandable] public ComponentDataBase Data;
-        /// <summary>
-        /// The Path in the Object's Hierarchy to add to Component. If no Object exists at the given path, it will be added.
-        /// </summary>
-        public static string ComponentPath = "";
         public StandardObject Object { get; set; }
         
         public virtual void OnInstantiate()
@@ -38,6 +34,7 @@ namespace UDT.Core
         private void Reset()
         {
             //Ensure Standard Component
+            if (Object == null) Object = gameObject.GetComponentInParent<StandardObject>();
             if (Object == null) Object = gameObject.GetComponent<StandardObject>();
             if (Object == null) Object = gameObject.AddComponent<StandardObject>();
             if (!Object.HasComponent(this.GetType()))
