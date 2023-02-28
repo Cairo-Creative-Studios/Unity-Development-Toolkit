@@ -96,20 +96,20 @@ namespace UDT.Core
     /// </summary>
     /// <typeparam name="TComponentData"></typeparam>
     /// <typeparam name="TSystem"></typeparam>
-    public class StandardComponent<TComponentData, TSystem> : StandardComponent where TSystem : ComponentSystem<TSystem, StandardComponent<TComponentData, TSystem>> where TComponentData : ComponentDataBase
+    public class StandardComponent<TComponentData, TSystem> : StandardComponent where TSystem : System<TSystem> where TComponentData : ComponentDataBase
     {
         [Button("Generate Data")]
         public void GenerateData()
         {
             base.Data = ScriptableObject.CreateInstance<TComponentData>();
         }
-        public ComponentSystem<TSystem, StandardComponent<TComponentData, TSystem>> system = (ComponentSystem<TSystem, StandardComponent<TComponentData, TSystem>>.GetInstance());
+        public System<TSystem> system = System<TSystem>.GetInstance();
         public new TComponentData Data => (TComponentData)base.Data;
 
         public override void OnInstantiate()
         {
             base.OnInstantiate();
-            ComponentSystem<TSystem, StandardComponent<TComponentData, TSystem>>.GetInstance();
+            System<TSystem>.GetInstance();
         }
 
         public override void OnReset()
