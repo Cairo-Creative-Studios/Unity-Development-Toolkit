@@ -1,3 +1,4 @@
+using System.Linq;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -33,10 +34,21 @@ namespace UDT.Core
 
         private void Reset()
         {
-            //Ensure Standard Component
+            OnReset();
+            
+            //Ensure Standard Object Component
             if (Object == null) Object = gameObject.GetComponentInParent<StandardObject>();
             if (Object == null) Object = gameObject.GetComponent<StandardObject>();
             if (Object == null) Object = gameObject.AddComponent<StandardObject>();
+            
+            //Ensure correct Component Hierarchy
+            var childName = Data.GetAttachedGOPath();
+            if (childName != "" && childName != gameObject.name)
+            {
+                Object.AddIComponent(GetType(), Data, childName);
+                DestroyImmediate(this);
+            }
+            
             if (!Object.HasComponent(this.GetType()))
             {
                 if (Object.Components.ContainsKey(this)) return;
@@ -48,6 +60,11 @@ namespace UDT.Core
         
         public virtual void OnAddComponent()
         {
+        }
+
+        public virtual void OnReset()
+        {
+            
         }
     }
 
@@ -64,9 +81,10 @@ namespace UDT.Core
             base.Data = ScriptableObject.CreateInstance<TComponentData>();
         }
         public new TComponentData Data => (TComponentData)base.Data;
-        public override void OnInstantiate()
+
+        public override void OnReset()
         {
-            base.OnInstantiate();
+            GenerateData();
         }
     }
     
@@ -79,6 +97,11 @@ namespace UDT.Core
     /// <typeparam name="TSystem"></typeparam>
     public class StandardComponent<TComponentData, TSystem> : StandardComponent where TSystem : System<TSystem> where TComponentData : ComponentDataBase
     {
+        [Button("Generate Data")]
+        public void GenerateData()
+        {
+            base.Data = ScriptableObject.CreateInstance<TComponentData>();
+        }
         public TSystem System = System<TSystem>.GetInstance();
         public new TComponentData Data => (TComponentData)base.Data;
 
@@ -86,6 +109,11 @@ namespace UDT.Core
         {
             base.OnInstantiate();
             System<TSystem>.AddObject(this.Object);
+        }
+
+        public override void OnReset()
+        {
+            GenerateData();
         }
     }
 }
