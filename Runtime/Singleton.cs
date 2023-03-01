@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace UDT.Core
@@ -32,18 +33,26 @@ namespace UDT.Core
                 
                 if (!instantiated)
                 {
-                    instantiated = true;
-                    init = true;
-                    GameObject go = new GameObject(typeof(T).Name);
-                    _instance = go.AddComponent<T>();
+                    try
+                    {
+                        instantiated = true;
+                        init = true;
+                        GameObject go = new GameObject(typeof(T).Name);
+                        _instance = go.AddComponent<T>();
+                        
+                        _instance.gameObject.name =
+                            System.Text.RegularExpressions.Regex.Replace(typeof(T).Name, "[A-Z]", " $0");
+                        _instance._nameSet = true;
                     
-                    _instance.gameObject.name =
-                        System.Text.RegularExpressions.Regex.Replace(typeof(T).Name, "[A-Z]", " $0");
-                    _instance._nameSet = true;
-                
-                    _instance.Init();  
-                    
-                    CoreModule.AddSingleton(_instance);
+                        _instance.Init();  
+                        
+                        CoreModule.AddSingleton(_instance);
+                    }
+                    catch
+                    {
+                        //Unsuccessful Instantiation
+                        return null;
+                    }
                 }
 
                 Instance = _instance;
