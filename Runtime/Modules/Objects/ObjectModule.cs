@@ -16,23 +16,26 @@ namespace UDT.Core
         private SerializableDictionary<string, ObjectPool> _objectPools = new SerializableDictionary<string, ObjectPool>();
         private ObjectDefinition[] _resourceData = new ObjectDefinition[] { };
         private int UIDCounter = 0;
+        
+        public delegate void StandardComponentEvent(StandardComponent component);
+        public delegate void StandardObjectEvent(StandardObject obj);
         /// <summary>
         /// Subcribe Systems to this event to get notified when a new Component is added to an Object,
         /// so they can make use of it.
         /// </summary>
-        public static Action<StandardComponent> OnComponentAdded;  
+        public static StandardComponentEvent OnComponentAdded;  
         /// <summary>
         /// Subcribe Systems to this event to get notified when a Component is removed from an Object,
         /// </summary>
-        public static Action<StandardComponent> OnComponentRemoved;
+        public static StandardComponentEvent OnComponentRemoved;
         /// <summary>
         /// Subcribe Systems to this event to get notified when a new Object is added to the scene,
         /// </summary>
-        public static Action<StandardObject> OnObjectAdded;
+        public static StandardObjectEvent OnObjectAdded;
         /// <summary>
         /// Subcribe Systems to this event to get notified when an Object is removed from the scene,
         /// </summary>
-        public static Action<StandardObject> OnObjectRemoved;
+        public static StandardObjectEvent OnObjectRemoved;
  
         public override void Init()
         {
