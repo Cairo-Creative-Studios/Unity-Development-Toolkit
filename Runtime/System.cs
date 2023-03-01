@@ -63,21 +63,20 @@ namespace UDT.Core
         public static System<T> StartSystem(ObjectSelection objects = null, Type[] managedComponentTypes = null, string managedObjectType = "")
         {
             var instance = GetInstance();
-            
             if (objects != null) SetObjects(objects);
 
-            if (managedComponentTypes != null)
+            if (managedComponentTypes != null && Instance != null)
             {
                 System<T>.managedComponentTypes = managedComponentTypes;
-                ObjectModule.OnComponentAdded += instance.OnComponentAdded;
-                ObjectModule.OnComponentRemoved += instance.OnComponentRemoved;
+                ObjectModule.OnComponentAdded += Instance.OnComponentAdded;
+                ObjectModule.OnComponentRemoved += Instance.OnComponentRemoved;
             }
 
-            if (managedObjectType != "")
+            if (managedObjectType != "" && Instance != null)
             {
                 System<T>.managedObjectType = managedObjectType;
-                ObjectModule.OnObjectAdded += instance.OnObjectAdded;
-                ObjectModule.OnObjectRemoved += instance.OnObjectRemoved;
+                ObjectModule.OnObjectAdded += Instance.OnObjectAdded;
+                ObjectModule.OnObjectRemoved += Instance.OnObjectRemoved;
             }
 
             return instance;
