@@ -16,6 +16,11 @@ namespace UDT.Core
         public virtual void OnInstantiate()
         {
         }
+        
+        void Awake()
+        {
+            OnInstantiate();
+        }
 
         public virtual void OnFree()
         {

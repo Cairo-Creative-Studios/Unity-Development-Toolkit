@@ -63,8 +63,8 @@ namespace UDT.Core
         public static System<T> StartSystem(ObjectSelection objects = null, Type[] managedComponentTypes = null, string managedObjectType = "")
         {
             var instance = GetInstance();
-            SetObjects(objects);
             
+            if (objects != null) SetObjects(objects);
 
             if (managedComponentTypes != null)
             {
