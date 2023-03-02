@@ -1,4 +1,9 @@
 using NaughtyAttributes;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -28,6 +33,19 @@ namespace UDT.Core.Controllables
         [Dropdown("GetInputMapNames")]
         [Tooltip("The name of the input map to use for this controller")]
         public string inputMapName;
+
+#if UNITY_EDITOR
+        [Button("Create New Input Map")]
+        public void CreateNewInputMap()
+        {
+            InputActionAsset asset = ScriptableObject.CreateInstance<InputActionAsset>();
+            asset.name = name + " Input Map";
+            AssetDatabase.CreateAsset(asset, "Assets/UDT/Core/Resources/" + asset.name + ".asset");
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+            inputActionMap = asset;
+        }
+#endif
 
         public bool ShowPlayerProperties()
         {
