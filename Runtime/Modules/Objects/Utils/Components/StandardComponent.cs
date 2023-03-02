@@ -107,7 +107,7 @@ namespace UDT.Core
         {
             base.Data = ScriptableObject.CreateInstance<TComponentData>();
         }
-        public System<TSystem> system = System<TSystem>.GetInstance();
+        public System<TSystem> system;
 
         public new TComponentData Data => (TComponentData)base.Data;
 
