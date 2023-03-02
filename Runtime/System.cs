@@ -60,7 +60,7 @@ namespace UDT.Core
         /// Starts the specified system, creating it if it doesn't exist
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        public static System<T> StartSystem(ObjectSelection objects = null, Type[] managedComponentTypes = null, string managedObjectType = "")
+        public static T StartSystem(ObjectSelection objects = null, Type[] managedComponentTypes = null, string managedObjectType = "")
         {
             var instance = GetInstance();
             if (objects != null) SetObjects(objects);
