@@ -52,6 +52,11 @@ namespace UDT.Core.Controllables
             Instance.Controllers.Remove(controller);
         }
 
+        public static PlayerController CreatePlayerController(string dataName)
+        {
+            return CreateControllerFromData(dataName) as PlayerController;
+        }
+        
         /// <summary>
         /// Create the Controller from Data by name
         /// </summary>
