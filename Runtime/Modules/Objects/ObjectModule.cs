@@ -446,7 +446,7 @@ namespace UDT.Core
     public class ObjectSelection : List<StandardObject>
     {
         [SerializeField]
-        List<StandardObject> items = new List<StandardObject>();
+        List<StandardObject> objects = new List<StandardObject>();
         public ObjectSelection() : base()
         {
         }
