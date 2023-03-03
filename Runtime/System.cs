@@ -139,32 +139,32 @@ namespace UDT.Core
             Instance.Objects.Remove(obj);
         }
 
-        public static StandardObject GetObjectFromPrefab(string name)
+        public StandardObject GetObjectFromPrefab(string name)
         {
             return Instance.Objects.Find(x => x.prefab.name == name);
         }
         
-        public static StandardObject GetObjectFromData(string name)
+        public StandardObject GetObjectFromData(string name)
         {
             return Instance.Objects.Find(x => x.definition.name == name);
         }
         
-        public static StandardObject GetObjectFromName(string name)
+        public StandardObject GetObjectFromName(string name)
         {
             return Instance.Objects.Find(x => x.name == name);
         }
         
-        public static StandardObject[] GetObjectsFromPrefab(string name)
+        public StandardObject[] GetObjectsFromPrefab(string name)
         {
             return Instance.Objects.FindAll(x => x.prefab.name == name).ToArray();
         }
         
-        public static StandardObject[] GetObjectsFromData(string name)
+        public StandardObject[] GetObjectsFromData(string name)
         {
             return Instance.Objects.FindAll(x => x.definition.name == name).ToArray();
         }
         
-        public static StandardObject[] GetObjectsFromName(string name)
+        public StandardObject[] GetObjectsFromName(string name)
         {
             return Instance.Objects.FindAll(x => x.name == name).ToArray();
         }
