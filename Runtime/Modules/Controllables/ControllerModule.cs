@@ -64,11 +64,10 @@ namespace UDT.Core.Controllables
         /// <returns></returns>
         public static Controller CreateControllerFromData(string dataName)
         {
-            ControllerData data =Instance.data.First(data => data.name == dataName);
+            ControllerData data = Instance.data.First(data => data.name == dataName);
             
             if(data == null)
             {
-                Debug.LogError("Controller data not found: " + dataName, Instance);
                 return null;
             }
             
@@ -96,6 +95,11 @@ namespace UDT.Core.Controllables
         /// <returns></returns>
         public static Controller CreatePlayerController(ControllerData data)
         {
+            if (data.inputActionAsset == null)
+            {
+                Debug.LogError("Cannot create player controller without an input action asset", data);
+                return null;
+            } 
             GameObject controllerObject = new GameObject(data.name);
             PlayerController controller = controllerObject.AddComponent<PlayerController>();
             controller.data = data;

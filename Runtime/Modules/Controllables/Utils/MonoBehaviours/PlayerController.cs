@@ -47,6 +47,7 @@ namespace UDT.Core.Controllables
         /// <param name="name"></param>
         public void SetInputMap(string name)
         {
+            Debug.Log(name + ", " + _inputActionAsset.actionMaps[0]);
             _playerActionMap = _inputActionAsset.FindActionMap(name);
         }
         

@@ -27,13 +27,19 @@ namespace UDT.Core.Controllables
         
         public void Possess(StandardObject standardObject)
         {
+            bool possessed = false;
             try
             {
                 foreach (ControllableComponent controllable in standardObject.Components.Keys)
+                {
                     Possess(controllable);
+                    possessed = true;
+                }
             }
             catch
             {
+                if (!possessed)
+                    Debug.LogError("No controllables found on " + standardObject.name, this);
                 //ignore invalid cast exception
             }
         }
