@@ -10,13 +10,13 @@ namespace UDT.Core.Controllables
     /// </summary>
     public class Controller : MonoBehaviour
     {
-        public List<IComponentControllable> Controllables = new List<IComponentControllable>();
+        public List<ControllableComponent> Controllables = new List<ControllableComponent>();
         public SerializedInputMap inputMap = new SerializedInputMap();
         public ControllerData data;
 
         private void Awake()
         {
-            Controllables = new List<IComponentControllable>();
+            Controllables = new List<ControllableComponent>();
         }
 
         public virtual void InitController()
@@ -29,7 +29,7 @@ namespace UDT.Core.Controllables
         {
             try
             {
-                foreach (IComponentControllable controllable in standardObject.Components.Keys)
+                foreach (ControllableComponent controllable in standardObject.Components.Keys)
                     Possess(controllable);
             }
             catch
@@ -42,7 +42,7 @@ namespace UDT.Core.Controllables
         {
             try
             {
-                foreach (IComponentControllable controllable in standardObject.Components.Keys)
+                foreach (ControllableComponent controllable in standardObject.Components.Keys)
                     UnPossess(controllable);
             }
             catch
@@ -51,7 +51,7 @@ namespace UDT.Core.Controllables
             }
         }
         
-        public void Possess(IComponentControllable controllable)
+        public void Possess(ControllableComponent controllable)
         {
             if (controllable == null)
             {
@@ -68,20 +68,20 @@ namespace UDT.Core.Controllables
             Controllables.Add(controllable);
         }
         
-        public void UnPossess(IComponentControllable controllable)
+        public void UnPossess(ControllableComponent controllable)
         {
             Controllables.RemoveAt(Controllables.IndexOf(controllable));
             controllable.UnPossess();
         }
 
-        public bool PossessingControllable(IComponentControllable controllable)
+        public bool PossessingControllable(ControllableComponent controllable)
         {
             return Controllables.Contains(controllable);
         }
 
         private void Update()
         {
-            foreach (IComponentControllable controllable in Controllables)
+            foreach (ControllableComponent controllable in Controllables)
                 if(!controllable.isPossessed && ((MonoBehaviour)controllable).enabled)
                     controllable.Possess(this);
         }

@@ -10,13 +10,14 @@ namespace UDT.Core.Controllables
     /// Reflection is used to call Methods within classes that implement this interface, based on the name of the input
     /// that is given to it from a Controller.
     /// </summary>
-    public interface IComponentControllable
+    public class ControllableComponent : StandardComponent
     {
-        public Byte inputByte { get; set; }
-        public bool isPossessed { get; set; }
-        public Controller Controller { get; set; }
+        public Byte inputByte;
+        public bool isPossessed = false;
+        public Controller Controller;
+
         [Tooltip("Pairs of input names and method names to call when the input is triggered")]
-        public SerializableDictionary<string, string> InputsToMethodsMap { get; set; }
+        public SerializableDictionary<string, string> InputsToMethodsMap = new SerializableDictionary<string, string>();
 
         public void OnInputAction(InputAction.CallbackContext context)
         {
@@ -48,5 +49,13 @@ namespace UDT.Core.Controllables
             Controller = null;
             isPossessed = false;
         }
+    }
+    
+    public class ControllableComponent<T> : ControllableComponent where T : ComponentDataBase
+    {
+    }
+    
+    public class ControllableComponent<T, TSystem> : ControllableComponent where T : ComponentDataBase where TSystem : System<TSystem>
+    {
     }
 }

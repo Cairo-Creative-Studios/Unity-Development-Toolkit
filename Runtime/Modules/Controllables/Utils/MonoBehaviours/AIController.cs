@@ -7,7 +7,7 @@ namespace UDT.Core.Controllables
     {
         private void Update()
         {
-            foreach (IComponentControllable controllable in Controllables)
+            foreach (ControllableComponent controllable in Controllables)
             {
                 //Possess Controllable if not possessed
                 if(!controllable.isPossessed)

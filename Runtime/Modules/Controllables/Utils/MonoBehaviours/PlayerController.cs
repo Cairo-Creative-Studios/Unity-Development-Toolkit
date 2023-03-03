@@ -25,7 +25,7 @@ namespace UDT.Core.Controllables
         private CinemachineVirtualCameraBase _cameraRig;
         public List<CinemachineVirtualCameraBase> cameraRigs = new List<CinemachineVirtualCameraBase>();
         
-        public void Init(Player player, IComponentControllable controllable)
+        public void Init(Player player, ControllableComponent controllable)
         {
             _player = player;
             if(controllable!= null)
@@ -125,7 +125,7 @@ namespace UDT.Core.Controllables
                 inputMap.SetInput(context.action.name, context.ReadValue<Vector2>());
 
             //Set inputs to Controllables
-            foreach (IComponentControllable controllable in Controllables)
+            foreach (ControllableComponent controllable in Controllables)
             {
                 if(((MonoBehaviour)controllable).enabled)
                     controllable.OnInputAction(context);
