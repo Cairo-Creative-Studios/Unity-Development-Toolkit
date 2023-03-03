@@ -19,7 +19,7 @@ namespace UDT.Core
         /// <summary>
         /// The Objects that are currently being managed by this system
         /// </summary>
-        public ObjectSelection Objects;
+        public ObjectSelection Objects = new ObjectSelection();
         
         public Tree<IStateNode> states { get; set; }
         public Tree<IStateNode> stateTree = new Tree<IStateNode>();

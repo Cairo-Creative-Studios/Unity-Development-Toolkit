@@ -444,6 +444,9 @@ namespace UDT.Core
     /// </summary>
     public class ObjectSelection : List<StandardObject>
     {
+        public ObjectSelection() : base()
+        {
+        }
         public ObjectSelection(List<StandardObject> objects) : base(objects)
         {
         }
