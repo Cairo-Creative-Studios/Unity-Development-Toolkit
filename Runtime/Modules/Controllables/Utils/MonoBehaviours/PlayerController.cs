@@ -52,8 +52,6 @@ namespace UDT.Core.Controllables
         
         public override void InitController()
         {
-            _playerActionMap = data.inputActionAsset.actionMaps[0];
-            
             playerInput = GetComponent<PlayerInput>();
             if (playerInput.currentActionMap != null) _playerActionMap = playerInput.currentActionMap;
             if(_inputActionAsset != null) _playerActionMap = _inputActionAsset.FindActionMap("Player");
