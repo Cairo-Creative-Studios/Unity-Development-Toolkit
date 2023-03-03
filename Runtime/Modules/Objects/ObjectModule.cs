@@ -442,6 +442,7 @@ namespace UDT.Core
     /// <summary>
     /// An Object Selection is a List of Objects that can be instantiated, freed, or otherwise manipulated in bulk
     /// </summary>
+    [Serializable]
     public class ObjectSelection : List<StandardObject>
     {
         public ObjectSelection() : base()
