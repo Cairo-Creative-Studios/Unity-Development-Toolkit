@@ -615,13 +615,13 @@ namespace UDT.Core
         
         void OnBeforeSerialize()
         {
-            items = this;
+            objects = this;
         }
         
         void OnAfterDeserialize()
         {
             this.Clear();
-            this.AddRange(items);
+            this.AddRange(objects);
         }
     }
 
