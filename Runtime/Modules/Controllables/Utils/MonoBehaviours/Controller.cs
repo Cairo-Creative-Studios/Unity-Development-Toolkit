@@ -38,6 +38,11 @@ namespace UDT.Core.Controllables
             }
             catch
             {
+                if (standardObject == null)
+                {
+                    Debug.LogError("StandardObject is null", this);
+                    return;
+                }
                 if (!possessed)
                     Debug.LogError("No controllables found on " + standardObject.name, this);
                 //ignore invalid cast exception
