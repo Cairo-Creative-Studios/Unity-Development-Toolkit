@@ -99,9 +99,9 @@ namespace UDT.Core.Controllables
             GameObject controllerObject = new GameObject(data.name);
             PlayerController controller = controllerObject.AddComponent<PlayerController>();
             controller.data = data;
-            controller.InitController();
             controller.SetInputAsset(data.inputActionAsset);
             controller.SetInputMap(data.inputMap);
+            controller.InitController();
             return controller;
         }
         
