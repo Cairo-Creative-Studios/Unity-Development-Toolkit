@@ -1,4 +1,5 @@
 using System;
+using NaughtyAttributes;
 using UDT.Reflection;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -51,11 +52,41 @@ namespace UDT.Core.Controllables
         }
     }
     
-    public class ControllableComponent<T> : ControllableComponent where T : ComponentDataBase
+    public class ControllableComponent<TComponentData> : ControllableComponent where TComponentData : ComponentDataBase
     {
+        [Button("Generate Data")]
+        public void GenerateData()
+        {
+            base.Data = ScriptableObject.CreateInstance<TComponentData>();
+        }
+        public new TComponentData Data => (TComponentData)base.Data;
+
+        public override void OnReset()
+        {
+            GenerateData();
+        }
     }
     
-    public class ControllableComponent<T, TSystem> : ControllableComponent where T : ComponentDataBase where TSystem : System<TSystem>
+    public class ControllableComponent<TComponentData, TSystem> : ControllableComponent where TComponentData : ComponentDataBase where TSystem : System<TSystem>
     {
+        [Button("Generate Data")]
+        public void GenerateData()
+        {
+            base.Data = ScriptableObject.CreateInstance<TComponentData>();
+        }
+        public System<TSystem> system;
+
+        public new TComponentData Data => (TComponentData)base.Data;
+
+        public override void OnInstantiate()
+        {
+            base.OnInstantiate();
+            System<TSystem>.GetInstance();
+        }
+
+        public override void OnReset()
+        {
+            GenerateData();
+        }
     }
 }
