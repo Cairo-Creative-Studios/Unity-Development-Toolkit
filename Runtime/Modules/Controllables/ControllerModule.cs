@@ -100,6 +100,8 @@ namespace UDT.Core.Controllables
             PlayerController controller = controllerObject.AddComponent<PlayerController>();
             controller.data = data;
             controller.InitController();
+            controller.SetInputAsset(data.inputActionAsset);
+            controller.SetInputMap(data.inputMap);
             return controller;
         }
         

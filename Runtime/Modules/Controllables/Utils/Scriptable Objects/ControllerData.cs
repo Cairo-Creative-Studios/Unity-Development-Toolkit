@@ -6,6 +6,7 @@ using UnityEditor;
 
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 namespace UDT.Core.Controllables
 {
@@ -27,12 +28,12 @@ namespace UDT.Core.Controllables
         
         [ShowIf("ShowPlayerProperties")]
         [Tooltip("The input map to use for this controller")]
-        public InputActionAsset inputActionMap;
+        public InputActionAsset inputActionAsset;
         
         [ShowIf("ShowInputMapName")]
         [Dropdown("GetInputMapNames")]
         [Tooltip("The name of the input map to use for this controller")]
-        public string inputMapName;
+        public string inputMap;
 
 #if UNITY_EDITOR
         [Button("Create New Input Map")]
@@ -43,7 +44,7 @@ namespace UDT.Core.Controllables
             AssetDatabase.CreateAsset(asset, "Assets/UDT/Core/Resources/" + asset.name + ".asset");
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
-            inputActionMap = asset;
+            inputActionAsset = asset;
         }
 #endif
 
@@ -54,15 +55,15 @@ namespace UDT.Core.Controllables
         
         public bool ShowInputMapName()
         {
-            return inputActionMap != null;
+            return inputActionAsset != null;
         }
         
         public DropdownList<string> GetInputMapNames()
         {
             DropdownList<string> names = new DropdownList<string>();
-            for (int i = 0; i < inputActionMap.actionMaps.Count; i++)
+            for (int i = 0; i < inputActionAsset.actionMaps.Count; i++)
             {
-                names.Add(inputActionMap.actionMaps[i].name, inputActionMap.actionMaps[i].name);
+                names.Add(inputActionAsset.actionMaps[i].name, inputActionAsset.actionMaps[i].name);
             }
             return names;
         }

@@ -17,7 +17,7 @@ namespace UDT.Core.Controllables
         public bool displayCursor = false;
         [SerializeField] private PlayerInput playerInput;
         
-        private InputActionAsset inputActionMap;
+        private InputActionAsset _inputActionAsset;
         private InputActionMap _playerActionMap;
         
         private Player _player;
@@ -32,13 +32,31 @@ namespace UDT.Core.Controllables
                 Controllables.Add(controllable);
         }
         
+        /// <summary>
+        /// Set the InputActionAsset to the one given
+        /// </summary>
+        /// <param name="inputActionAsset"></param>
+        public void SetInputAsset(InputActionAsset inputActionAsset)
+        {
+            this._inputActionAsset = inputActionAsset;
+        }
+        
+        /// <summary>
+        /// Set the InputActionMap to the one with the given name
+        /// </summary>
+        /// <param name="name"></param>
+        public void SetInputMap(string name)
+        {
+            _playerActionMap = _inputActionAsset.FindActionMap(name);
+        }
+        
         public override void InitController()
         {
-            _playerActionMap = data.inputActionMap.actionMaps[0];
+            _playerActionMap = data.inputActionAsset.actionMaps[0];
             
             playerInput = GetComponent<PlayerInput>();
             if (playerInput.currentActionMap != null) _playerActionMap = playerInput.currentActionMap;
-            if(inputActionMap != null) _playerActionMap = inputActionMap.FindActionMap("Player");
+            if(_inputActionAsset != null) _playerActionMap = _inputActionAsset.FindActionMap("Player");
 
             if(_playerActionMap == null)
             {
