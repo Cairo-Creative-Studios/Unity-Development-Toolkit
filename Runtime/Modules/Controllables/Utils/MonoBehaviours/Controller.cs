@@ -25,6 +25,32 @@ namespace UDT.Core.Controllables
             ControllerModule.AddController(this);
         }
         
+        public void Possess(StandardObject standardObject)
+        {
+            try
+            {
+                foreach (IComponentControllable controllable in standardObject.Components.Keys)
+                    Possess(controllable);
+            }
+            catch
+            {
+                //ignore invalid cast exception
+            }
+        }
+        
+        public void UnPossess(StandardObject standardObject)
+        {
+            try
+            {
+                foreach (IComponentControllable controllable in standardObject.Components.Keys)
+                    UnPossess(controllable);
+            }
+            catch
+            {
+                //ignore invalid cast exception
+            }
+        }
+        
         public void Possess(IComponentControllable controllable)
         {
             if (controllable == null)
