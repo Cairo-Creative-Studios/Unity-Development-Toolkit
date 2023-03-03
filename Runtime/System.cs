@@ -139,6 +139,36 @@ namespace UDT.Core
             Instance.Objects.Remove(obj);
         }
 
+        public static StandardObject GetObjectFromPrefab(string name)
+        {
+            return Instance.Objects.Find(x => x.prefab.name == name);
+        }
+        
+        public static StandardObject GetObjectFromData(string name)
+        {
+            return Instance.Objects.Find(x => x.definition.name == name);
+        }
+        
+        public static StandardObject GetObjectFromName(string name)
+        {
+            return Instance.Objects.Find(x => x.name == name);
+        }
+        
+        public static StandardObject[] GetObjectsFromPrefab(string name)
+        {
+            return Instance.Objects.FindAll(x => x.prefab.name == name).ToArray();
+        }
+        
+        public static StandardObject[] GetObjectsFromData(string name)
+        {
+            return Instance.Objects.FindAll(x => x.definition.name == name).ToArray();
+        }
+        
+        public static StandardObject[] GetObjectsFromName(string name)
+        {
+            return Instance.Objects.FindAll(x => x.name == name).ToArray();
+        }
+
         /// <summary>
         /// Gets the specified system if it exists
         /// </summary>
