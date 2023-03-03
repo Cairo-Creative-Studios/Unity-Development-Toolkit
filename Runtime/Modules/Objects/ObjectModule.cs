@@ -445,6 +445,8 @@ namespace UDT.Core
     [Serializable]
     public class ObjectSelection : List<StandardObject>
     {
+        [SerializeField]
+        List<StandardObject> items = new List<StandardObject>();
         public ObjectSelection() : base()
         {
         }
@@ -609,6 +611,17 @@ namespace UDT.Core
             {
                 ObjectModule.SetComponentData(instance, data);
             }
+        }
+        
+        void OnBeforeSerialize()
+        {
+            items = this;
+        }
+        
+        void OnAfterDeserialize()
+        {
+            this.Clear();
+            this.AddRange(items);
         }
     }
 
