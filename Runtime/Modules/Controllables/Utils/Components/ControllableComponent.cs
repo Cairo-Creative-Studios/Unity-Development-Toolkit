@@ -205,6 +205,7 @@ namespace UDT.Core.Controllables
                 button = default;
             }
 
+            [Serializable]
             public struct ButtonController
             {
                 private object component;
