@@ -22,6 +22,12 @@ namespace UDT.Core.Controllables
         [Tooltip("Pairs of input names and method names to call when the input is triggered")]
         public InputMethodLinker InputsToMethodsMap;
 
+        public override void OnReset()
+        {
+            base.OnReset();
+            InputsToMethodsMap = new InputMethodLinker(this);
+        }
+
         public override void OnInstantiate()
         {
             base.OnInstantiate();
@@ -103,9 +109,10 @@ namespace UDT.Core.Controllables
     /// A struct that holds a list of links between input names and method names.
     /// </summary>
     [Serializable]
-    public struct InputMethodLinker
+    public struct InputMethodLinker : ISerializationCallbackReceiver
     {
         public List<Link> links;
+        public object component;
 
         public string this[string inputName]
         {
@@ -116,6 +123,31 @@ namespace UDT.Core.Controllables
         }
 
         public InputMethodLinker(object component)
+        {
+            this.component = component;
+            
+            links = new List<Link>();
+            var customAttributes = (InputMethod[])component.GetType().GetCustomAttributes(typeof(InputMethod), true);
+            foreach (var inputMethod in customAttributes)
+            {
+                links.Add(new Link("", inputMethod.name));
+            }
+        }
+
+
+        public void OnBeforeSerialize()
+        {
+            if(links == null)
+                Initialize();
+        }
+
+        public void OnAfterDeserialize()
+        {
+            if(links == null)
+                Initialize();
+        }
+        
+        private void Initialize()
         {
             links = new List<Link>();
             
