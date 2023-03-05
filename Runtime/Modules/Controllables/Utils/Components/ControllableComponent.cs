@@ -141,7 +141,7 @@ namespace UDT.Core.Controllables
             var customAttributes = this.component.GetType().GetCustomMethodAttributes<InputMethod>();
             foreach (var inputMethod in customAttributes)
             {
-                links.Add(new Link("", inputMethod.name));
+                links.Add(new Link(component, "", inputMethod.name));
             }
         }
 
@@ -169,20 +169,86 @@ namespace UDT.Core.Controllables
             var customAttributes = component.GetType().GetCustomMethodAttributes<InputMethod>();
             foreach (var inputMethod in customAttributes)
             {
-                links.Add(new Link("", inputMethod.name));
+                links.Add(new Link(component, "", inputMethod.name, inputMethod.inputType));
             }
         }
 
         [Serializable]
         public struct Link
         {
+            public enum InputType
+            {
+                Button,
+                Axis,
+                Vector2
+            }
+            public InputType inputType;
+            
             [ReadOnly] public string methodName;
             public string inputName;
             
-            public Link(string inputName, string methodName)
+            public Link(object component, string inputName, string methodName, InputType inputType = InputType.Button)
             {
                 this.inputName = inputName;
                 this.methodName = methodName;
+                this.inputType = inputType;
+                
+                if (this.inputType == InputType.Button)
+                {
+                    button = default;
+                }
+                else
+                {
+                    button = new ButtonController(component, inputName);
+                }
+                
+                button = default;
+            }
+
+            public struct ButtonController
+            {
+                private object component;
+                private string inputName;
+                
+                [Button("Simulate Press")]
+                public void SimulatePress()
+                {
+                    var controllableComponent = (ControllableComponent)component;
+                    controllableComponent.CallMethod(inputName);
+                }
+                
+                public ButtonController(object component, string inputName)
+                {
+                    this.component = component;
+                    this.inputName = inputName;
+                }
+            }
+            
+            public struct AxisController
+            {
+                private object component;
+                private string inputName;
+                
+                [Button("Simulate Press")]
+                public void SimulatePress()
+                {
+                    var controllableComponent = (ControllableComponent)component;
+                    controllableComponent.CallMethod(inputName, new object[]{1f});
+                }
+                
+                public AxisController(object component, string inputName)
+                {
+                    this.component = component;
+                    this.inputName = inputName;
+                }
+            }
+
+            [ShowIf("IsButton")]
+            public ButtonController button;
+            
+            public bool IsButton()
+            {
+                return inputType == InputType.Button;
             }
         }
     }
