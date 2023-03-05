@@ -388,6 +388,7 @@ namespace UDT.Core
                     {
                         found = true;
                         component.Data = componentData;
+                        instance.Components[component] = componentData;
                         break;
                     }
                 }
