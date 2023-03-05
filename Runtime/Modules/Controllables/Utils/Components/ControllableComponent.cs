@@ -100,32 +100,42 @@ namespace UDT.Core.Controllables
     }
     
     /// <summary>
-    /// Attribute to mark methods that can be called by a controller
+    /// A struct that holds a list of links between input names and method names.
     /// </summary>
     [Serializable]
     public struct InputMethodLinker
     {
-        public List<string> inputNames;
-        [ReadOnly] public List<string> methodNames;
+        public List<Link> links;
 
         public string this[string inputName]
         {
             get
             {
-                return methodNames[inputNames.IndexOf(inputName)];
+                return links.Find(link => link.inputName == inputName).methodName;
             }
         }
 
         public InputMethodLinker(object component)
         {
-            inputNames = new List<string>();
-            methodNames = new List<string>();
+            links = new List<Link>();
             
             var customAttributes = (InputMethod[])component.GetType().GetCustomAttributes(typeof(InputMethod), true);
             foreach (var inputMethod in customAttributes)
             {
-                inputNames.Add("");
-                methodNames.Add(inputMethod.name);
+                links.Add(new Link("", inputMethod.name));
+            }
+        }
+
+        [Serializable]
+        public struct Link
+        {
+            [ReadOnly] public string methodName;
+            public string inputName;
+            
+            public Link(string inputName, string methodName)
+            {
+                this.inputName = inputName;
+                this.methodName = methodName;
             }
         }
     }
