@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using NaughtyAttributes;
+using UDT.Attributes;
 using UDT.Reflection;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -18,7 +20,13 @@ namespace UDT.Core.Controllables
         public Controller Controller;
 
         [Tooltip("Pairs of input names and method names to call when the input is triggered")]
-        public SerializableDictionary<string, string> InputsToMethodsMap = new SerializableDictionary<string, string>();
+        public InputMethodLinker InputsToMethodsMap;
+
+        public override void OnInstantiate()
+        {
+            base.OnInstantiate();
+            InputsToMethodsMap = new InputMethodLinker(this);
+        }
 
         public void OnInputAction(InputAction.CallbackContext context)
         {
@@ -88,6 +96,37 @@ namespace UDT.Core.Controllables
         public override void OnReset()
         {
             GenerateData();
+        }
+    }
+    
+    /// <summary>
+    /// Attribute to mark methods that can be called by a controller
+    /// </summary>
+    [Serializable]
+    public struct InputMethodLinker
+    {
+        public List<string> inputNames;
+        [ReadOnly] public List<string> methodNames;
+
+        public string this[string inputName]
+        {
+            get
+            {
+                return methodNames[inputNames.IndexOf(inputName)];
+            }
+        }
+
+        public InputMethodLinker(object component)
+        {
+            inputNames = new List<string>();
+            methodNames = new List<string>();
+            
+            var customAttributes = (InputMethod[])component.GetType().GetCustomAttributes(typeof(InputMethod), true);
+            foreach (var inputMethod in customAttributes)
+            {
+                inputNames.Add("");
+                methodNames.Add(inputMethod.name);
+            }
         }
     }
 }
