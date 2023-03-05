@@ -19,6 +19,7 @@ namespace UDT.Core.Controllables
         public bool isPossessed = false;
         public Controller Controller;
 
+        [AllowNesting]
         [Tooltip("Pairs of input names and method names to call when the input is triggered")]
         public InputMethodLinker InputsToMethodsMap;
 
@@ -121,6 +122,7 @@ namespace UDT.Core.Controllables
     [Serializable]
     public struct InputMethodLinker
     {
+        [AllowNesting]
         public List<Link> links;
         public object component;
 
@@ -182,6 +184,7 @@ namespace UDT.Core.Controllables
                 Axis,
                 Vector2
             }
+            [HideInInspector]
             public InputType inputType;
             
             [ReadOnly] public string methodName;
@@ -219,25 +222,6 @@ namespace UDT.Core.Controllables
                 }
                 
                 public ButtonController(object component, string inputName)
-                {
-                    this.component = component;
-                    this.inputName = inputName;
-                }
-            }
-            
-            public struct AxisController
-            {
-                private object component;
-                private string inputName;
-                
-                [Button("Simulate Press")]
-                public void SimulatePress()
-                {
-                    var controllableComponent = (ControllableComponent)component;
-                    controllableComponent.CallMethod(inputName, new object[]{1f});
-                }
-                
-                public AxisController(object component, string inputName)
                 {
                     this.component = component;
                     this.inputName = inputName;
