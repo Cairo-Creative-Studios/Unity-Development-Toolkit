@@ -10,15 +10,9 @@ namespace UDT.Core.Controllables
     /// </summary>
     public class Controller : MonoBehaviour
     {
-        public List<ControllableComponent> Controllables = new List<ControllableComponent>();
+        public List<StandardObject> Controllables = new List<StandardObject>();
         public SerializedInputMap inputMap = new SerializedInputMap();
         public ControllerData data;
-
-        private void Awake()
-        {
-            Controllables = new List<ControllableComponent>();
-        }
-
         public virtual void InitController()
         {
             // Override this method to initialize the controller
@@ -27,78 +21,29 @@ namespace UDT.Core.Controllables
         
         public void Possess(StandardObject standardObject)
         {
-            bool possessed = false;
-            try
-            {
-                foreach (ControllableComponent controllable in standardObject.Components.Keys)
-                {
-                    Possess(controllable);
-                    possessed = true;
-                }
-            }
-            catch
-            {
-                if (standardObject == null)
-                {
-                    Debug.LogError("StandardObject is null", this);
-                    return;
-                }
-                if (!possessed)
-                    Debug.LogError("No controllables found on " + standardObject.name, this);
-                //ignore invalid cast exception
-            }
+            if(standardObject.controllerValues.Possess(this))
+                Controllables.Add(standardObject);
         }
         
         public void UnPossess(StandardObject standardObject)
         {
-            try
-            {
-                foreach (ControllableComponent controllable in standardObject.Components.Keys)
-                    UnPossess(controllable);
-            }
-            catch
-            {
-                //ignore invalid cast exception
-            }
-        }
-        
-        public void Possess(ControllableComponent controllable)
-        {
-            if (controllable == null)
-            {
-                Debug.LogError("Controllable is null", this);
-                return;
-            }
-            
-            if (controllable.Possess(this))
-            {
-                Debug.LogError("Controllable already possessed", (MonoBehaviour)controllable);
-                return;
-            }
-            
-            Controllables.Add(controllable);
-        }
-        
-        public void UnPossess(ControllableComponent controllable)
-        {
-            Controllables.RemoveAt(Controllables.IndexOf(controllable));
-            controllable.UnPossess();
+            standardObject.controllerValues.UnPossess();
+            Controllables.Remove(standardObject);
         }
 
-        public bool PossessingControllable(ControllableComponent controllable)
+        private void Awake()
         {
-            return Controllables.Contains(controllable);
-        }
-
-        private void Update()
-        {
-            foreach (ControllableComponent controllable in Controllables)
-                if(!controllable.isPossessed && ((MonoBehaviour)controllable).enabled)
-                    controllable.Possess(this);
+            foreach (StandardObject controllable in Controllables)
+                if(!controllable.controllerValues.IsPossessed)
+                    controllable.controllerValues.Possess(this);
         }
 
         private void OnDestroy()
         {
+            foreach (var controllable in Controllables)
+            {
+                controllable.controllerValues.UnPossess();
+            }
             ControllerModule.RemoveController(this);
         }
     }

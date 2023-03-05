@@ -1,5 +1,7 @@
 using NaughtyAttributes;
+using UDT.Core.Controllables;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
 namespace UDT.Core
@@ -69,7 +71,22 @@ namespace UDT.Core
 
         public virtual void OnReset()
         {
-            
+        }
+        
+        public virtual void OnInputAction(InputAction.CallbackContext context)
+        {
+        }
+     
+        public virtual void OnInputAction(SerializedInput input)
+        { 
+        }
+
+        public virtual void Possess(Controller controller)
+        {
+        }
+
+        public virtual void UnPossess()
+        {
         }
     }
 

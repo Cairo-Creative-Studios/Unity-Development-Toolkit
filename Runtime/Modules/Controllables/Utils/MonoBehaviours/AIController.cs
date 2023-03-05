@@ -5,19 +5,19 @@ namespace UDT.Core.Controllables
     /// </summary>
     public class AIController : Controller
     {
-        private void Update()
+        private void Awake()
         {
-            foreach (ControllableComponent controllable in Controllables)
+            foreach (StandardObject controllable in Controllables)
             {
                 //Possess Controllable if not possessed
-                if(!controllable.isPossessed)
-                    controllable.Possess(this);
+                if(!controllable.controllerValues.IsPossessed)
+                    controllable.controllerValues.Possess(this);
                 
                 //Call Input Action on Controllable
                 if(inputMap.performedInputs.Count > 0)
                     foreach (var input in inputMap.performedInputs)
                     {
-                        controllable.OnInputAction(input);
+                        controllable.controllerValues.OnInputAction(input);
                     }
             }
         }

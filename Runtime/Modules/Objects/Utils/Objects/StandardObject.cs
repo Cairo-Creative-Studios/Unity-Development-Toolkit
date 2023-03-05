@@ -2,7 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NaughtyAttributes;
+using UDT.Core.Controllables;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 namespace UDT.Core
 {
@@ -231,6 +234,70 @@ namespace UDT.Core
         public bool HasComponent<T>(T component = default)
         {
             return Components.Any(c => c.GetType() ==  typeof(T));
+        }
+        
+        [Serializable]
+        public class ControllerValues
+        {
+            public Byte InputByte;
+            public bool IsPossessed;
+            public Controller Controller;
+            public List<StandardComponent> Controllables;
+            
+            public ControllerValues(Byte inputByte = default, bool isPossessed = default, Controller controller = null)
+            {
+                InputByte = inputByte;
+                IsPossessed = isPossessed;
+                Controller = controller;
+                Controllables = new List<StandardComponent>();
+            }
+            
+            public void OnInputAction(InputAction.CallbackContext context)
+            {
+            }
+     
+            public void OnInputAction(SerializedInput input)
+            { 
+            }
+
+            public bool Possess(Controller controller)
+            {
+                if(IsPossessed)
+                    return false;
+            
+                Controller = controller;
+                IsPossessed = true;
+                return true;
+            }
+
+            public void UnPossess()
+            {
+                Controller = null;
+                IsPossessed = false;
+            }
+        }
+        /// <summary>
+        /// The Controller Values of the Object
+        /// </summary>
+        [Tooltip("The Controller Values of the Object")]
+        [ShowIf("IsControllable")]
+        public ControllerValues controllerValues;
+        
+        public bool IsControllable()
+        {
+            bool isControllable = false;
+            foreach (var component in Components.Keys)
+            {
+                if (component is IControllable)
+                {
+                    isControllable = true;
+                    
+                    if(!controllerValues.Controllables.Contains(component))
+                        controllerValues.Controllables.Add(component);
+                }
+            }
+
+            return isControllable;
         }
     }
 }
