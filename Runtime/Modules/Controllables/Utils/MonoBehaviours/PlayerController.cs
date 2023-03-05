@@ -64,6 +64,7 @@ namespace UDT.Core.Controllables
             }
             foreach (InputAction action in _playerActionMap.actions)
             {
+                action.Enable();
                 action.performed += OnInputAction;
                 action.started += OnInputAction;
                 action.canceled += OnInputAction;

@@ -29,7 +29,7 @@ namespace UDT.Core.Controllables
 
         public override void Init()
         {
-            data = Resources.LoadAll<ControllerData>("") as ControllerData[];
+            data = Resources.LoadAll<ControllerData>("") ;
         }
 
         /// <summary>
