@@ -34,6 +34,40 @@ namespace UDT.Reflection
         }
 
         /// <summary>
+        /// Gets all the Custom Attributes of the given Type from the given Type
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="inherit"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static T[] GetCustomMethodAttributes<T>(this Type type, bool inherit = false)
+        {
+            return type.GetMethods().GetCustomAttributes<T>();
+        }
+
+        /// <summary>
+        /// Gets all the Custom Attributes of the given Type from the given Methods
+        /// </summary>
+        /// <param name="methods"></param>
+        /// <param name="inherit"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static T[] GetCustomAttributes<T>(this MethodInfo[] methods, bool inherit = false)
+        {
+            List<T> attributes = new List<T>();
+
+            foreach (MethodInfo method in methods)
+            {
+                foreach (T attribute in method.GetCustomAttributes(typeof(T), inherit))
+                {
+                    attributes.Add(attribute);
+                }
+            }
+
+            return attributes.ToArray();
+        }
+
+        /// <summary>
         /// Get's all Types that inherit from the given Base Type
         /// </summary>
         /// <returns>The inherited types.</returns>
@@ -238,6 +272,8 @@ namespace UDT.Reflection
                 typeReferences.Add(fieldInfo.Name, new FieldReference(type, fieldInfo));
             }
         }
+        
+        
     }
 
     /// <summary>

@@ -137,7 +137,8 @@ namespace UDT.Core.Controllables
             this.component = component;
             
             links = new List<Link>();
-            var customAttributes = (InputMethod[])component.GetType().GetCustomAttributes(typeof(InputMethod), true);
+            
+            var customAttributes = GetType().GetCustomMethodAttributes<InputMethod>();
             foreach (var inputMethod in customAttributes)
             {
                 links.Add(new Link("", inputMethod.name));
@@ -165,7 +166,7 @@ namespace UDT.Core.Controllables
         {
             links = new List<Link>();
             
-            var customAttributes = (InputMethod[])component.GetType().GetCustomAttributes(typeof(InputMethod), true);
+            var customAttributes = GetType().GetCustomMethodAttributes<InputMethod>();
             foreach (var inputMethod in customAttributes)
             {
                 links.Add(new Link("", inputMethod.name));
