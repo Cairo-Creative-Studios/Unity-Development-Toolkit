@@ -13,7 +13,7 @@ namespace UDT.Core.Controllables
     /// Reflection is used to call Methods within classes that implement this interface, based on the name of the input
     /// that is given to it from a Controller.
     /// </summary>
-    public class ControllableComponent : StandardComponent
+    public class ControllableComponent : StandardComponent, ISerializationCallbackReceiver
     {
         public Byte inputByte;
         public bool isPossessed = false;
@@ -64,6 +64,16 @@ namespace UDT.Core.Controllables
             Controller = null;
             isPossessed = false;
         }
+
+        public void OnBeforeSerialize()
+        {
+            InputsToMethodsMap.OnBeforeSerialize(this);
+        }
+
+        public void OnAfterDeserialize()
+        {
+            InputsToMethodsMap.OnAfterDeserialize(this);
+        }
     }
     
     public class ControllableComponent<TComponentData> : ControllableComponent where TComponentData : ComponentDataBase
@@ -109,7 +119,7 @@ namespace UDT.Core.Controllables
     /// A struct that holds a list of links between input names and method names.
     /// </summary>
     [Serializable]
-    public struct InputMethodLinker : ISerializationCallbackReceiver
+    public struct InputMethodLinker
     {
         public List<Link> links;
         public object component;
@@ -135,14 +145,18 @@ namespace UDT.Core.Controllables
         }
 
 
-        public void OnBeforeSerialize()
+        public void OnBeforeSerialize(object component)
         {
+            this.component = component;
+            
             if(links == null)
                 Initialize();
         }
 
-        public void OnAfterDeserialize()
+        public void OnAfterDeserialize(object component)
         {
+            this.component = component;
+            
             if(links == null)
                 Initialize();
         }
