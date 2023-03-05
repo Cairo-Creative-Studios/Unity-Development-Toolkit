@@ -267,10 +267,18 @@ namespace UDT.Core
             
             public void OnInputAction(InputAction.CallbackContext context)
             {
+                foreach (var c in Controllables)
+                {
+                    c.OnInputAction(context);
+                }
             }
      
             public void OnInputAction(SerializedInput input)
-            { 
+            {
+                foreach (var c in Controllables)
+                {
+                    c.OnInputAction(input);
+                }
             }
 
             public bool Possess(Controller controller)
