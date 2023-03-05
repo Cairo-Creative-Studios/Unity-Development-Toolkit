@@ -114,7 +114,8 @@ namespace UDT.Core
         public override void OnInstantiate()
         {
             base.OnInstantiate();
-            System<TSystem>.GetInstance();
+            system = System<TSystem>.GetInstance();
+            System<TSystem>.AddObject(Object);
         }
 
         public override void OnReset()
