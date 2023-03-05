@@ -2,7 +2,6 @@ using NaughtyAttributes;
 using UDT.Core.Controllables;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 namespace UDT.Core
 {

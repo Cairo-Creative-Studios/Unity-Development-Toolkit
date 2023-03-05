@@ -127,6 +127,7 @@ namespace UDT.Core
         /// <param name="obj"></param>
         public static void AddObject(StandardObject obj)
         {
+            Instance.transform.parent = obj.transform;
             Instance.Objects.Add(obj);
         }
         
