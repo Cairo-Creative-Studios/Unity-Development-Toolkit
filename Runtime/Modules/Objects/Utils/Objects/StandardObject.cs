@@ -68,9 +68,22 @@ namespace UDT.Core
         [SerializeField] private CollisionEvents _collisionEvents = new CollisionEvents();
         [SerializeField] private ApplicationEvents _applicationEvents = new ApplicationEvents();
 
+        private void Reset()
+        {
+            foreach (var component in Components.Keys)
+            {
+                component.Object = this;
+            }
+        }
+
         private void Awake()
         {
             _standardEvents.onAwake?.Invoke();
+
+            foreach (var component in Components.Keys)
+            {
+                component.Object = this;
+            }
         }
 
         private void Start()
