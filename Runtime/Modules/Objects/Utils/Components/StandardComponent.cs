@@ -105,7 +105,10 @@ namespace UDT.Core
 
         public override void OnReset()
         {
-            GenerateData();
+            if (this.Data == null)
+            {
+                GenerateData();
+            }
         }
     }
     
@@ -136,7 +139,10 @@ namespace UDT.Core
 
         public override void OnReset()
         {
-            GenerateData();
+            if (this.Data == null)
+            {
+                GenerateData();
+            }
         }
     }
 }
