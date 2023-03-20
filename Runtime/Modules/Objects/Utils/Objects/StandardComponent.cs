@@ -28,7 +28,6 @@ namespace UDT.Core
 
         public virtual void OnFree()
         {
-            ObjectModule.OnComponentRemoved?.Invoke(this);
         }
         
         public virtual void OnEnable()
@@ -64,7 +63,6 @@ namespace UDT.Core
                 Object.Components.Add(this, Data);
                 OnAddComponent();
             }
-            ObjectModule.OnComponentAdded?.Invoke(this);
         }
         
         public virtual void OnAddComponent()
@@ -155,7 +153,12 @@ namespace UDT.Core
             AttachedSystemType = typeof(TSystem);
             system = System<TSystem>.StartSystem();
             
-            ObjectModule.OnObjectAdded?.Invoke(Object);
+            ObjectModule.OnComponentAdded?.Invoke(this, typeof(TSystem));
+        }
+
+        public override void OnFree()
+        {
+            ObjectModule.OnComponentRemoved?.Invoke(this, typeof(TSystem));
         }
 
         public override void OnReset()

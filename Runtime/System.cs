@@ -99,7 +99,7 @@ namespace UDT.Core
         {
             Instance.Objects = objects;
         }
-        e
+        
         /// <summary>
         /// Adds the specified object to the System
         /// </summary>
@@ -163,17 +163,16 @@ namespace UDT.Core
             return (SystemType)(object)Instance;
         }
         
-        public virtual void OnComponentAdded(StandardComponent standardComponent)
+        public virtual void OnComponentAdded(StandardComponent standardComponent, Type type = null)
         {
-            if (standardComponent.AttachedSystemType == typeof(T))
-            {
+            if(type == GetType())
                 AddObject(standardComponent.Object);
-            }
         }
 
-        public virtual void OnComponentRemoved(StandardComponent standardComponent)
+        public virtual void OnComponentRemoved(StandardComponent standardComponent, Type type = null)
         {
-            RemoveObject(standardComponent.Object);
+            if(type == GetType())
+                RemoveObject(standardComponent.Object);
         }
 
         /// <summary>

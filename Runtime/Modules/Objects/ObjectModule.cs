@@ -17,7 +17,7 @@ namespace UDT.Core
         private ObjectDefinition[] _resourceData = new ObjectDefinition[] { };
         private int UIDCounter = 0;
         
-        public delegate void StandardComponentEvent(StandardComponent standardComponent);
+        public delegate void StandardComponentEvent(StandardComponent standardComponent, Type systemType);
         public delegate void StandardObjectEvent(StandardObject obj);
         /// <summary>
         /// Subcribe Systems to this event to get notified when a new Component is added to an Object,
