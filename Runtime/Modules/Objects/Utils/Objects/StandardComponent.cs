@@ -21,7 +21,7 @@ namespace UDT.Core
         {
         }
         
-        void Start()
+        void Awake()
         {
             OnInstantiate();
         }

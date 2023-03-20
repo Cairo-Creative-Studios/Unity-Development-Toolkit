@@ -29,12 +29,10 @@ namespace UDT.Core
         {
             get
             {
-                bool init = false;
-                
                 if (!instantiated)
                 {
                     instantiated = true;
-                    init = true;
+                    
                     GameObject go = new GameObject(typeof(T).Name);
                     _instance = go.AddComponent<T>();
                     
