@@ -20,7 +20,7 @@ namespace UDT.Core
         /// <summary>
         /// The Objects that are currently being managed by this system
         /// </summary>
-        public ObjectSelection Objects = new ObjectSelection();
+        public List<StandardObject> Objects = new List<StandardObject>();
         
         public Tree<IStateNode> states { get; set; }
         public Tree<IStateNode> stateTree = new Tree<IStateNode>();
@@ -183,9 +183,9 @@ namespace UDT.Core
         
         public virtual void OnComponentAdded(StandardComponent standardComponent)
         {
-                AddObject(standardComponent.Object);
             if (standardComponent.AttachedSystemType == typeof(T))
             {
+                AddObject(standardComponent.Object);
             }
         }
 
