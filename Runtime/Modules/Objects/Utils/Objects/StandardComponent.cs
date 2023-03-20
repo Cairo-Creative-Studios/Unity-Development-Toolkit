@@ -153,11 +153,7 @@ namespace UDT.Core
             base.OnInstantiate();
             
             AttachedSystemType = typeof(TSystem);
-            
-            if(System<TSystem>.instantiated)
-                system = System<TSystem>.GetInstance();
-            else
-                system = System<TSystem>.StartSystem();
+            system = System<TSystem>.StartSystem();
             
             ObjectModule.OnObjectAdded?.Invoke(Object);
         }
