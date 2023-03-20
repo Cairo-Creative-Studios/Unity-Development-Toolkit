@@ -62,6 +62,11 @@ namespace UDT.Core
         /// <typeparam name="T"></typeparam>
         public static T StartSystem(ObjectSelection objects = null, Type[] managedComponentTypes = null, string managedObjectType = "")
         {
+            if (instantiated)
+            {
+                return GetInstance();
+            }
+            
             var instance = GetInstance();
             if (objects != null) SetObjects(objects);
 
