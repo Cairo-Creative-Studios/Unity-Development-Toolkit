@@ -4,12 +4,39 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace UDT.Core
-{
+{    
+    /// <summary>
+    /// Using the IComponentBase allows MonoBehaviours to be used within the UDT's Standard Object Managed Component
+    /// System, providing a simpler interface to the Component and it's relation to the Object it's attached to.
+    /// </summary>
+    public class StandardComponentBase : MonoBehaviour
+    {
+        /// <summary>
+        /// The parent object of the component
+        /// </summary>
+        public StandardObject Object { get; set; }
+
+        /// <summary>
+        /// Called when the Standard Object is Instantiated
+        /// </summary>
+        public virtual void OnInstantiate()
+        {
+            
+        }
+
+        /// <summary>
+        /// Called when the Standard Object is pooled/Destroyed
+        /// </summary>
+        public virtual void OnFree()
+        {
+            
+        }
+    }
     /// <summary>
     /// Provides a base class for Standard Components that can be added to the Standard Object.
     /// This will allow you to use the Standard Object's Component Management System.
     /// </summary>
-    public class StandardComponent : MonoBehaviour, IComponentBase
+    public class StandardComponent : StandardComponentBase
     {
         [Expandable] public ComponentDataBase Data;
         public StandardObject Object { get; set; }

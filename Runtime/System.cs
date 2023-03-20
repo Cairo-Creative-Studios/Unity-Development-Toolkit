@@ -179,24 +179,24 @@ namespace UDT.Core
             return (SystemType)(object)Instance;
         }
         
-        public virtual void OnComponentAdded(StandardComponent component)
+        public virtual void OnComponentAdded(StandardComponent standardComponent)
         {
             foreach (var type in managedComponentTypes)
             {
-                if (component.GetType() == type)
+                if (standardComponent.GetType() == type)
                 {
-                    AddObject(component.Object);
+                    AddObject(standardComponent.Object);
                 }
             }
         }
 
-        public virtual void OnComponentRemoved(StandardComponent component)
+        public virtual void OnComponentRemoved(StandardComponent standardComponent)
         {
             foreach (var type in managedComponentTypes)
             {
-                if (component.GetType() == type)
+                if (standardComponent.GetType() == type)
                 {
-                    RemoveObject(component.Object);
+                    RemoveObject(standardComponent.Object);
                 }
             }
         }

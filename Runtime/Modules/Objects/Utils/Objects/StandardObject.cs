@@ -180,16 +180,16 @@ namespace UDT.Core
         /// Adds the specified Component to the object
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        public IComponentBase AddComponent<T>(ComponentDataBase data = null) where T : StandardComponent, IComponentBase
+        public StandardComponentBase AddComponent<T>(ComponentDataBase data = null) where T : StandardComponentBase
         {
             return AddComponent(typeof(T), data);
         }
 
-        public IComponentBase AddComponent(Type componentType, ComponentDataBase data = null, string childName = "")
+        public StandardComponentBase AddComponent(Type componentType, ComponentDataBase data = null, string childName = "")
         {
-            StandardComponent component;
+            StandardComponent standardComponent;
             if (childName == "")
-                component = (StandardComponent)gameObject.AddComponent(componentType);
+                standardComponent = (StandardComponent)gameObject.AddComponent(componentType);
             else
             {
                 Transform child;
@@ -202,30 +202,30 @@ namespace UDT.Core
                     child = new GameObject(childName).transform;
                 }
                 child.transform.SetParent(transform);
-                component = (StandardComponent)child.gameObject.AddComponent(componentType);
+                standardComponent = (StandardComponent)child.gameObject.AddComponent(componentType);
             }
             
             if (data != null)
             {
-                component.Data = data;
-                Components[component] = data;
+                standardComponent.Data = data;
+                Components[standardComponent] = data;
             }
             if (instanced)
-                component.OnInstantiate();
+                standardComponent.OnInstantiate();
 
             foreach (var c in Components.Keys)
             {
                 c?.OnReady();
             }
             
-            return component;
+            return standardComponent;
         }
 
         /// <summary>
         /// Removes the first component of the specified type
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        public void RemoveStandardComponent<T>() where T : MonoBehaviour, IComponentBase
+        public void RemoveStandardComponent<T>() where T : StandardComponentBase
         {
             var component = GetStandardComponent<T>();
             component.OnFree();
@@ -245,7 +245,7 @@ namespace UDT.Core
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public IComponentBase GetStandardComponent(Type T)
+        public StandardComponentBase GetStandardComponent(Type T)
         {
             return Components.Keys.FirstOrDefault(c => c.GetType() == T);
         }
@@ -255,7 +255,7 @@ namespace UDT.Core
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public IComponentBase GetStandardComponent<T>() where T : MonoBehaviour, IComponentBase
+        public StandardComponentBase GetStandardComponent<T>() where T : StandardComponentBase
         {
             return Components.Keys.FirstOrDefault(c => c.GetType() == typeof(T));
         }

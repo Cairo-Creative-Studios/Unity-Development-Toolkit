@@ -17,7 +17,7 @@ namespace UDT.Core
         private ObjectDefinition[] _resourceData = new ObjectDefinition[] { };
         private int UIDCounter = 0;
         
-        public delegate void StandardComponentEvent(StandardComponent component);
+        public delegate void StandardComponentEvent(StandardComponent standardComponent);
         public delegate void StandardObjectEvent(StandardObject obj);
         /// <summary>
         /// Subcribe Systems to this event to get notified when a new Component is added to an Object,
@@ -299,7 +299,7 @@ namespace UDT.Core
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static ObjectSelection SelectAll<T>(ObjectSelection originalSelection = null) where T : IComponentBase
+        public static ObjectSelection SelectAll<T>(ObjectSelection originalSelection = null) where T : StandardComponentBase
         {
             if(originalSelection == null)
                 return new ObjectSelection(Instance._indexedObjects.FindAll(x => x.HasComponent<T>()));
@@ -481,7 +481,7 @@ namespace UDT.Core
         /// Add an IBaseComponent to all Objects in the Selection
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        public void AddIComponent<T>() where T : StandardComponent, IComponentBase
+        public void AddStandardComponent<T>() where T : StandardComponentBase
         {
             for (int i = 0; i < this.Count; i++)
             {
@@ -501,9 +501,9 @@ namespace UDT.Core
             }
         }
         
-        public ComponentSelection<T> GetIComponents<T>() where T : MonoBehaviour, IComponentBase
+        public ComponentSelection<T> GetStandardComponents<T>() where T : StandardComponentBase
         {
-            ComponentSelection<T> selection = new ComponentSelection<T>(new List<IComponentBase>());
+            ComponentSelection<T> selection = new ComponentSelection<T>(new List<StandardComponentBase>());
 
             foreach (var instance in this)
             {
@@ -517,7 +517,7 @@ namespace UDT.Core
         /// Call a Method in all IBaseComponents of all Objects in the Selection
         /// </summary>
         /// <param name="methodName"></param>
-        public void CallMethodInIComponents(string methodName, object[] args)
+        public void CallMethodInStandardComponents(string methodName, object[] args)
         {
             for (int i = 0; i < this.Count; i++)
             {
@@ -626,9 +626,9 @@ namespace UDT.Core
         }
     }
 
-    public class ComponentSelection : List<IComponentBase>
+    public class ComponentSelection : List<StandardComponentBase>
     {
-        public ComponentSelection(List<IComponentBase> components) : base(components)
+        public ComponentSelection(List<StandardComponentBase> components) : base(components)
         {
         }
 
@@ -660,7 +660,7 @@ namespace UDT.Core
     }
     public class ComponentSelection<T> : ComponentSelection
     {
-        public ComponentSelection(List<IComponentBase> components) : base(components)
+        public ComponentSelection(List<StandardComponentBase> components) : base(components)
         {
         }
     }
