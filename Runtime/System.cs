@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UDT.Data;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -60,12 +61,14 @@ namespace UDT.Core
         /// Starts the specified system, creating it if it doesn't exist
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        public static T StartSystem(ObjectSelection objects = null, Type[] managedComponentTypes = null, string managedObjectType = "")
+        public static T StartSystem(ObjectSelection objects = null, Type[] managedComponentTypes = null, string managedObjectType = "", [CallerMemberName] string caller = "", [CallerFilePath] string file = "")
         {
             if (instantiated)
             {
                 return GetInstance();
             }
+            
+            Debug.Log($"Starting System {typeof(T).Name} from {caller} in {file}");
             
             var instance = GetInstance();
             if (objects != null) SetObjects(objects);
