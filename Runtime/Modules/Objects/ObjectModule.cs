@@ -507,7 +507,7 @@ namespace UDT.Core
 
             foreach (var instance in this)
             {
-                selection.Add(instance.GetIComponent<T>());
+                selection.Add(instance.GetStandardComponent<T>());
             }
 
             return selection;

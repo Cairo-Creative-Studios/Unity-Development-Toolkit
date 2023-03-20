@@ -71,6 +71,21 @@ namespace UDT.Core
         public virtual void OnReset()
         {
         }
+
+        public void OnReady()
+        {
+            // Using reflection.
+            System.Attribute[] attrs = System.Attribute.GetCustomAttributes(typeof(RequireStandardComponent));  // Reflection.
+
+            // Displaying output.
+            foreach (System.Attribute attr in attrs)
+            {
+                if(Object.GetStandardComponent((attr as RequireStandardComponent).type) == null)
+                {
+                    Object.AddComponent((attr as RequireStandardComponent).type);
+                }
+            }
+        }
         
         public virtual void OnInputAction(InputAction.CallbackContext context)
         {

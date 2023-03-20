@@ -212,6 +212,12 @@ namespace UDT.Core
             }
             if (instanced)
                 component.OnInstantiate();
+
+            foreach (var c in Components.Keys)
+            {
+                c?.OnReady();
+            }
+            
             return component;
         }
 
@@ -219,9 +225,9 @@ namespace UDT.Core
         /// Removes the first component of the specified type
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        public void RemoveIComponent<T>() where T : MonoBehaviour, IComponentBase
+        public void RemoveStandardComponent<T>() where T : MonoBehaviour, IComponentBase
         {
-            var component = GetIComponent<T>();
+            var component = GetStandardComponent<T>();
             component.OnFree();
             Destroy(gameObject.GetComponent<T>());
             foreach (var c in Components.Keys)
@@ -239,7 +245,17 @@ namespace UDT.Core
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public IComponentBase GetIComponent<T>() where T : MonoBehaviour, IComponentBase
+        public IComponentBase GetStandardComponent(Type T)
+        {
+            return Components.Keys.FirstOrDefault(c => c.GetType() == T);
+        }
+        
+        /// <summary>
+        /// Returns a reference to the first component of the specified type.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public IComponentBase GetStandardComponent<T>() where T : MonoBehaviour, IComponentBase
         {
             return Components.Keys.FirstOrDefault(c => c.GetType() == typeof(T));
         }
