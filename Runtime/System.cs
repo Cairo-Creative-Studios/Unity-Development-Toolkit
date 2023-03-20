@@ -183,9 +183,9 @@ namespace UDT.Core
         
         public virtual void OnComponentAdded(StandardComponent standardComponent)
         {
+                AddObject(standardComponent.Object);
             if (standardComponent.AttachedSystemType == typeof(T))
             {
-                AddObject(standardComponent.Object);
             }
         }
 
