@@ -23,7 +23,7 @@ namespace UDT.Core
     /// Component Data that can be passed to the Component with the given Type upon creation.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ComponentData<T> : ComponentDataBase where T : StandardComponentBase
+    public class ComponentData<T> : ComponentDataBase where T : StandardComponent
     {
     }
 }

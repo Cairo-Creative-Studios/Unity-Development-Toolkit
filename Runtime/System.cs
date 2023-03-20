@@ -130,6 +130,11 @@ namespace UDT.Core
             Instance.Objects.Add(obj);
         }
         
+        public static void AddComponent(StandardComponent component)
+        {
+            Instance.OnComponentAdded(component);
+        }
+        
         /// <summary>
         /// Removes the specified object from the System
         /// </summary>
@@ -181,24 +186,15 @@ namespace UDT.Core
         
         public virtual void OnComponentAdded(StandardComponent standardComponent)
         {
-            foreach (var type in managedComponentTypes)
+            if (standardComponent.AttachedSystemType == typeof(T))
             {
-                if (standardComponent.GetType() == type)
-                {
-                    AddObject(standardComponent.Object);
-                }
+                AddObject(standardComponent.Object);
             }
         }
 
         public virtual void OnComponentRemoved(StandardComponent standardComponent)
         {
-            foreach (var type in managedComponentTypes)
-            {
-                if (standardComponent.GetType() == type)
-                {
-                    RemoveObject(standardComponent.Object);
-                }
-            }
+            RemoveObject(standardComponent.Object);
         }
 
         public void OnObjectAdded(StandardObject instance)

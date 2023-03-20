@@ -36,7 +36,7 @@ namespace UDT.Core
         /// Subcribe Systems to this event to get notified when an Object is removed from the scene,
         /// </summary>
         public static StandardObjectEvent OnObjectRemoved;
- 
+
         public override void Init()
         {
             // Get all prefabs in Resources folder
@@ -299,7 +299,7 @@ namespace UDT.Core
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static ObjectSelection SelectAll<T>(ObjectSelection originalSelection = null) where T : StandardComponentBase
+        public static ObjectSelection SelectAll<T>(ObjectSelection originalSelection = null) where T : StandardComponent
         {
             if(originalSelection == null)
                 return new ObjectSelection(Instance._indexedObjects.FindAll(x => x.HasComponent<T>()));
@@ -481,7 +481,7 @@ namespace UDT.Core
         /// Add an IBaseComponent to all Objects in the Selection
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        public void AddStandardComponent<T>() where T : StandardComponentBase
+        public void AddStandardComponent<T>() where T : StandardComponent
         {
             for (int i = 0; i < this.Count; i++)
             {
@@ -501,9 +501,9 @@ namespace UDT.Core
             }
         }
         
-        public ComponentSelection<T> GetStandardComponents<T>() where T : StandardComponentBase
+        public ComponentSelection<T> GetStandardComponents<T>() where T : StandardComponent
         {
-            ComponentSelection<T> selection = new ComponentSelection<T>(new List<StandardComponentBase>());
+            ComponentSelection<T> selection = new ComponentSelection<T>(new List<StandardComponent>());
 
             foreach (var instance in this)
             {
@@ -626,9 +626,9 @@ namespace UDT.Core
         }
     }
 
-    public class ComponentSelection : List<StandardComponentBase>
+    public class ComponentSelection : List<StandardComponent>
     {
-        public ComponentSelection(List<StandardComponentBase> components) : base(components)
+        public ComponentSelection(List<StandardComponent> components) : base(components)
         {
         }
 
@@ -660,7 +660,7 @@ namespace UDT.Core
     }
     public class ComponentSelection<T> : ComponentSelection
     {
-        public ComponentSelection(List<StandardComponentBase> components) : base(components)
+        public ComponentSelection(List<StandardComponent> components) : base(components)
         {
         }
     }

@@ -1,3 +1,4 @@
+using System;
 using NaughtyAttributes;
 using UDT.Core.Controllables;
 using UnityEngine;
@@ -6,46 +7,21 @@ using UnityEngine.InputSystem;
 namespace UDT.Core
 {    
     /// <summary>
-    /// Using the IComponentBase allows MonoBehaviours to be used within the UDT's Standard Object Managed Component
-    /// System, providing a simpler interface to the Component and it's relation to the Object it's attached to.
-    /// </summary>
-    public class StandardComponentBase : MonoBehaviour
-    {
-        /// <summary>
-        /// The parent object of the component
-        /// </summary>
-        public StandardObject Object { get; set; }
-
-        /// <summary>
-        /// Called when the Standard Object is Instantiated
-        /// </summary>
-        public virtual void OnInstantiate()
-        {
-            
-        }
-
-        /// <summary>
-        /// Called when the Standard Object is pooled/Destroyed
-        /// </summary>
-        public virtual void OnFree()
-        {
-            
-        }
-    }
-    /// <summary>
     /// Provides a base class for Standard Components that can be added to the Standard Object.
     /// This will allow you to use the Standard Object's Component Management System.
     /// </summary>
-    public class StandardComponent : StandardComponentBase
+    public class StandardComponent : MonoBehaviour
     {
         [Expandable] public ComponentDataBase Data;
         public StandardObject Object { get; set; }
         
+        public Type AttachedSystemType;
+        
         public virtual void OnInstantiate()
         {
         }
         
-        void Awake()
+        void Start()
         {
             OnInstantiate();
         }
@@ -175,8 +151,15 @@ namespace UDT.Core
         public override void OnInstantiate()
         {
             base.OnInstantiate();
-            system = System<TSystem>.GetInstance();
-            System<TSystem>.AddObject(Object);
+            
+            AttachedSystemType = typeof(TSystem);
+            
+            if(System<TSystem>.instantiated)
+                system = System<TSystem>.GetInstance();
+            else
+                system = System<TSystem>.StartSystem();
+            
+            ObjectModule.OnObjectAdded?.Invoke(Object);
         }
 
         public override void OnReset()

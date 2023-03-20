@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace UDT.Core
 {
-    public class StateMachineStandardComponent : StandardComponentBase, IFSM
+    public class StateMachineStandardComponent : StandardComponent, IFSM
     {
         public bool IsNull { get; }
         public ComponentDataBase Data { get; set; }

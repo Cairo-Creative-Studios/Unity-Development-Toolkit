@@ -23,7 +23,7 @@ namespace UDT.Core
     {
         protected static T _instance;
 
-        private static bool instantiated = false;
+        public static bool instantiated = false;
 
         public static T Instance
         {

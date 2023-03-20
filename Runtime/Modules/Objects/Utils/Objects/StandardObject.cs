@@ -180,12 +180,12 @@ namespace UDT.Core
         /// Adds the specified Component to the object
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        public StandardComponentBase AddComponent<T>(ComponentDataBase data = null) where T : StandardComponentBase
+        public StandardComponent AddComponent<T>(ComponentDataBase data = null) where T : StandardComponent
         {
             return AddComponent(typeof(T), data);
         }
 
-        public StandardComponentBase AddComponent(Type componentType, ComponentDataBase data = null, string childName = "")
+        public StandardComponent AddComponent(Type componentType, ComponentDataBase data = null, string childName = "")
         {
             StandardComponent standardComponent;
             if (childName == "")
@@ -225,7 +225,7 @@ namespace UDT.Core
         /// Removes the first component of the specified type
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        public void RemoveStandardComponent<T>() where T : StandardComponentBase
+        public void RemoveStandardComponent<T>() where T : StandardComponent
         {
             var component = GetStandardComponent<T>();
             component.OnFree();
@@ -245,7 +245,7 @@ namespace UDT.Core
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public StandardComponentBase GetStandardComponent(Type T)
+        public StandardComponent GetStandardComponent(Type T)
         {
             return Components.Keys.FirstOrDefault(c => c.GetType() == T);
         }
@@ -255,7 +255,7 @@ namespace UDT.Core
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public StandardComponentBase GetStandardComponent<T>() where T : StandardComponentBase
+        public StandardComponent GetStandardComponent<T>() where T : StandardComponent
         {
             return Components.Keys.FirstOrDefault(c => c.GetType() == typeof(T));
         }
