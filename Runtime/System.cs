@@ -198,7 +198,7 @@ namespace UDT.Core
 
         public void OnObjectAdded(StandardObject instance)
         {
-            if (instance.prefab.name == managedObjectType)
+            if (instance.prefab != null && instance.prefab.name == managedObjectType)
             {
                 AddObject(instance);
             }
@@ -206,7 +206,7 @@ namespace UDT.Core
         
         public void OnObjectRemoved(StandardObject instance)
         {
-            if (instance.prefab.name == managedObjectType)
+            if (instance.prefab != null && instance.prefab.name == managedObjectType)
             {
                 RemoveObject(instance);
             }
