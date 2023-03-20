@@ -75,8 +75,6 @@ namespace UDT.Core
 
             ObjectModule.OnComponentAdded += Instance.OnComponentAdded;
             ObjectModule.OnComponentRemoved += Instance.OnComponentRemoved;
-            ObjectModule.OnObjectAdded += Instance.OnObjectAdded;
-            ObjectModule.OnObjectRemoved += Instance.OnObjectRemoved;
 
             return instance;
         }
@@ -196,22 +194,6 @@ namespace UDT.Core
             RemoveObject(standardComponent.Object);
         }
 
-        public void OnObjectAdded(StandardObject instance)
-        {
-            if (instance.prefab != null && instance.prefab.name == managedObjectType)
-            {
-                AddObject(instance);
-            }
-        }
-        
-        public void OnObjectRemoved(StandardObject instance)
-        {
-            if (instance.prefab != null && instance.prefab.name == managedObjectType)
-            {
-                RemoveObject(instance);
-            }
-        }
-        
         /// <summary>
         /// When the System is destroyed, call Stop the System.
         /// </summary>
