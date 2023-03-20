@@ -73,19 +73,10 @@ namespace UDT.Core
             var instance = GetInstance();
             if (objects != null) SetObjects(objects);
 
-            if (managedComponentTypes != null && Instance != null)
-            {
-                System<T>.managedComponentTypes = managedComponentTypes;
-                ObjectModule.OnComponentAdded += Instance.OnComponentAdded;
-                ObjectModule.OnComponentRemoved += Instance.OnComponentRemoved;
-            }
-
-            if (managedObjectType != "" && Instance != null)
-            {
-                System<T>.managedObjectType = managedObjectType;
-                ObjectModule.OnObjectAdded += Instance.OnObjectAdded;
-                ObjectModule.OnObjectRemoved += Instance.OnObjectRemoved;
-            }
+            ObjectModule.OnComponentAdded += Instance.OnComponentAdded;
+            ObjectModule.OnComponentRemoved += Instance.OnComponentRemoved;
+            ObjectModule.OnObjectAdded += Instance.OnObjectAdded;
+            ObjectModule.OnObjectRemoved += Instance.OnObjectRemoved;
 
             return instance;
         }
