@@ -99,25 +99,7 @@ namespace UDT.Core
         {
             Instance.Objects = objects;
         }
-        
-        /// <summary>
-        /// Adds the specified objects to the System
-        /// </summary>
-        /// <param name="objects"></param>
-        public static void AddObjects(ObjectSelection objects)
-        {
-            Instance.Objects.Append((List<StandardObject>)objects);
-        }
-        
-        /// <summary>
-        /// Removes the specified objects from the System
-        /// </summary>
-        /// <param name="objects"></param>
-        public static void RemoveObjects(ObjectSelection objects)
-        {
-            Instance.Objects.RemoveAll(objects);
-        }
-        
+        e
         /// <summary>
         /// Adds the specified object to the System
         /// </summary>
