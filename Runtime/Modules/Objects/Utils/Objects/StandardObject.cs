@@ -83,6 +83,7 @@ namespace UDT.Core
             foreach (var component in Components.Keys)
             {
                 component.Object = this;
+                component.OnInstantiate();
             }
         }
 
@@ -212,6 +213,8 @@ namespace UDT.Core
             }
             if (instanced)
                 standardComponent.OnInstantiate();
+            
+            standardComponent.OnInstantiate();
 
             foreach (var c in Components.Keys)
             {

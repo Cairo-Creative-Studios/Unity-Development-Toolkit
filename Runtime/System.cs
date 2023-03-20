@@ -166,19 +166,13 @@ namespace UDT.Core
         public virtual void OnComponentAdded(StandardComponent standardComponent, Type type = null)
         {
             if (type == GetType())
-            {
-                transform.parent = standardComponent.Object.transform;
                 AddObject(standardComponent.Object);
-            }
         }
 
         public virtual void OnComponentRemoved(StandardComponent standardComponent, Type type = null)
         {
             if (type == GetType())
-            {
-                transform.parent = standardComponent.Object.transform;
                 RemoveObject(standardComponent.Object);
-            }
         }
 
         /// <summary>
