@@ -21,6 +21,10 @@ namespace UDT.Core
         /// The Objects that are currently being managed by this system
         /// </summary>
         public List<StandardObject> Objects = new List<StandardObject>();
+        /// <summary>
+        /// The Components that are currently being managed by this system
+        /// </summary>
+        public List<StandardComponent> Components = new List<StandardComponent>();
         
         public Tree<IStateNode> states { get; set; }
         public Tree<IStateNode> stateTree = new Tree<IStateNode>();
@@ -153,6 +157,21 @@ namespace UDT.Core
             return Instance.Objects.FindAll(x => x.name == name).ToArray();
         }
 
+        public StandardComponent GetComponentFromPrefab(string name)
+        {
+            return Instance.Components.Find(x => x.Object.prefab.name == name);
+        }
+        
+        /// <summary>
+        /// Gets all the Components of the specified type that are currently being managed by the System
+        /// </summary>
+        /// <typeparam name="TComponent"></typeparam>
+        /// <returns></returns>
+        public new StandardComponent[] GetComponents<TComponent>() where TComponent : StandardComponent
+        {
+            return Instance.Components.FindAll(x => x is TComponent).ToArray();
+        }
+
         /// <summary>
         /// Gets the specified system if it exists
         /// </summary>
@@ -166,13 +185,19 @@ namespace UDT.Core
         public virtual void OnComponentAdded(StandardComponent standardComponent, Type type = null)
         {
             if (type == GetType())
+            {
                 AddObject(standardComponent.Object);
+                Components.Add(standardComponent);
+            }
         }
 
         public virtual void OnComponentRemoved(StandardComponent standardComponent, Type type = null)
         {
             if (type == GetType())
+            {
                 RemoveObject(standardComponent.Object);
+                Components.Add(standardComponent);
+            }
         }
 
         /// <summary>
