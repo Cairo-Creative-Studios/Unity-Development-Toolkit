@@ -167,7 +167,7 @@ namespace UDT.Core
         /// </summary>
         /// <typeparam name="TComponent"></typeparam>
         /// <returns></returns>
-        public static new StandardComponent[] GetComponents<TComponent>() where TComponent : StandardComponent
+        public new static StandardComponent[] GetComponents<TComponent>() where TComponent : StandardComponent
         {
             return Instance.Components.FindAll(x => x is TComponent).ToArray();
         }
