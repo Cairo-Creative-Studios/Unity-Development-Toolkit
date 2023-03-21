@@ -112,7 +112,12 @@ namespace UDT.Core
         {
             base.Data = ScriptableObject.CreateInstance<TComponentData>();
         }
-        public new TComponentData Data => (TComponentData)base.Data;
+
+        public new TComponentData Data
+        {
+            get => (TComponentData)base.Data;
+            set => base.Data = value;
+        }
 
         public override void OnReset()
         {
@@ -138,8 +143,12 @@ namespace UDT.Core
             base.Data = ScriptableObject.CreateInstance<TComponentData>();
         }
         public System<TSystem> system;
-
-        public new TComponentData Data => (TComponentData)base.Data;
+        
+        public new TComponentData Data
+        {
+            get => (TComponentData)base.Data;
+            set => base.Data = value;
+        }
 
         public override void OnInstantiate()
         {
