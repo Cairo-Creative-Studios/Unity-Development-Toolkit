@@ -286,18 +286,32 @@ namespace UDT.Core
             
             public void OnInputAction(InputAction.CallbackContext context)
             {
+                var newControllables = Controllables;
+                
                 foreach (var c in Controllables)
                 {
-                    c.OnInputAction(context);
+                    if (c != null)
+                        c.OnInputAction(context);
+                    else
+                        newControllables.Remove(c);
                 }
+
+                Controllables = newControllables;
             }
      
             public void OnInputAction(SerializedInput input)
             {
+                var newControllables = Controllables;
+                
                 foreach (var c in Controllables)
                 {
-                    c.OnInputAction(input);
+                    if (c != null)
+                        c.OnInputAction(input);
+                    else
+                        newControllables.Remove(c);
                 }
+
+                Controllables = newControllables;
             }
 
             public bool Possess(Controller controller)
