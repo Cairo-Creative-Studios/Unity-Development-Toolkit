@@ -23,9 +23,37 @@ namespace UDT.Core
         public int UID;
         public int IID;
         public List<string> tags = new List<string>();
-
+        
+        /// <summary>
+        /// 
+        /// </summary>
         public SerializableDictionary<StandardComponent, ComponentDataBase> Components =
             new SerializableDictionary<StandardComponent, ComponentDataBase>();
+
+        /// <summary>
+        /// The Current State of the Object.
+        /// </summary>
+        [Dropdown("states")]
+        public string State;
+        private DropdownList<string> GetStates()
+        {
+            var list = new DropdownList<string>();
+            foreach (var state in states)
+            {
+                list.Add(state.stateName, state.stateName);
+            }
+
+            return list;    
+        }
+        
+        /// <summary>
+        /// The Object States, which toggle the Components within them on and off depending on the State of the Object.
+        /// </summary>
+        public List<ObjectState> states = new List<ObjectState>();
+        /// <summary>
+        /// The History of the last States that each Component was in before the State was changed.
+        /// </summary>
+        private Dictionary<ComponentDataBase, bool> previousState; 
 
         struct StandardEvents
         {
@@ -70,70 +98,116 @@ namespace UDT.Core
 
         private void Reset()
         {
-            foreach (var component in Components.Keys)
+            if(Application.isPlaying)
             {
-                component.Object = this;
+                foreach (var component in Components.Keys)
+                {
+                    component.Object = this;
+                }
             }
         }
 
         private void Awake()
         {
-            _standardEvents.onAwake?.Invoke();
-
-            foreach (var component in Components.Keys)
+            if(Application.isPlaying)
             {
-                component.Object = this;
-                component.OnInstantiate();
+                _standardEvents.onAwake?.Invoke();
+
+                foreach (var component in Components.Keys)
+                {
+                    component.Object = this;
+                    component.OnInstantiate();
+                }
             }
         }
 
         private void Start()
         {
-            _standardEvents.onStart?.Invoke();
+            if(Application.isPlaying)
+                _standardEvents.onStart?.Invoke();
         }
 
+        [ExecuteAlways]
         private void Update()
         {
-            _standardEvents.onUpdate?.Invoke();
+            if(Application.isPlaying)
+                _standardEvents.onUpdate?.Invoke();
+            else
+            {
+                foreach (var component in Components.Keys)
+                {
+                    component.Object = this;
+                }
+            }
         }
 
         private void LateUpdate()
         {
-            _standardEvents.onLateUpdate?.Invoke();
+            if(Application.isPlaying)
+                _standardEvents.onLateUpdate?.Invoke();
         }
 
         private void FixedUpdate()
         {
-            _standardEvents.onFixedUpdate?.Invoke();
+            if(Application.isPlaying)
+                _standardEvents.onFixedUpdate?.Invoke();
         }
 
         private void OnEnable()
         {
-            _standardEvents.onOnEnable?.Invoke();
+            if(Application.isPlaying)
+                _standardEvents.onOnEnable?.Invoke();
         }
 
         private void OnDisable()
         {
-            _standardEvents.onOnDisable?.Invoke();
+            if(Application.isPlaying)
+                _standardEvents.onOnDisable?.Invoke();
         }
 
         private void OnApplicationQuit()
         {
-            _applicationEvents.onOnApplicationQuit?.Invoke();
+            if(Application.isPlaying)
+                _applicationEvents.onOnApplicationQuit?.Invoke();
         }
 
         private void OnApplicationFocus(bool focus)
         {
-            _applicationEvents.onOnApplicationFocus?.Invoke(focus);
+            if(Application.isPlaying)
+                _applicationEvents.onOnApplicationFocus?.Invoke(focus);
         }
 
         private void OnCollisionEnter(Collision collision)
         {
-            _collisionEvents.onOnCollisionEnter?.Invoke(collision);
+            if(Application.isPlaying)
+                _collisionEvents.onOnCollisionEnter?.Invoke(collision);
         }
         private void OnCollisionStay(Collision collision)
         {
-            _collisionEvents.onOnCollisionStay?.Invoke(collision);
+            if(Application.isPlaying)
+                _collisionEvents.onOnCollisionStay?.Invoke(collision);
+        }
+
+        /// <summary>
+        /// Set the State of the Object, which will toggle the Components within it on and off.
+        /// </summary>
+        /// <param name="stateName"></param>
+        public void SetState(string stateName)
+        {
+            foreach(ObjectState state in states)
+            {
+                if(state.stateName == stateName)
+                {
+                    foreach(var component in state.enableComponents)
+                    {
+                        component.enabled = true;
+                    }
+                    foreach(var component in state.disableComponents)
+                    {
+                        component.enabled = false;
+                    }
+                }
+            }
         }
 
         public void Free()
@@ -156,7 +230,8 @@ namespace UDT.Core
 
         public void OnCreate()
         {
-            ObjectModule.HandleInstantiatedObject(this);
+            if(Application.isPlaying)
+                ObjectModule.HandleInstantiatedObject(this);
         }
 
         /// <summary>
@@ -353,5 +428,16 @@ namespace UDT.Core
 
             return isControllable;
         }
+    }
+
+    [Serializable]
+    public class ObjectState
+    {
+        public string stateName;
+        public List<StandardComponent> enableComponents = new List<StandardComponent>();
+        public List<StandardComponent> disableComponents = new List<StandardComponent>();
+        
+        [HideInInspector]
+        public StandardObject standardObject;
     }
 }

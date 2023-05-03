@@ -14,9 +14,8 @@ namespace UDT.Core
     {
         [Expandable] public ComponentDataBase Data;
         public StandardObject Object { get; set; }
-        
         public Type AttachedSystemType;
-        
+
         public virtual void OnInstantiate()
         {
         }
@@ -98,6 +97,15 @@ namespace UDT.Core
         public virtual void UnPossess()
         {
         }
+
+        /// <summary>
+        /// Set the State of the Object, which will toggle the Components within it on and off.
+        /// </summary>
+        /// <param name="stateName"></param>
+        public void SetState(string stateName)
+        {
+            Object.SetState(stateName);
+        }
     }
 
     /// <summary>
@@ -163,6 +171,11 @@ namespace UDT.Core
         public override void OnFree()
         {
             ObjectModule.OnComponentRemoved?.Invoke(this, typeof(TSystem));
+        }
+
+        public void DestroyObject()
+        {
+            Object.Free();
         }
 
         public override void OnReset()
