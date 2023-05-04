@@ -106,6 +106,16 @@ namespace UDT.Core
         {
             Object.SetState(stateName);
         }
+        
+        public void AddState(string stateName)
+        {
+            Object.AddState(stateName);
+        }
+        
+        public void AddComponentToState(string stateName, StandardComponent componentType, bool enabled = true)
+        {
+            Object.AddComponentToState(stateName, componentType, enabled);
+        }
     }
 
     /// <summary>

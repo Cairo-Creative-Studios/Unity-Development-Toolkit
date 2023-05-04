@@ -209,7 +209,36 @@ namespace UDT.Core
                 }
             }
         }
-
+        
+        /// <summary>
+        /// Add a new State to the Object, which will toggle the Components within it on and off.
+        /// </summary>
+        /// <param name="stateName"></param>
+        public void AddState(string stateName)
+        {
+            states.Add(new ObjectState(stateName));
+        }
+        
+        /// <summary>
+        /// Add a Component to a State, which will toggle it on and off when the State is set.
+        /// </summary>
+        /// <param name="stateName"></param>
+        /// <param name="component"></param>
+        /// <param name="enabled"></param>
+        public void AddComponentToState(string stateName, StandardComponent component, bool enabled = true)
+        {
+            foreach(ObjectState state in states)
+            {
+                if(state.stateName == stateName)
+                {
+                    if(enabled)
+                        state.enableComponents.Add(component);
+                    else
+                        state.disableComponents.Add(component);
+                }
+            }
+        }
+        
         public void Free()
         {
             foreach(var component in Components.Keys)
@@ -439,5 +468,10 @@ namespace UDT.Core
         
         [HideInInspector]
         public StandardObject standardObject;
+        
+        public ObjectState(string stateName)
+        {
+            this.stateName = stateName;
+        }
     }
 }
