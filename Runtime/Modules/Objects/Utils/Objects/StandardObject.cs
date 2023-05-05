@@ -220,6 +220,17 @@ namespace UDT.Core
         }
         
         /// <summary>
+        /// Set the State of a Component
+        /// </summary>
+        /// <param name="stateName"></param>
+        /// <typeparam name="T">Component Type</typeparam>
+        public void SetComponentState<T>(string stateName) where T : StandardComponent
+        {
+            var component = GetComponent<T>();
+            StateMachineModule.SetState(component, stateName);
+        }
+        
+        /// <summary>
         /// Add a new State to the Object, which will toggle the Components within it on and off.
         /// </summary>
         /// <param name="stateName"></param>
