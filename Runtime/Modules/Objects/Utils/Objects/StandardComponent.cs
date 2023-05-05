@@ -1,6 +1,7 @@
 using System;
 using NaughtyAttributes;
 using UDT.Core.Controllables;
+using UDT.Data;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,7 +11,7 @@ namespace UDT.Core
     /// Provides a base class for Standard Components that can be added to the Standard Object.
     /// This will allow you to use the Standard Object's Component Management System.
     /// </summary>
-    public class StandardComponent : MonoBehaviour
+    public class StandardComponent : MonoBehaviour, IFSM
     {
         [Expandable] public ComponentDataBase Data;
         public StandardObject Object { get; set; }
@@ -69,6 +70,9 @@ namespace UDT.Core
 
         public void OnReady()
         {
+            // Add the State Machine to the State Machine Module
+            StateMachineModule.AddStateMachine(this);
+            
             // Using reflection.
             System.Attribute[] attrs = System.Attribute.GetCustomAttributes(typeof(RequireStandardComponent));  // Reflection.
 
@@ -95,6 +99,12 @@ namespace UDT.Core
         }
 
         public virtual void UnPossess()
+        {
+        }
+
+        public Tree<IStateNode> states { get; set; }
+
+        public void InitMachine()
         {
         }
 

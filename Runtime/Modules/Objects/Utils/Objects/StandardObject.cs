@@ -42,7 +42,6 @@ namespace UDT.Core
             {
                 list.Add(state.stateName, state.stateName);
             }
-
             return list;    
         }
         
@@ -207,6 +206,12 @@ namespace UDT.Core
                         component.enabled = false;
                     }
                 }
+            }
+
+            //Set the State of the Components in the State Machine Module
+            foreach (var component in Components.Keys)
+            {
+                StateMachineModule.SetState(component, stateName);
             }
         }
         
