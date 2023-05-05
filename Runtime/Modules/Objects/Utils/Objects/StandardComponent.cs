@@ -117,6 +117,19 @@ namespace UDT.Core
             Object.SetState(stateName);
         }
         
+        /// <summary>
+        /// Set the State of this Component
+        /// </summary>
+        /// <param name="stateName"></param>
+        public void SetComponentState(string stateName)
+        {
+            Object.SetComponentState(this, stateName);
+        }
+        
+        /// <summary>
+        /// Add a State to the Object, for Component Management
+        /// </summary>
+        /// <param name="stateName"></param>
         public void AddState(string stateName)
         {
             Object.AddState(stateName);

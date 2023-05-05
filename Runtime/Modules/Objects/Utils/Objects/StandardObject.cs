@@ -207,12 +207,16 @@ namespace UDT.Core
                     }
                 }
             }
-
-            //Set the State of the Components in the State Machine Module
-            foreach (var component in Components.Keys)
-            {
-                StateMachineModule.SetState(component, stateName);
-            }
+        }
+        
+        /// <summary>
+        /// Set the State of a Component
+        /// </summary>
+        /// <param name="component"></param>
+        /// <param name="stateName"></param>
+        public void SetComponentState(StandardComponent component, string stateName)
+        {
+            StateMachineModule.SetState(component, stateName);
         }
         
         /// <summary>
