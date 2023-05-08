@@ -30,6 +30,7 @@ namespace UDT.Core
     public class StandardEvent : StandardEventBase
     {
         public UnityEvent UnityEvent;
+        public Action Action;
         
         /// <summary>
         /// Access the Unity Event, to add/remove listeners, or trigger the event.
@@ -65,10 +66,29 @@ namespace UDT.Core
             this.triggered = true;
             this.tick = Time.frameCount;
             this.UnityEvent.Invoke();
+            this.Action?.Invoke();
         }
         
         public StandardEvent(string name) : base(name)
         {
+        }
+
+        /// <summary>
+        /// AddMethod a method to the event.
+        /// </summary>
+        /// <param name="method"></param>
+        public void AddMethod(Action method)
+        {
+            Action += method;
+        }
+        
+        /// <summary>
+        /// RemoveMethod a method from the event.
+        /// </summary>
+        /// <param name="method"></param>
+        public void RemoveMethod(Action method)
+        {
+            Action -= method;
         }
     }
 
@@ -78,14 +98,14 @@ namespace UDT.Core
     /// </summary>
     public class StandardEvent<T> : StandardEventBase
     {
-        public UnityEvent UnityEvent;
-        public Func<T> CsEvent;
+        public UnityEvent<T> UnityEvent;
+        public Action<T> Action;
         
         /// <summary>
         /// Access the Unity Event, to add/remove listeners, or trigger the event.
         /// </summary>
         /// <param name="args"></param>
-        public UnityEvent this[object[] args]
+        public UnityEvent<T> this[object[] args]
         {
             set
             {
@@ -109,11 +129,12 @@ namespace UDT.Core
         /// <summary>
         /// Invoke the event.
         /// </summary>
-        public void Invoke()
+        public void Invoke(T arg)
         {
             this.triggered = true;
             this.tick = Time.frameCount;
-            this.UnityEvent.Invoke();
+            this.UnityEvent.Invoke(arg);
+            this.Action?.Invoke(arg);
         }
 
         public StandardEvent(string name) : base(name)
@@ -125,18 +146,18 @@ namespace UDT.Core
         /// AddMethod a method to the event.
         /// </summary>
         /// <param name="method"></param>
-        public void AddMethod(Func<T> method)
+        public void AddMethod(Action<T> method)
         {
-            CsEvent += method;
+            Action += method;
         }
         
         /// <summary>
         /// RemoveMethod a method from the event.
         /// </summary>
         /// <param name="method"></param>
-        public void RemoveMethod(Func<T> method)
+        public void RemoveMethod(Action<T> method)
         {
-            CsEvent -= method;
+            Action -= method;
         }
     }
     
@@ -146,80 +167,8 @@ namespace UDT.Core
     /// </summary>
     public class StandardEvent<T1, T2> : StandardEventBase
     {
-        public UnityEvent<T1> UnityEvent;
-        public Func<T1, T2> CsEvent;
-        
-        /// <summary>
-        /// Access the Unity Event, to add/remove listeners, or trigger the event.
-        /// </summary>
-        /// <param name="args"></param>
-        public UnityEvent<T1> this[object[] args]
-        {
-            set
-            {
-                this.UnityEvent = value;
-            }
-        }
-        
-        /// <summary>
-        /// This allows the event to be triggered from a condition.
-        /// </summary>
-        /// <param name="args"></param>
-        /// <param name="value"></param>
-        public bool this[bool value]
-        {
-            get
-            {
-                return this.triggered;
-            }
-        }
-        
-        /// <summary>
-        /// Invoke the event.
-        /// </summary>
-        /// <param name="args"></param>
-        public void Invoke(T1 arg1)
-        {
-            this.triggered = true;
-            this.tick = Time.frameCount;
-            this.Args = new object[] { arg1 };
-            this.UnityEvent.Invoke(arg1);
-            CsEvent?.Invoke(arg1);
-        }
-
-        public StandardEvent(string name) : base(name)
-        {
-            this.Args = new object[] { default(T1), default(T2) };
-        }
-        
-        /// <summary>
-        /// AddMethod a method to the event.
-        /// </summary>
-        /// <param name="method"></param>
-        public void AddMethod(Func<T1, T2> method)
-        {
-            CsEvent += method;
-        }
-        
-        /// <summary>
-        /// RemoveMethod a method from the event.
-        /// </summary>
-        /// <param name="method"></param>
-        public void RemoveMethod(Func<T1, T2> method)
-        {
-            CsEvent -= method;
-        }
-    }
-    
-    /// <summary>
-    /// A Standard Event is a stored form of a UnityEvent, that allows the event's trigger to be checked from a condition.
-    /// It can be used to check events from conditions, and as a UnityEvent.
-    /// </summary>
-    public class StandardEvent<T1, T2, T3> : StandardEventBase
-    {
         public UnityEvent<T1, T2> UnityEvent;
-        public Func<T1, T2, T3> CsEvent;
-        
+        public Action<T1, T2> Action;
         
         /// <summary>
         /// Access the Unity Event, to add/remove listeners, or trigger the event.
@@ -254,43 +203,44 @@ namespace UDT.Core
         {
             this.triggered = true;
             this.tick = Time.frameCount;
-            this.Args = new object[] { arg1, arg2};
+            this.Args = new object[] { arg1, arg2 };
             this.UnityEvent.Invoke(arg1, arg2);
-            CsEvent?.Invoke(arg1, arg2);
+            this.Action?.Invoke(arg1, arg2);
         }
 
         public StandardEvent(string name) : base(name)
         {
-            this.Args = new object[] { default(T1), default(T2), default(T3)};
+            this.Args = new object[] { default(T1), default(T2) };
         }
         
         /// <summary>
         /// AddMethod a method to the event.
         /// </summary>
         /// <param name="method"></param>
-        public void AddMethod(Func<T1, T2, T3> method)
+        public void AddMethod(Action<T1, T2> method)
         {
-            CsEvent += method;
+            Action += method;
         }
         
         /// <summary>
         /// RemoveMethod a method from the event.
         /// </summary>
         /// <param name="method"></param>
-        public void RemoveMethod(Func<T1, T2, T3> method)
+        public void RemoveMethod(Action<T1, T2> method)
         {
-            CsEvent -= method;
+            Action -= method;
         }
     }
+    
     
     /// <summary>
     /// A Standard Event is a stored form of a UnityEvent, that allows the event's trigger to be checked from a condition.
     /// It can be used to check events from conditions, and as a UnityEvent.
     /// </summary>
-    public class StandardEvent<T1, T2, T3, T4> : StandardEventBase
+    public class StandardEvent<T1, T2, T3> : StandardEventBase
     {
         public UnityEvent<T1, T2, T3> UnityEvent;
-        public Func<T1, T2, T3, T4> CsEvent;
+        public Action<T1, T2, T3> Action;
         
         /// <summary>
         /// Access the Unity Event, to add/remove listeners, or trigger the event.
@@ -325,32 +275,96 @@ namespace UDT.Core
         {
             this.triggered = true;
             this.tick = Time.frameCount;
-            this.Args = new object[] { arg1, arg2, arg3,};
+            this.Args = new object[] { arg1, arg2, arg3 };
             this.UnityEvent.Invoke(arg1, arg2, arg3);
-            CsEvent?.Invoke(arg1, arg2, arg3);
+            this.Action?.Invoke(arg1, arg2, arg3);
         }
 
         public StandardEvent(string name) : base(name)
         {
-            this.Args = new object[] { default(T1), default(T2), default(T3), default(T4) };
+            this.Args = new object[] { default(T1), default(T2) };
         }
         
         /// <summary>
-        /// Add a method to the event.
+        /// AddMethod a method to the event.
         /// </summary>
         /// <param name="method"></param>
-        public void AddMethod(Func<T1, T2, T3, T4> method)
+        public void AddMethod(Action<T1, T2, T3> method)
         {
-            CsEvent += method;
+            Action += method;
         }
         
         /// <summary>
-        /// Remove a method from the event.
+        /// RemoveMethod a method from the event.
         /// </summary>
         /// <param name="method"></param>
-        public void RemoveMethod(Func<T1, T2, T3, T4> method)
+        public void RemoveMethod(Action<T1, T2, T3> method)
         {
-            CsEvent -= method;
+            Action -= method;
+        }
+    }
+
+    /// <summary>
+    /// A Standard Event is a stored form of a UnityEvent, that allows the event's trigger to be checked from a condition.
+    /// It can be used to check events from conditions, and as a UnityEvent.
+    /// </summary>
+    public class StandardEvent<T1, T2, T3, T4> : StandardEventBase
+    {
+        public UnityEvent<T1, T2, T3, T4> UnityEvent;
+        public Action<T1, T2, T3, T4> Action;
+
+        /// <summary>
+        /// Access the Unity Event, to add/remove listeners, or trigger the event.
+        /// </summary>
+        /// <param name="args"></param>
+        public UnityEvent<T1, T2, T3, T4> this[object[] args]
+        {
+            set { this.UnityEvent = value; }
+        }
+
+        /// <summary>
+        /// This allows the event to be triggered from a condition.
+        /// </summary>
+        /// <param name="args"></param>
+        /// <param name="value"></param>
+        public bool this[bool value]
+        {
+            get { return this.triggered; }
+        }
+
+        /// <summary>
+        /// Invoke the event.
+        /// </summary>
+        /// <param name="args"></param>
+        public void Invoke(T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+        {
+            this.triggered = true;
+            this.tick = Time.frameCount;
+            this.Args = new object[] { arg1, arg2, arg3, arg4 };
+            this.UnityEvent.Invoke(arg1, arg2, arg3, arg4);
+            this.Action?.Invoke(arg1, arg2, arg3, arg4);
+        }
+
+        public StandardEvent(string name) : base(name)
+        {
+            this.Args = new object[] { default(T1), default(T2) };
+        }
+
+        /// <summary>
+        /// AddMethod a method to the event.
+        /// </summary>
+        /// <param name="method"></param>
+        public void AddMethod(Action<T1, T2, T3, T4> method)
+        {
+            Action += method;
+        }
+
+        /// <summary>
+        /// RemoveMethod a method from the event.
+        /// </summary>
+        public void RemoveMethod(Action<T1, T2, T3, T4> method)
+        {
+            Action -= method;
         }
     }
 }
