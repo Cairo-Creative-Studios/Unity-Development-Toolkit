@@ -69,20 +69,20 @@ namespace UDT.Core
         struct CollisionEvents
         {
             //Collision Events
-            public StandardEvent<Collision> onOnCollisionEnter;
-            public StandardEvent<Collision> onOnCollisionStay;
-            public StandardEvent<Collision> onOnCollisionExit;
-            public StandardEvent<Collider> onOnTriggerEnter;
-            public StandardEvent<Collider> onOnTriggerStay;
-            public StandardEvent<Collider> onOnTriggerExit;
+            public StandardEvent<object, Collision> onOnCollisionEnter;
+            public StandardEvent<object, Collision> onOnCollisionStay;
+            public StandardEvent<object, Collision> onOnCollisionExit;
+            public StandardEvent<object, Collider> onOnTriggerEnter;
+            public StandardEvent<object, Collider> onOnTriggerStay;
+            public StandardEvent<object, Collider> onOnTriggerExit;
         }
 
         struct ApplicationEvents
         {
             //Application Events
             public StandardEvent onOnApplicationQuit;
-            public StandardEvent<bool> onOnApplicationFocus;
-            public StandardEvent<bool> onOnApplicationPause;
+            public StandardEvent<object, bool> onOnApplicationFocus;
+            public StandardEvent<object, bool> onOnApplicationPause;
         }
         
         /// <summary>
