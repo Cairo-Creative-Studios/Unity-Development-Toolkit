@@ -112,7 +112,7 @@ namespace UDT.Core
         /// Set the State of the Object, which will toggle the Components within it on and off.
         /// </summary>
         /// <param name="stateName"></param>
-        public void SetState(string stateName)
+        public void _SetState(string stateName)
         {
             Object.SetState(stateName);
         }

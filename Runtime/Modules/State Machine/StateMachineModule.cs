@@ -148,7 +148,7 @@ namespace UDT.Core
         /// Sets the State to the State with the given path
         /// </summary>
         /// <param name="statePath"></param>
-        public void SetState(string statePath)
+        public void _SetState(string statePath)
         {
             StateMachineModule.AddStateMachine(this);
             StateMachineModule.SetState(this, statePath);

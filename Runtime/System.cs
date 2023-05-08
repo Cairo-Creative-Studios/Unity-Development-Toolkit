@@ -51,7 +51,7 @@ namespace UDT.Core
         /// Set the State of the Runtime
         /// </summary>
         /// <param name="path">The Path to the desired State</param>
-        public void SetState(string path)
+        public void _SetState(string path)
         {
             StateMachineModule.SetState(this, path);
         }
@@ -198,6 +198,11 @@ namespace UDT.Core
                 RemoveObject(standardComponent.Object);
                 Components.Add(standardComponent);
             }
+        }
+
+        public static void SetState(string statePath)
+        {
+            Instance._SetState(statePath);
         }
 
         /// <summary>
