@@ -74,12 +74,13 @@ namespace UDT.Core
             StateMachineModule.AddStateMachine(this);
             
             // Using reflection.
-            System.Attribute[] attrs = System.Attribute.GetCustomAttributes(typeof(RequireStandardComponent));  // Reflection.
+            System.Attribute[] attrs = System.Attribute.GetCustomAttributes(GetType());  // Reflection.
 
             // Displaying output.
             foreach (System.Attribute attr in attrs)
             {
-                if(Object.GetStandardComponent((attr as RequireStandardComponent).type) == null)
+                var requireStandardComponent = attr as RequireStandardComponent;
+                if(requireStandardComponent != null && Object.GetStandardComponent(requireStandardComponent.type) == null)
                 {
                     Object.AddComponent((attr as RequireStandardComponent).type);
                 }
