@@ -70,12 +70,15 @@ namespace UDT.Core
 
         public void OnReady()
         {
+            Debug.Log(this + " is ready");
+            
             // Add the State Machine to the State Machine Module
             StateMachineModule.AddStateMachine(this);
             
             // Using reflection.
             System.Attribute[] attrs = System.Attribute.GetCustomAttributes(GetType());  // Reflection.
 
+            Debug.Log(attrs);
             // Displaying output.
             foreach (System.Attribute attr in attrs)
             {
