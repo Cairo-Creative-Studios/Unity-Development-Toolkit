@@ -39,6 +39,19 @@ namespace UDT.Core
         {
             OnReset();
             
+            // Using reflection.
+            System.Attribute[] attrs = System.Attribute.GetCustomAttributes(GetType());  // Reflection.
+
+            // Displaying output.
+            foreach (System.Attribute attr in attrs)
+            {
+                var requireStandardComponent = attr as RequireStandardComponent;
+                if(requireStandardComponent != null && Object.GetStandardComponent(requireStandardComponent.type) == null)
+                {
+                    Object.AddComponent((attr as RequireStandardComponent).type);
+                }
+            }
+            
             //Ensure Standard Object Component
             if (Object == null) Object = gameObject.GetComponentInParent<StandardObject>();
             if (Object == null) Object = gameObject.GetComponent<StandardObject>();
@@ -70,24 +83,8 @@ namespace UDT.Core
 
         public void OnReady()
         {
-            Debug.Log(this + " is ready");
-            
             // Add the State Machine to the State Machine Module
             StateMachineModule.AddStateMachine(this);
-            
-            // Using reflection.
-            System.Attribute[] attrs = System.Attribute.GetCustomAttributes(GetType());  // Reflection.
-
-            Debug.Log(attrs);
-            // Displaying output.
-            foreach (System.Attribute attr in attrs)
-            {
-                var requireStandardComponent = attr as RequireStandardComponent;
-                if(requireStandardComponent != null && Object.GetStandardComponent(requireStandardComponent.type) == null)
-                {
-                    Object.AddComponent((attr as RequireStandardComponent).type);
-                }
-            }
         }
         
         public virtual void OnInputAction(InputAction.CallbackContext context)
