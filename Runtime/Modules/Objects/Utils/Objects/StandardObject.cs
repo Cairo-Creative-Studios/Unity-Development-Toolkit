@@ -397,7 +397,7 @@ namespace UDT.Core
             public Byte InputByte;
             public bool IsPossessed;
             public Controller Controller;
-            public List<StandardComponent> Controllables;
+            public List<StandardComponent> Controllables = new List<StandardComponent>();
             
             public ControllerValues(Byte inputByte = default, bool isPossessed = default, Controller controller = null)
             {
@@ -458,7 +458,7 @@ namespace UDT.Core
         /// </summary>
         [Tooltip("The Controller Values of the Object")]
         [ShowIf("IsControllable")]
-        public ControllerValues controllerValues;
+        public ControllerValues controllerValues = new ControllerValues();
         
         public bool IsControllable()
         {
