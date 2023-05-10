@@ -39,6 +39,11 @@ namespace UDT.Core
         {
             OnReset();
             
+            //Ensure Standard Object Component
+            if (Object == null) Object = gameObject.GetComponentInParent<StandardObject>();
+            if (Object == null) Object = gameObject.GetComponent<StandardObject>();
+            if (Object == null) Object = gameObject.AddComponent<StandardObject>();
+            
             // Using reflection.
             System.Attribute[] attrs = System.Attribute.GetCustomAttributes(GetType());  // Reflection.
 
@@ -51,12 +56,7 @@ namespace UDT.Core
                     Object.AddComponent((attr as RequireStandardComponent).type);
                 }
             }
-            
-            //Ensure Standard Object Component
-            if (Object == null) Object = gameObject.GetComponentInParent<StandardObject>();
-            if (Object == null) Object = gameObject.GetComponent<StandardObject>();
-            if (Object == null) Object = gameObject.AddComponent<StandardObject>();
-            
+
             //Ensure correct Component Hierarchy
             var childName = Data.GetAttachedGOPath();
             if (childName != "" && childName != gameObject.name)
