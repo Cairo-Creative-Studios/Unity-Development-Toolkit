@@ -51,18 +51,21 @@ namespace UDT.Core
             foreach (System.Attribute attr in attrs)
             {
                 var requireStandardComponent = attr as RequireStandardComponent;
-                if(requireStandardComponent != null && Object.GetStandardComponent(requireStandardComponent.type) == null)
+                if(requireStandardComponent != null && !Object.HasComponent((attr as RequireStandardComponent).type))
                 {
                     Object.AddComponent((attr as RequireStandardComponent).type);
                 }
             }
 
-            //Ensure correct Component Hierarchy
-            var childName = Data.GetAttachedGOPath();
-            if (childName != "" && childName != gameObject.name)
+            if (Data != null)
             {
-                Object.AddComponent(GetType(), Data, childName);
-                this.DestroyWithRequiredComponents();
+                //Ensure correct Component Hierarchy
+                var childName = Data.GetAttachedGOPath();
+                if (childName != "" && childName != gameObject.name)
+                {
+                    Object.AddComponent(GetType(), Data, childName);
+                    this.DestroyWithRequiredComponents();
+                }
             }
             
             if (!Object.HasComponent(this.GetType()))
