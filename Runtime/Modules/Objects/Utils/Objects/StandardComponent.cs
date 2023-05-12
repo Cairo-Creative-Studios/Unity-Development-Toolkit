@@ -63,6 +63,8 @@ namespace UDT.Core
                 var childName = Data.GetAttachedGOPath();
                 if (childName != "" && childName != gameObject.name)
                 {
+                    var child = new GameObject(childName);
+                    child.transform.parent = transform;
                     Object.AddComponent(GetType(), Data, childName);
                     this.DestroyWithRequiredComponents();
                 }

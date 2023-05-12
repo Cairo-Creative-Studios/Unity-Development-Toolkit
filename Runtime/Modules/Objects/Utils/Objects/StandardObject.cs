@@ -312,7 +312,15 @@ namespace UDT.Core
         public StandardComponent AddComponent(Type componentType, ComponentDataBase data = null, string childName = "")
         {
             StandardComponent standardComponent;
-            standardComponent = (StandardComponent)gameObject.AddComponent(componentType);
+            
+            //Attempt to select the Child Component
+            GameObject selectedObject = transform.Find(childName).gameObject;
+            if (selectedObject == null)
+                selectedObject = gameObject;
+            
+            // Add the Component
+            standardComponent = (StandardComponent)selectedObject.AddComponent(componentType);
+            
             
             if (data != null)
             {
