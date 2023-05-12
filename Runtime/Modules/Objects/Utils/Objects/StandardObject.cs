@@ -330,7 +330,7 @@ namespace UDT.Core
             if (instanced)
                 standardComponent.OnInstantiate();
             
-            standardComponent.OnInstantiate();
+            //standardComponent.OnInstantiate();
 
             foreach (var c in Components.Keys)
             {
