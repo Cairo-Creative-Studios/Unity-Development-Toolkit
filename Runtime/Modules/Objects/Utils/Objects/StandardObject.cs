@@ -312,22 +312,7 @@ namespace UDT.Core
         public StandardComponent AddComponent(Type componentType, ComponentDataBase data = null, string childName = "")
         {
             StandardComponent standardComponent;
-            if (childName == "")
-                standardComponent = (StandardComponent)gameObject.AddComponent(componentType);
-            else
-            {
-                Transform child;
-                try
-                {
-                    child = transform.GetChildren().First(x => x.name == childName);
-                }
-                catch
-                {
-                    child = new GameObject(childName).transform;
-                }
-                child.transform.SetParent(transform);
-                standardComponent = (StandardComponent)child.gameObject.AddComponent(componentType);
-            }
+            standardComponent = (StandardComponent)gameObject.AddComponent(componentType);
             
             if (data != null)
             {
