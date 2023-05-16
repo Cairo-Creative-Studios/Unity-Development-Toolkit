@@ -147,6 +147,31 @@ namespace UDT.Core
         }
     }
 
+    public class SystemComponent<TSystem> : StandardComponent where TSystem : System<TSystem>
+    {
+        public System<TSystem> system;
+
+        public override void OnInstantiate()
+        {
+            base.OnInstantiate();
+            
+            AttachedSystemType = typeof(TSystem);
+            system = System<TSystem>.StartSystem();
+            
+            ObjectModule.OnComponentAdded?.Invoke(this, typeof(TSystem));
+        }
+
+        public override void OnFree()
+        {
+            ObjectModule.OnComponentRemoved?.Invoke(this, typeof(TSystem));
+        }
+
+        public void DestroyObject()
+        {
+            Object.Free();
+        }
+    }
+
     /// <summary>
     /// Use for implementing Standard Components that tie into the Component Data Managaement System
     /// This will create the Component Data for you, and will allow you to access it via the Data property without casting it yourself.
