@@ -212,4 +212,10 @@ namespace UDT.Core
             StopSystem();
         }
     }
+
+    public class System<TSystem, TSystemData> : System<TSystem> where TSystem : System<TSystem, TSystemData>
+        where TSystemData : SystemData
+    {
+        public static new TSystemData Data => (TSystemData)SystemData.GetSystemData<TSystemData>();
+    }
 }
