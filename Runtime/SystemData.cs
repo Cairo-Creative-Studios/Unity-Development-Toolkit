@@ -11,7 +11,7 @@ namespace UDT.Core
         /// <returns></returns>
         public static T GetSystemData<T>() where T : SystemData
         {
-            return Resources.Load<T>("");
+            return Resources.LoadAll<T>("")[0];
         }
     }
 }
