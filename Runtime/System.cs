@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using NaughtyAttributes;
 using UDT.Data;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -216,6 +217,7 @@ namespace UDT.Core
     public class System<TSystem, TSystemData> : System<TSystem> where TSystem : System<TSystem, TSystemData>
         where TSystemData : SystemData
     {
-        public static new TSystemData Data => (TSystemData)SystemData.GetSystemData<TSystemData>();
+        [Expandable]
+        public static new TSystemData Data = (TSystemData)SystemData.GetSystemData<TSystemData>();
     }
 }

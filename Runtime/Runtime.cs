@@ -1,4 +1,6 @@
 using UDT.Data;
+using UnityEditor;
+using UnityEngine;
 
 namespace UDT.Core
 {
@@ -36,5 +38,32 @@ namespace UDT.Core
             StateMachineModule.AddStateMachine(this);
             stateTree = states;
         }
+    }
+
+
+    /// <summary>
+    /// A Runtime Object is a Singleton that can be used to manage the state of the game's Runtime.
+    /// Extend this class to create custom Runtimes.
+    /// </summary>
+    /// <typeparam name="T">The inheriting class's Type</typeparam>
+    /// <typeparam name="TData">The Data for the Runtime</typeparam>
+    public class Runtime<T, TData> : Runtime<T> where TData : RuntimeData where T : Runtime<T>
+    {
+        public static TData Data = Resources.LoadAll<TData>("")[0];
+        
+        #if UNITY_EDITOR
+        [InitializeOnLoadMethod]
+        static void InitializeData()
+        {
+            if(Data == null)
+                Data = Resources.LoadAll<TData>("")[0];
+            if (Data == null)
+            {
+                AssetDatabase.CreateAsset(ScriptableObject.CreateInstance<TData>(),"Assets/UDT/Core/resources/" + typeof(TData).Name + ".asset");
+                AssetDatabase.SaveAssets();
+                Data = Resources.LoadAll<TData>("")[0];
+            }
+        }
+        #endif
     }
 }
