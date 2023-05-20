@@ -37,6 +37,12 @@ namespace UDT.Core
         {
             StateMachineModule.AddStateMachine(this);
             stateTree = states;
+            RuntimeStarted();
+        }
+
+        protected virtual void RuntimeStarted()
+        {
+            
         }
     }
 
@@ -65,5 +71,10 @@ namespace UDT.Core
             }
         }
         #endif
+        
+        protected override void RuntimeStarted()
+        {
+            Data = Resources.LoadAll<TData>("")[0];
+        }
     }
 }
