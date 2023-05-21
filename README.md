@@ -8,8 +8,8 @@ https://github.com/Cairo-Creative-Studios/Unity-Development-Toolkit.git
 ```
 1. Within the Unity Editor Menu Bar, Click Package Manager
 2. At the top-left, click the + button
-3. click "Add package by git URL"
-4. copy and paste the URL
+3. Click "Add package by git URL"
+4. Copy and paste the URL
 5. Click Add, and wait for it to install
 
 # About
