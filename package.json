@@ -9,5 +9,9 @@
         "toolkit",
         "framework"
     ],
+     "dependencies": {
+         "com.unity.inputsystem" : "1.4.4",
+         "com.unity.cinemachine" : "2.8.9"
+     },
     "category": "Cairo Creative Studios"
 }
