@@ -393,7 +393,7 @@ namespace UDT.Core
                     }
                 }
                 if(!found)
-                    instance.AddComponent(componentType, componentDataToUse, componentData.GetAttachedGOPath());
+                    instance.AddComponent((StandardComponent)(object)componentType, componentDataToUse, componentData.GetAttachedGOPath());
             }
 
             

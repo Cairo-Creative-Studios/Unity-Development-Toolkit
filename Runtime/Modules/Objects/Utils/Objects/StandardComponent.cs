@@ -53,7 +53,7 @@ namespace UDT.Core
                 var requireStandardComponent = attr as RequireStandardComponent;
                 if(requireStandardComponent != null && !Object.HasComponent((attr as RequireStandardComponent).type))
                 {
-                    Object.AddComponent((attr as RequireStandardComponent).type);
+                    Object.AddComponent((StandardComponent)(object)(attr as RequireStandardComponent).type);
                 }
             }
 
@@ -65,7 +65,7 @@ namespace UDT.Core
                 {
                     var child = new GameObject(childName);
                     child.transform.parent = transform;
-                    Object.AddComponent(GetType(), Data, childName);
+                    Object.AddComponent((StandardComponent)(object)GetType(), Data, childName);
                     this.DestroyWithRequiredComponents();
                 }
             }

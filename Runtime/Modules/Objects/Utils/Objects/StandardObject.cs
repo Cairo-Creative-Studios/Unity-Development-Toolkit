@@ -5,6 +5,7 @@ using NaughtyAttributes;
 using UDT.Core.Controllables;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngineInternal;
 
 namespace UDT.Core
 {
@@ -301,15 +302,15 @@ namespace UDT.Core
         }
 
         /// <summary>
-        /// Adds the specified Component to the object
+        /// Adds a Standard Component to the Object
         /// </summary>
+        /// <param name="componentType"></param>
+        /// <param name="data"></param>
+        /// <param name="childName"></param>
         /// <typeparam name="T"></typeparam>
-        public StandardComponent AddComponent<T>(ComponentDataBase data = null) where T : StandardComponent
-        {
-            return AddComponent(typeof(T), data);
-        }
-
-        public StandardComponent AddComponent(Type componentType, ComponentDataBase data = null, string childName = "")
+        /// <returns></returns>
+        [TypeInferenceRule(TypeInferenceRules.TypeOfFirstArgument)]
+        public T AddComponent<T>(T componentType = null, ComponentDataBase data = null, string childName = "") where T : StandardComponent
         {
             StandardComponent standardComponent;
             
@@ -319,7 +320,7 @@ namespace UDT.Core
                 selectedObject = gameObject;
             
             // Add the Component
-            standardComponent = (StandardComponent)selectedObject.AddComponent(componentType);
+            standardComponent = (StandardComponent)selectedObject.AddComponent<T>();
             
             
             if (data != null)
@@ -337,7 +338,7 @@ namespace UDT.Core
                 c?.OnReady();
             }
             
-            return standardComponent;
+            return (T)standardComponent;
         }
 
         /// <summary>

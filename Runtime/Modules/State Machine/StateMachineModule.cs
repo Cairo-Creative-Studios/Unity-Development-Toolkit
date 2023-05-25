@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UDT.Data;
 using UDT.Reflection;
+using UnityEngine.Serialization;
 
 namespace UDT.Core
 {
@@ -177,7 +178,7 @@ namespace UDT.Core
     public class State<T> : State
     {
         public Node<IStateNode> node = null;
-        public T root;
+        [FormerlySerializedAs("root")] public T Context;
 
         public void CoreUpdate()
         {
