@@ -1,4 +1,4 @@
-using System;
+gusing System;
 using System.Collections.Generic;
 using System.Linq;
 using NaughtyAttributes;
@@ -116,9 +116,6 @@ namespace UDT.Core
                 {
                     component.Object = this;
                     component.OnInstantiate();
-                    
-                    if(component is IControllable && !controllerValues.Controllables.Contains(component))
-                        controllerValues.Controllables.Add(component);
                 }
             }
         }
@@ -139,6 +136,9 @@ namespace UDT.Core
                 foreach (var component in Components.Keys)
                 {
                     component.Object = this;
+                    
+                    if(component is IControllable && !controllerValues.Controllables.Contains(component))
+                        controllerValues.Controllables.Add(component);
                 }
             }
         }
