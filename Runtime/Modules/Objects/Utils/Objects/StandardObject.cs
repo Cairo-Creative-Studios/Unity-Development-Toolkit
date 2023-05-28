@@ -116,6 +116,9 @@ namespace UDT.Core
                 {
                     component.Object = this;
                     component.OnInstantiate();
+                    
+                    if(component is IControllable && !controllerValues.Controllables.Contains(component))
+                        controllerValues.Controllables.Add(component);
                 }
             }
         }
