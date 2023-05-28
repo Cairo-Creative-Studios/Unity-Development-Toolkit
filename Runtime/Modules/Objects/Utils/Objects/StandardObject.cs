@@ -14,6 +14,7 @@ namespace UDT.Core
     /// Standard Objects are pooled and can be accessed by UID/IID, and their components.
     /// Object Pools are created automatically when a Standard Object is created, and they must be managed manually.
     /// </summary>
+    [ExecuteAlways]
     [AddComponentMenu("UDT/Standard Object")]
     public class StandardObject : MonoBehaviour
     {
@@ -126,7 +127,6 @@ namespace UDT.Core
                 _standardEvents.onStart?.Invoke();
         }
 
-        [ExecuteAlways]
         private void Update()
         {
             if(Application.isPlaying)
