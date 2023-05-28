@@ -133,6 +133,13 @@ namespace UDT.Core
                 _standardEvents.onUpdate?.Invoke();
             else
             {
+                var components = GetComponents<StandardComponent>();
+                foreach (var component in components)
+                {
+                    if(!Components.ContainsKey(component))
+                        Components.Add(component, new ComponentDataBase());
+                }
+                
                 foreach (var component in Components.Keys)
                 {
                     component.Object = this;

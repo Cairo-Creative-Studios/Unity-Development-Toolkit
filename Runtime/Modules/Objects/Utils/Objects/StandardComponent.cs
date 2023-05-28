@@ -150,7 +150,8 @@ namespace UDT.Core
     public class SystemComponent<TSystem> : StandardComponent where TSystem : System<TSystem>
     {
         public System<TSystem> system;
-
+        
+        
         public override void OnInstantiate()
         {
             base.OnInstantiate();
