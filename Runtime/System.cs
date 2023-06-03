@@ -60,6 +60,12 @@ namespace UDT.Core
         private void Awake()
         {
             stateTree = states;
+            InitData();
+        }
+
+        protected virtual void InitData()
+        {
+            return;
         }
         
         /// <summary>
@@ -218,6 +224,11 @@ namespace UDT.Core
         where TSystemData : SystemData
     {
         [Expandable]
-        public static new TSystemData Data = (TSystemData)SystemData.GetSystemData<TSystemData>();
+        public static new TSystemData Data;
+
+        protected override void InitData()
+        {
+            Data = (TSystemData)SystemData.GetSystemData<TSystemData>();
+        }
     }
 }
