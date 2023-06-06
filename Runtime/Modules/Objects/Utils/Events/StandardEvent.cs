@@ -17,7 +17,7 @@ namespace UDT.Core
         public bool triggered;
         public int tick;
 
-        public StandardEventBase(string name)
+        public StandardEventBase(string name = "")
         {
             this.Name = name;
         }
@@ -69,7 +69,7 @@ namespace UDT.Core
             this.Action?.Invoke();
         }
         
-        public StandardEvent(string name) : base(name)
+        public StandardEvent(string name = "") : base(name)
         {
         }
 
@@ -137,7 +137,7 @@ namespace UDT.Core
             this.Action?.Invoke(arg);
         }
 
-        public StandardEvent(string name) : base(name)
+        public StandardEvent(string name = "") : base(name)
         {
             this.Args = new object[] { default(T) };
         }
@@ -208,7 +208,7 @@ namespace UDT.Core
             this.Action?.Invoke(arg1, arg2);
         }
 
-        public StandardEvent(string name) : base(name)
+        public StandardEvent(string name = "") : base(name)
         {
             this.Args = new object[] { default(T1), default(T2) };
         }
@@ -280,7 +280,7 @@ namespace UDT.Core
             this.Action?.Invoke(arg1, arg2, arg3);
         }
 
-        public StandardEvent(string name) : base(name)
+        public StandardEvent(string name = "") : base(name)
         {
             this.Args = new object[] { default(T1), default(T2) };
         }
@@ -345,7 +345,7 @@ namespace UDT.Core
             this.Action?.Invoke(arg1, arg2, arg3, arg4);
         }
 
-        public StandardEvent(string name) : base(name)
+        public StandardEvent(string name = "") : base(name)
         {
             this.Args = new object[] { default(T1), default(T2) };
         }
