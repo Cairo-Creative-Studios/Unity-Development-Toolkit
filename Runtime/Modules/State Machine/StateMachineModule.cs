@@ -154,6 +154,25 @@ namespace UDT.Core
             StateMachineModule.AddStateMachine(this);
             StateMachineModule.SetState(this, statePath);
         }
+        
+        public IStateNode _GetState()
+        {
+            return states.currentNode.value;
+        }
+        
+        
+        public T _GetState<T>() where T : IStateNode
+        {
+            var stateList = this.states.Nodes();
+            for(int i = 0; i < stateList.Count; i++)
+            {
+                if (stateList[i] is T)
+                {
+                    return (T)(object)stateList[i];
+                }
+            }
+            return default;
+        }
     }
 
     public interface IStateNode

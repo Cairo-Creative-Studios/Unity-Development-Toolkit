@@ -211,6 +211,11 @@ namespace UDT.Core
         {
             Instance._SetState(statePath);
         }
+        
+        public static TState GetState<TState>() where TState : IStateNode
+        {
+            return Instance._GetState<TState>();
+        }
 
         /// <summary>
         /// When the System is destroyed, call Stop the System.
