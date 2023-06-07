@@ -214,7 +214,15 @@ namespace UDT.Core
         
         public static TState GetState<TState>() where TState : IStateNode
         {
-            return Instance._GetState<TState>();
+            var stateList = Instance.stateTree.Nodes();
+            for(int i = 0; i < stateList.Count; i++)
+            {
+                if (stateList[i] is TState)
+                {
+                    return (TState)(object)stateList[i];
+                }
+            }
+            return default;
         }
 
         /// <summary>
