@@ -390,7 +390,7 @@ namespace UDT.Core
             nextStateType = typeof(TNextState);
         }
         
-        public void CompleteTransition()
+        public virtual void CompleteTransition()
         {
             StateMachineModule.SetState(Machine, nextState.Path);
         }
