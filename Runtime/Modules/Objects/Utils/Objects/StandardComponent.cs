@@ -16,6 +16,7 @@ namespace UDT.Core
         [Expandable] public ComponentDataBase Data;
         public StandardObject Object { get; set; }
         public Type AttachedSystemType;
+        public Transition[] transitions { get; set; }
 
         public virtual void OnInstantiate()
         {

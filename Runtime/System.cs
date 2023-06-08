@@ -28,6 +28,7 @@ namespace UDT.Core
         public List<StandardComponent> Components = new List<StandardComponent>();
         
         public Tree<IStateNode> states { get; set; }
+        public Transition[] transitions { get; set; }
         public Tree<IStateNode> stateTree = new Tree<IStateNode>();
         
         public T BaseInstance => Instance;

@@ -13,6 +13,7 @@ namespace UDT.Core
     {        
         public Tree<IStateNode> states { get; set; }
         public Tree<IStateNode> stateTree = new Tree<IStateNode>();
+        public Transition[] transitions { get; set; }
 
         public void InitMachine()
         {
