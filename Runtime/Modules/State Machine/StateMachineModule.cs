@@ -47,8 +47,19 @@ namespace UDT.Core
             //Add a reference to the Tree Node in the Created State
             foreach (Node<IStateNode> node in createdMachine.states.ToArray())
             {
-                node.value.SetField("node", node);
-                node.value.SetField("root", node.parent.value);
+                if (node.value is State stateNode)
+                {
+                    stateNode.node = node;
+                    stateNode.Context = node.parent.value;
+
+                    var path = "";
+                    while (node.parent != null)
+                    {
+                        path = node.parent.value + "/" + path;
+                    }
+                    
+                    stateNode.Path = path;
+                }
             }
 
             //Call the Enter Method on the active State
@@ -182,6 +193,10 @@ namespace UDT.Core
     
     public class State : IStateNode
     {
+        public Node<IStateNode> node = null;
+        public object Context;
+        public string Path;
+        
         public virtual void Enter()
         {
         }
@@ -196,8 +211,7 @@ namespace UDT.Core
     [Serializable]
     public class State<T> : State
     {
-        public Node<IStateNode> node = null;
-        [FormerlySerializedAs("root")] public T Context;
+        public new T Context;
 
         public void CoreUpdate()
         {
@@ -301,6 +315,29 @@ namespace UDT.Core
         public override string ToString()
         {
             return GetType().Name;
+        }
+    }
+
+    public abstract class Transition<PreviousState, NextState> where PreviousState : State where NextState : State
+    {
+        private PreviousState previousState;
+        private NextState nextState;
+        private IFSM Machine;
+        
+        public Transition(IFSM Machine)
+        {
+            previousState = Machine._GetState<PreviousState>();
+            nextState = Machine._GetState<NextState>();
+            this.Machine = Machine;
+            
+            OnTransition(Machine, previousState, nextState);
+        }
+        
+        public abstract void OnTransition(IFSM Machine, PreviousState previousState, NextState nextState);
+        
+        public void CompleteTransition()
+        {
+            StateMachineModule.SetState(Machine, nextState.Path);
         }
     }
 }
