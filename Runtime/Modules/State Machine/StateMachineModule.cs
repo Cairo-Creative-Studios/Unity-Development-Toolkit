@@ -329,6 +329,11 @@ namespace UDT.Core
         }
     }
 
+    /// <summary>
+    /// Extend this class to create a Transition between two States, and call CompleteTransition() when the Transition is completed.
+    /// </summary>
+    /// <typeparam name="PreviousState"></typeparam>
+    /// <typeparam name="NextState"></typeparam>
     public abstract class Transition<PreviousState, NextState> where PreviousState : State where NextState : State
     {
         private PreviousState previousState;
