@@ -44,6 +44,11 @@ namespace UDT.Core
         {
             
         }
+        
+        public static void SetState(string path)
+        {
+            StateMachineModule.SetState(Instance, path);
+        }
     }
 
 
