@@ -77,7 +77,7 @@ namespace UDT.Core
         /// AddMethod a method to the event.
         /// </summary>
         /// <param name="method"></param>
-        public void AddMethod(Action method)
+        public void AddListener(Action method)
         {
             Action += method;
         }
@@ -86,9 +86,17 @@ namespace UDT.Core
         /// RemoveMethod a method from the event.
         /// </summary>
         /// <param name="method"></param>
-        public void RemoveMethod(Action method)
+        public void RemoveListener(Action method)
         {
             Action -= method;
+        }
+        
+        /// <summary>
+        /// Clear all subscribers.
+        /// </summary>
+        public void ClearSubscribers()
+        {
+            Action = null;
         }
     }
 
@@ -146,7 +154,7 @@ namespace UDT.Core
         /// AddMethod a method to the event.
         /// </summary>
         /// <param name="method"></param>
-        public void AddMethod(Action<T> method)
+        public void AddListener(Action<T> method)
         {
             Action += method;
         }
@@ -155,9 +163,17 @@ namespace UDT.Core
         /// RemoveMethod a method from the event.
         /// </summary>
         /// <param name="method"></param>
-        public void RemoveMethod(Action<T> method)
+        public void RemoveListener(Action<T> method)
         {
             Action -= method;
+        }
+        
+        /// <summary>
+        /// Clear all subscribers.
+        /// </summary>
+        public void ClearSubscribers()
+        {
+            Action = null;
         }
     }
     
@@ -217,7 +233,7 @@ namespace UDT.Core
         /// AddMethod a method to the event.
         /// </summary>
         /// <param name="method"></param>
-        public void AddMethod(Action<T1, T2> method)
+        public void AddListener(Action<T1, T2> method)
         {
             Action += method;
         }
@@ -226,9 +242,17 @@ namespace UDT.Core
         /// RemoveMethod a method from the event.
         /// </summary>
         /// <param name="method"></param>
-        public void RemoveMethod(Action<T1, T2> method)
+        public void RemoveListener(Action<T1, T2> method)
         {
             Action -= method;
+        }
+        
+        /// <summary>
+        /// Clear all subscribers.
+        /// </summary>
+        public void ClearSubscribers()
+        {
+            Action = null;
         }
     }
     
@@ -289,7 +313,7 @@ namespace UDT.Core
         /// AddMethod a method to the event.
         /// </summary>
         /// <param name="method"></param>
-        public void AddMethod(Action<T1, T2, T3> method)
+        public void AddListener(Action<T1, T2, T3> method)
         {
             Action += method;
         }
@@ -298,9 +322,17 @@ namespace UDT.Core
         /// RemoveMethod a method from the event.
         /// </summary>
         /// <param name="method"></param>
-        public void RemoveMethod(Action<T1, T2, T3> method)
+        public void RemoveListener(Action<T1, T2, T3> method)
         {
             Action -= method;
+        }
+        
+        /// <summary>
+        /// Clear all subscribers.
+        /// </summary>
+        public void ClearSubscribers()
+        {
+            Action = null;
         }
     }
 
@@ -354,7 +386,7 @@ namespace UDT.Core
         /// AddMethod a method to the event.
         /// </summary>
         /// <param name="method"></param>
-        public void AddMethod(Action<T1, T2, T3, T4> method)
+        public void AddListener(Action<T1, T2, T3, T4> method)
         {
             Action += method;
         }
@@ -362,9 +394,17 @@ namespace UDT.Core
         /// <summary>
         /// RemoveMethod a method from the event.
         /// </summary>
-        public void RemoveMethod(Action<T1, T2, T3, T4> method)
+        public void RemoveListener(Action<T1, T2, T3, T4> method)
         {
             Action -= method;
+        }
+        
+        /// <summary>
+        /// Clear all subscribers.
+        /// </summary>
+        public void ClearSubscribers()
+        {
+            Action = null;
         }
     }
 }
