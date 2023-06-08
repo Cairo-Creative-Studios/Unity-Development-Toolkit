@@ -29,6 +29,18 @@ namespace UDT.Core
             StateMachineModule.SetState(this, path);
         }
         
+        
+        public void _Transition<TPreviousState, TNextState>()
+        {
+            ((IFSM)this).Transition<TPreviousState, TNextState>();
+        }
+        
+        public static void Transition<TPreviousState, TNextState>()
+        {
+            Instance._Transition<TPreviousState, TNextState>();
+        }
+
+        
         /// <summary>
         /// This Static Method spawns any Runtime Classes that are exist in Scripts as soon as the Runtime starts.
         /// That said, you should limit yourself to only one Runtime. If you would like to create seperate management

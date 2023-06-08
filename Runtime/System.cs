@@ -212,6 +212,16 @@ namespace UDT.Core
         {
             Instance._SetState(statePath);
         }
+
+        public void _Transition<TPreviousState, TNextState>()
+        {
+            ((IFSM)this).Transition<TPreviousState, TNextState>();
+        }
+        
+        public static void Transition<TPreviousState, TNextState>()
+        {
+            Instance._Transition<TPreviousState, TNextState>();
+        }
         
         public static TState GetState<TState>() where TState : IStateNode
         {
