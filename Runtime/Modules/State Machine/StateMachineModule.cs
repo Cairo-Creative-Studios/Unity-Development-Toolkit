@@ -13,7 +13,6 @@ namespace UDT.Core
     /// </summary>
     public class StateMachineModule : Singleton<StateMachineModule>
     {
-
         /// <summary>
         /// All the Machines in the State Machine Module
         /// </summary>
@@ -376,13 +375,15 @@ namespace UDT.Core
     /// </summary>
     /// <typeparam name="TPreviousState"></typeparam>
     /// <typeparam name="TNextState"></typeparam>
-    public abstract class Transition<TPreviousState, TNextState> : Transition where TPreviousState : State where TNextState : State
+    public abstract class Transition<T, TPreviousState, TNextState> : Transition where T : IFSM where TPreviousState : State where TNextState : State
     {
+        public T Context;
         public TPreviousState previousState;
         public TNextState nextState;
-        
+
         public Transition(IFSM Machine) : base(Machine)
         {
+            Context = (T)Machine;
             previousState = Machine._GetState<TPreviousState>();
             nextState = Machine._GetState<TNextState>();
             previousStateType = typeof(TPreviousState);
