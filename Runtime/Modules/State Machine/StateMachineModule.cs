@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UDT.Data;
 using UDT.Reflection;
@@ -40,6 +41,15 @@ namespace UDT.Core
         {
             //Create the new State Machine
             createdMachine.states = createdMachine.GetNestedClassesAsTree<IStateNode>("State", true);
+            
+            Type[] transitions = createdMachine.GetNestedTypesOfBaseType<IStateNode>();
+            List<Transition> transitionInstances = new();
+            
+            foreach (var transition in transitions)
+            {
+                transitionInstances.Add(Activator.CreateInstance(transition, new object[]{createdMachine}) as Transition);
+            }
+            createdMachine.transitions = transitionInstances.ToArray();
 
             if(createdMachine.states.currentNode.children == null) return;
             createdMachine.states.StepForward(createdMachine.states.currentNode.children[0].value);
@@ -145,7 +155,8 @@ namespace UDT.Core
         /// The State Machine Tree contains all the State classes within the core Object's collection of States. 
         /// </summary>
         public Tree<IStateNode> states { get; set; }
-        
+        public Transition[] transitions { get; set; }
+
         public void InitMachine();
         
         public void InitMachine(Tree<IStateNode> states)
@@ -194,6 +205,22 @@ namespace UDT.Core
         {
             var state = states.currentNode.value;
             return state.CallMethod("methodName", parameters);
+        }
+
+        public void Transition<TPreviousState, TNextState>()
+        {
+            Transition usedTransition = null;
+            
+            foreach (var transition in transitions)
+            {
+                if (transition.previousStateType == typeof(TPreviousState) && transition.nextStateType == typeof(TNextState))
+                {
+                    usedTransition = transition;
+                    break;
+                }
+            }
+            
+            usedTransition?.OnTransition(this);
         }
     }
 
@@ -329,27 +356,38 @@ namespace UDT.Core
         }
     }
 
-    /// <summary>
-    /// Extend this class to create a Transition between two States, and call CompleteTransition() when the Transition is completed.
-    /// </summary>
-    /// <typeparam name="PreviousState"></typeparam>
-    /// <typeparam name="NextState"></typeparam>
-    public abstract class Transition<PreviousState, NextState> where PreviousState : State where NextState : State
+    public abstract class Transition
     {
-        private PreviousState previousState;
-        private NextState nextState;
-        private IFSM Machine;
+        public IFSM Machine;
+        public Type previousStateType;
+        public Type nextStateType;
         
         public Transition(IFSM Machine)
         {
-            previousState = Machine._GetState<PreviousState>();
-            nextState = Machine._GetState<NextState>();
             this.Machine = Machine;
-            
-            OnTransition(Machine, previousState, nextState);
+            OnTransition(Machine);
         }
+
+        public abstract void OnTransition(IFSM Machine);
+    }
+    
+    /// <summary>
+    /// Extend this class to create a Transition between two States, and call CompleteTransition() when the Transition is completed.
+    /// </summary>
+    /// <typeparam name="TPreviousState"></typeparam>
+    /// <typeparam name="TNextState"></typeparam>
+    public abstract class Transition<TPreviousState, TNextState> : Transition where TPreviousState : State where TNextState : State
+    {
+        public TPreviousState previousState;
+        public TNextState nextState;
         
-        public abstract void OnTransition(IFSM Machine, PreviousState previousState, NextState nextState);
+        public Transition(IFSM Machine) : base(Machine)
+        {
+            previousState = Machine._GetState<TPreviousState>();
+            nextState = Machine._GetState<TNextState>();
+            previousStateType = typeof(TPreviousState);
+            nextStateType = typeof(TNextState);
+        }
         
         public void CompleteTransition()
         {

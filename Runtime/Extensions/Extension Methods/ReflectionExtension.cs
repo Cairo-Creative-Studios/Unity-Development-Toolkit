@@ -251,6 +251,25 @@ namespace UDT.Reflection
             }
             while (stack.Count > 0);
         }
+
+        public static Type[] GetNestedTypesOfBaseType<T>(this object instance)
+        {
+            return GetNestedTypesOfBaseType<T>(instance.GetType());
+        }
+        
+        public static Type[] GetNestedTypesOfBaseType<T>(this Type Context)
+        {
+            var allClasses = Context.GetNestedTypes();
+            List<Type> classes = new List<Type>();
+            
+            foreach (var type in allClasses)
+            {
+                if(type is T)
+                    classes.Add(type);
+            }
+
+            return classes.ToArray();
+        }
     }
 
     public class ReflectionContainer
