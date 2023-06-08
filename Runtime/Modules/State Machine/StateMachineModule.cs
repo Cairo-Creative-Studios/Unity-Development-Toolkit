@@ -184,6 +184,17 @@ namespace UDT.Core
             }
             return default;
         }
+        
+        /// <summary>
+        /// Calls a Method on the Current State, and it's Children
+        /// </summary>
+        /// <param name="methodNamem"></param>
+        /// <param name="parameters"></param>
+        public object CallStateMethod(string methodName, object[] parameters = null)
+        {
+            var state = states.currentNode.value;
+            return state.CallMethod("methodName", parameters);
+        }
     }
 
     public interface IStateNode
