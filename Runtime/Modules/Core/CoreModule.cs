@@ -30,8 +30,8 @@ namespace UDT.Core
                 if(type.ContainsGenericParameters)
                     continue;
 
-                var runtimeInstance = (IRuntime)type.GetProperty("Instance", BindingFlags.Static |  BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy).GetValue(null);
-                runtimeInstance.RuntimeStarted();
+                var runtimeInstance = (object)type.GetProperty("Instance", BindingFlags.Static |  BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy).GetValue(null);
+                //runtimeInstance.RuntimeStarted();
                 Instance.runtimes.Add(runtimeInstance as MonoBehaviour);
             }
         }
