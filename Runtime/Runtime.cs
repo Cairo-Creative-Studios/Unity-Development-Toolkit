@@ -73,7 +73,7 @@ namespace UDT.Core
     /// <typeparam name="TData">The Data for the Runtime</typeparam>
     public class Runtime<T, TData> : Runtime<T> where TData : RuntimeData where T : Runtime<T>
     {
-        public static TData Data = Resources.LoadAll<TData>("")[0];
+        public static TData Data; //= Resources.LoadAll<TData>("")[0];
         
         #if UNITY_EDITOR
         [InitializeOnLoadMethod]
