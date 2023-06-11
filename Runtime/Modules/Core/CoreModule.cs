@@ -27,11 +27,9 @@ namespace UDT.Core
 
             foreach (var type in runtimeTypes)
             {
-                Debug.Log(type);
-
-                if (type.ContainsGenericParameters)
+                if (type.ContainsGenericParameters || type.Name == "Runtime`1")
                 {
-                    Debug.Log(type.GetGenericArguments()[0]);
+                    Debug.Log("Skipped "+ type);
                     continue;
                 }
                 
