@@ -21,9 +21,9 @@ namespace UDT.Core
             SceneManager.MoveGameObjectToScene(Instance.gameObject, SceneManager.GetSceneByName("UDT"));
 
             //Create the Runtime Types list and add all the Runtime Types to it that exist in the current project
-            List<Type> runtimeTypes = new();
+            List<Type> runtimeTypes = new List<Type>();
             runtimeTypes.AddRange(Type.GetType("UDT.Core.Runtime`1").GetInheritedTypes()); 
-            runtimeTypes.AddRange(Type.GetType("UDT.Core.Runtime`2").GetInheritedTypes());
+            //runtimeTypes.AddRange(Type.GetType("UDT.Core.Runtime`2").GetInheritedTypes());
 
             foreach (var type in runtimeTypes)
             {
