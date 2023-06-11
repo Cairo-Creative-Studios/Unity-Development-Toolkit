@@ -23,7 +23,7 @@ namespace UDT.Core
             //Create the Runtime Types list and add all the Runtime Types to it that exist in the current project
             List<Type> runtimeTypes = new List<Type>();
             runtimeTypes.AddRange(Type.GetType("UDT.Core.Runtime`1").GetInheritedTypes()); 
-            Debug.Log(Type.GetType("UDT.Core.Runtime`2").GetInheritedTypes());
+            Debug.Log(Type.GetType("UDT.Core.Runtime`2").GetInheritedTypes()[0]);
 
             foreach (var type in runtimeTypes)
             {
