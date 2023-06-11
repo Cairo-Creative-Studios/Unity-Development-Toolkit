@@ -83,7 +83,7 @@ namespace UDT.Core
                 Data = Resources.LoadAll<TData>("")[0];
             if (Data == null)
             {
-                AssetDatabase.CreateAsset(ScriptableObject.CreateInstance<TData>(),"Assets/UDT/Core/resources/" + typeof(TData).Name + ".asset");
+                AssetDatabase.CreateAsset(ScriptableObject.CreateInstance<TData>(),"Assets/UDT/Core/Resources/" + typeof(TData).Name + ".asset");
                 AssetDatabase.SaveAssets();
                 Data = Resources.LoadAll<TData>("")[0];
             }
