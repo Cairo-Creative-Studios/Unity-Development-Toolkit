@@ -4,12 +4,17 @@ using UnityEngine;
 
 namespace UDT.Core
 {
+    public interface IRuntime
+    {
+        public void RuntimeStarted();
+    }
+
     /// <summary>
     /// A Runtime Object is a Singleton that can be used to manage the state of the game's Runtime.
     /// Extend this class to create custom Runtimes.
     /// </summary>
     /// <typeparam name="T">The inheriting class's Type</typeparam>
-    public class Runtime<T> : Singleton<T>, IFSM where T : Runtime<T>
+    public class Runtime<T> : Singleton<T>, IFSM, IRuntime where T : Runtime<T>
     {        
         public Tree<IStateNode> states { get; set; }
         public Tree<IStateNode> stateTree = new Tree<IStateNode>();
@@ -50,17 +55,16 @@ namespace UDT.Core
         {
             StateMachineModule.AddStateMachine(this);
             stateTree = states;
-            RuntimeStarted();
-        }
-
-        protected virtual void RuntimeStarted()
-        {
-            
         }
         
         public static void SetState(string path)
         {
             StateMachineModule.SetState(Instance, path);
+        }
+
+        void IRuntime.RuntimeStarted()
+        {
+            
         }
     }
 
@@ -71,26 +75,12 @@ namespace UDT.Core
     /// </summary>
     /// <typeparam name="T">The inheriting class's Type</typeparam>
     /// <typeparam name="TData">The Data for the Runtime</typeparam>
-    public class Runtime<T, TData> : Runtime<T> where TData : RuntimeData where T : Runtime<T>
+    public class Runtime<T, TData> : Runtime<T>, IRuntime where TData : RuntimeData where T : Runtime<T>
     {
         public static TData Data; //= Resources.LoadAll<TData>("")[0];
         
-        #if UNITY_EDITOR
-        [InitializeOnLoadMethod]
-        static void InitializeData()
-        {
-            if(Data == null)
-                Data = Resources.LoadAll<TData>("")[0];
-            if (Data == null)
-            {
-                AssetDatabase.CreateAsset(ScriptableObject.CreateInstance<TData>(),"Assets/UDT/Core/Resources/" + typeof(TData).Name + ".asset");
-                AssetDatabase.SaveAssets();
-                Data = Resources.LoadAll<TData>("")[0];
-            }
-        }
-        #endif
         
-        protected override void RuntimeStarted()
+        protected void RuntimeStarted()
         {
             Data = Resources.LoadAll<TData>("")[0];
         }
