@@ -23,16 +23,18 @@ namespace UDT.Core
             //Create the Runtime Types list and add all the Runtime Types to it that exist in the current project
             List<Type> runtimeTypes = new List<Type>();
             runtimeTypes.AddRange(Type.GetType("UDT.Core.Runtime`1").GetInheritedTypes()); 
-            Debug.Log(Type.GetType("UDT.Core.Runtime`2").GetInheritedTypes()[0]);
+            runtimeTypes.AddRange(Type.GetType("UDT.Core.Runtime`2").GetInheritedTypes());
 
             foreach (var type in runtimeTypes)
             {
-                if(type.ContainsGenericParameters)
-                    continue;
-
-                var runtimeInstance = (object)type.GetProperty("Instance", BindingFlags.Static |  BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy).GetValue(null);
-                //runtimeInstance.RuntimeStarted();
-                Instance.runtimes.Add(runtimeInstance as MonoBehaviour);
+                Debug.Log(type);
+                
+                // if(type.ContainsGenericParameters)
+                //     continue;
+                //
+                // var runtimeInstance = (object)type.GetProperty("Instance", BindingFlags.Static |  BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy).GetValue(null);
+                // //runtimeInstance.RuntimeStarted();
+                // Instance.runtimes.Add(runtimeInstance as MonoBehaviour);
             }
         }
         
