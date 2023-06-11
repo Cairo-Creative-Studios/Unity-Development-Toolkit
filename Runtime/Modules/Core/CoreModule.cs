@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using UDT.Reflection;
 using UnityEngine;
@@ -18,8 +19,12 @@ namespace UDT.Core
             SceneManager.CreateScene("UDT");
             Instance.enabled = true;
             SceneManager.MoveGameObjectToScene(Instance.gameObject, SceneManager.GetSceneByName("UDT"));
-            
-            Type[] runtimeTypes = Type.GetType("UDT.Core.Runtime`1").GetInheritedTypes();
+
+            //Create the Runtime Types list and add all the Runtime Types to it that exist in the current project
+            List<Type> runtimeTypes = new();
+            runtimeTypes.AddRange(Type.GetType("UDT.Core.Runtime`1").GetInheritedTypes()); 
+            runtimeTypes.AddRange(Type.GetType("UDT.Core.Runtime`2").GetInheritedTypes());
+
             foreach (var type in runtimeTypes)
             {
                 if(type.ContainsGenericParameters)

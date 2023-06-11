@@ -66,7 +66,7 @@ namespace UDT.Reflection
 
             return attributes.ToArray();
         }
-
+        
         /// <summary>
         /// Get's all Types that inherit from the given Base Type
         /// </summary>
