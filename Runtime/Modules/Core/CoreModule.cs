@@ -28,9 +28,14 @@ namespace UDT.Core
             foreach (var type in runtimeTypes)
             {
                 Debug.Log(type);
-                Debug.Log(type.GetGenericArguments()[0]);
+
+                if (type.ContainsGenericParameters)
+                {
+                    Debug.Log(type.GetGenericArguments()[0]);
+                    continue;
+                }
                 
-                 var runtimeInstance = (object)type.GetProperty("Instance", BindingFlags.Static |  BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy).GetValue(null);
+                // var runtimeInstance = (object)type.GetProperty("Instance", BindingFlags.Static |  BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy).GetValue(null);
                 // //runtimeInstance.RuntimeStarted();
                 // Instance.runtimes.Add(runtimeInstance as MonoBehaviour);
             }
