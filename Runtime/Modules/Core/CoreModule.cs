@@ -28,6 +28,7 @@ namespace UDT.Core
             foreach (var type in runtimeTypes)
             {
                 Debug.Log(type);
+                Debug.Log(type.GetGenericArguments()[0]);
                 
                  var runtimeInstance = (object)type.GetProperty("Instance", BindingFlags.Static |  BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy).GetValue(null);
                 // //runtimeInstance.RuntimeStarted();
