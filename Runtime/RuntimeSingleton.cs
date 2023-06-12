@@ -10,13 +10,11 @@ namespace UDT.Core
         
         void Start()
         {
-            if(CoreModule.DataGenerated())
                 runtime.Start();
         }
         
         void Update()
         {
-            if(CoreModule.DataGenerated())
                 runtime.Update();
         }
     }
