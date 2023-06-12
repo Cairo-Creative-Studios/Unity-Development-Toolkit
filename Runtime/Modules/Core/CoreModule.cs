@@ -63,7 +63,8 @@ namespace UDT.Core
 
                     if (runtime is IData)
                     {
-                        runtime.SetProperty("Data", GetStaticData((Type)runtime.CallMethod("GetDataType")));
+                        var DataProperty = runtime.GetType().GetProperty("Data");
+                        DataProperty.SetValue(runtime, GetStaticData(DataProperty.GetValue(runtime).GetType()));
                     }
                     
                     // Create the Runtime Singleton Game Object

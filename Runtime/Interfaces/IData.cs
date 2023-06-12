@@ -9,22 +9,7 @@ namespace UDT.Core
     
     public interface IData<T> : IData where T : Data
     {
-        public Type GetDataType() 
-        {
-            return Data.GetType();
-        }
-
-        public T Data
-        {
-            get
-            {
-                return (T)CoreModule.GetStaticData(typeof(T));
-            }
-            set
-            {
-                _data = value;
-            }
-        }
+        public T Data { get; set; }
 
         public static T _data;
     }
