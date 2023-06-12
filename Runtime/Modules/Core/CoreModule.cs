@@ -24,14 +24,14 @@ namespace UDT.Core
             
             // Generate or load all the Static Data for created classes that implement IStaticData
             List<Type> staticDataTypes = new List<Type>();
-            staticDataTypes.AddRange(typeof(Data).GetInheritedTypes());
+            staticDataTypes.AddRange(typeof(UDT.Core.Data).GetInheritedTypes());
 
             foreach (var dataType in staticDataTypes)
             {
                 var staticData = Resources.LoadAll(dataType.Name, dataType);
                 if (staticData.Length > 0)
                 {
-                    Instance.staticData.Add((Data)staticData[0]);
+                    Instance.staticData.Add((UDT.Core.Data)staticData[0]);
                 }
                 else
                 {
@@ -41,7 +41,7 @@ namespace UDT.Core
                         "Assets/Resources/" + dataType.Name + ".asset");
                     UnityEditor.AssetDatabase.SaveAssets();
 #endif
-                    Instance.staticData.Add((Data)createdInstance);
+                    Instance.staticData.Add((UDT.Core.Data)createdInstance);
                 }
             }
             
@@ -60,6 +60,11 @@ namespace UDT.Core
                     var runtime = (IRuntime)Activator.CreateInstance(type);
                     runtime.RuntimeStarted();
                     runtime._genericInstance = runtime;
+
+                    if (runtime is IData)
+                    {
+                        runtime.SetProperty("Data", GetStaticData((runtime as IData).DataType));
+                    }
                     
                     // Create the Runtime Singleton Game Object
                     var runtimeSingleton = new GameObject("Runtime " + System.Text.RegularExpressions.Regex.Replace(
@@ -69,7 +74,6 @@ namespace UDT.Core
                     Instance.runtimes.Add(runtimeSingleton);
                 }
             }
-
         }
         
         public static void AddSingleton(SingletonBase singleton)
