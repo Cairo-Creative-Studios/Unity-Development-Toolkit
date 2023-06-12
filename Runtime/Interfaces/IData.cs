@@ -10,7 +10,5 @@ namespace UDT.Core
     public interface IData<T> : IData where T : Data
     {
         public T Data { get; set; }
-
-        public static T _data;
     }
 }
