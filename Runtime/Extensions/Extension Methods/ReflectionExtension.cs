@@ -83,16 +83,33 @@ namespace UDT.Reflection
             return types.ToArray();
         }
         
+        /// <summary>
+        /// Gets all types that implement the given Interface, or implement an Interface that implements the given Interface
+        /// </summary>
+        /// <param name="Interface"></param>
+        /// <returns></returns>
         public static Type[] GetInterfacingTypes(this Type Interface)
         {
             List<Type> types = new List<Type>();
             
             foreach(var assembly in AppDomain.CurrentDomain.GetAssemblies())
+            {
                 foreach (var type in assembly.GetTypes())
-                    if(type.GetInterfaces().Length > 0)
-                        if(type.GetInterfaces().Contains(Interface))
-                            types.Add(type);
-            
+                {
+                    var interfaces = type.GetInterfaces();
+                    if (interfaces.Length > 0)
+                    {
+                        foreach (var currentInterface in interfaces)
+                        {
+                            if (currentInterface == Interface || currentInterface.IsAssignableFrom(Interface))
+                            {
+                                types.Add(type);
+                            }
+                        }
+                    }
+                }
+            }
+
             return types.ToArray();
         }
         

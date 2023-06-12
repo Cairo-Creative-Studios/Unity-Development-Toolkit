@@ -48,7 +48,7 @@ namespace UDT.Core
 
             // Generate or load all the Static Data for created classes that implement IStaticData
             List<Type> staticDataTypes = new List<Type>();
-            staticDataTypes.AddRange(typeof(StaticData).GetInterfacingTypes());
+            staticDataTypes.AddRange(typeof(StaticData).GetInheritedTypes());
 
             foreach (var dataType in staticDataTypes)
             {
