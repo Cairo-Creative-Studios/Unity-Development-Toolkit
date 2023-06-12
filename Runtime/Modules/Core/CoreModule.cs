@@ -11,7 +11,7 @@ namespace UDT.Core
     {
         public List<RuntimeSingleton> runtimes = new List<RuntimeSingleton>();
         public List<SingletonBase> singletons = new List<SingletonBase>();
-        public List<StaticData> staticData = new List<StaticData>();
+        public List<Data> staticData = new List<Data>();
 
         [RuntimeInitializeOnLoadMethod]
         static void OnRuntimeLoad()
@@ -48,14 +48,14 @@ namespace UDT.Core
 
             // Generate or load all the Static Data for created classes that implement IStaticData
             List<Type> staticDataTypes = new List<Type>();
-            staticDataTypes.AddRange(typeof(StaticData).GetInheritedTypes());
+            staticDataTypes.AddRange(typeof(Data).GetInheritedTypes());
 
             foreach (var dataType in staticDataTypes)
             {
                 var staticData = Resources.LoadAll(dataType.Name, dataType);
                 if (staticData.Length > 0)
                 {
-                    Instance.staticData.Add((StaticData)staticData[0]);
+                    Instance.staticData.Add((Data)staticData[0]);
                 }
                 else
                 {
@@ -65,7 +65,7 @@ namespace UDT.Core
                         "Assets/Resources/" + dataType.Name + ".asset");
                     UnityEditor.AssetDatabase.SaveAssets();
 #endif
-                    Instance.staticData.Add((StaticData)createdInstance);
+                    Instance.staticData.Add((Data)createdInstance);
                 }
             }
         }
@@ -91,7 +91,7 @@ namespace UDT.Core
             }
         }
         
-        public static StaticData GetStaticData(Type type)
+        public static Data GetStaticData(Type type)
         {
             foreach (var data in Instance.staticData)
             {

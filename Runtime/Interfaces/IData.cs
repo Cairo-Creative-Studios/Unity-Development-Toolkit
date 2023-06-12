@@ -1,11 +1,11 @@
 namespace UDT.Core
 {
-    public interface IStaticData
+    public interface IData
     {
         public bool Initialized { get; set; }
     }
     
-    public interface IStaticData<T> : IStaticData where T : StaticData
+    public interface IData<T> : IData where T : Data
     {
         public T Data { get; set; }
     }

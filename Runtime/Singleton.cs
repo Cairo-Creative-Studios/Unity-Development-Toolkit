@@ -44,20 +44,20 @@ namespace UDT.Core
                     
                     CoreModule.AddSingleton(_instance);
 
-                    if (_instance is IStaticData && !(_instance as IStaticData).Initialized)
+                    if (_instance is IData && !(_instance as IData).Initialized)
                     {
                         var interfaces = _instance.GetType().GetInterfaces();
                         
                         foreach (var interfaceType in interfaces)
                         {
-                            if (interfaceType == typeof(IStaticData))
+                            if (interfaceType == typeof(IData))
                             {
                                 interfaceType.GetProperty("Data", BindingFlags.Static)
                                     ?.SetValue(null, CoreModule.GetStaticData(interfaceType));
                             }
                         }
                         
-                        (_instance as IStaticData).Initialized = true;
+                        (_instance as IData).Initialized = true;
                     }
                 }
 

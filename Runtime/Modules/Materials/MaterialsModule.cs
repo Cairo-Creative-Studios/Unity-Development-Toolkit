@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace UDT.Materials
 {
-    public class MaterialsModule : Runtime<MaterialsModule>, IStaticData<MaterialData>
+    public class MaterialsModule : Runtime<MaterialsModule>, IData<MaterialData>
     {
         /// <summary>
         /// Finds the material type of the given material.

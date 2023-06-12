@@ -4,7 +4,7 @@ using UnityEngine;
 namespace UDT.Audio
 {
     [CreateAssetMenu(fileName = "AudioModuleData", menuName = "Runtime Data/AudioModuleData")]
-    public class AudioModuleData : StaticData
+    public class AudioModuleData : Data
     {
         [Header("Audio Settings")]
         public float masterVolume = 1f; // Master volume control
