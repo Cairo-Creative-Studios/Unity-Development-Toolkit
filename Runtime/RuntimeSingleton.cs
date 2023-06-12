@@ -10,7 +10,8 @@ namespace UDT.Core
         
         void Start()
         {
-                runtime.Start();
+            runtime._singletonObject = this;
+            runtime.Start();
         }
         
         void Update()

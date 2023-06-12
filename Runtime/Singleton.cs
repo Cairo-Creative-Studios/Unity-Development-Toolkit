@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Reflection;
 using UnityEngine;
 
@@ -74,6 +76,43 @@ namespace UDT.Core
         public static T GetInstance()
         {
             return Instance;
+        }
+        
+        /// <summary>
+        /// Wait for a number of seconds, then execute an action.
+        /// </summary>
+        /// <param name="seconds"></param>
+        /// <param name="action"></param>
+        public static void Wait(float seconds, Action action)
+        {
+            Instance.StartCoroutine(WaitCoroutine(seconds, action));
+        }
+        
+        private static IEnumerator WaitCoroutine(float seconds, Action action)
+        {
+            yield return new WaitForSeconds(seconds);
+            action();
+        }
+        
+        /// <summary>
+        /// Repeat an action until the time has elapsed.
+        /// </summary>
+        /// <param name="time"></param>
+        /// <param name="action"></param>
+        public static void Repeat(float time, Action action)
+        {
+            Instance.StartCoroutine(RepeatCoroutine(time, action));
+        }
+        
+        private static IEnumerator RepeatCoroutine(float time, Action action)
+        {
+            float startTime = Time.time;
+            
+            while (Time.time - startTime < time)
+            {
+                action();
+                yield return new WaitForSeconds(0.2f);
+            }
         }
     }
 }

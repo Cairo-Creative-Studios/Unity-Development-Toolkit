@@ -109,13 +109,16 @@ namespace UDT.Core
                     runtime.RuntimeStarted();
                     runtime._genericInstance = runtime;
 
-                    // TODO: Move this to an Editor script and use a UDT Settings Look Up Table Scriptable Object
-                    // TODO: to determine which Data to use for each Runtime, remove reflection from the game.
-                    if (runtime is IData)
+                    Wait(0.2f, () =>
                     {
-                        var DataProperty = runtime.GetType().GetProperty("Data");
-                        DataProperty.SetValue(runtime, GetStaticData(DataProperty.GetValue(runtime).GetType()));
-                    }
+                        // TODO: Move this to an Editor script and use a UDT Settings Look Up Table Scriptable Object
+                        // TODO: to determine which Data to use for each Runtime, remove reflection from the game.
+                        if (runtime is IData)
+                        {
+                            var DataProperty = runtime.GetType().GetProperty("Data");
+                            DataProperty.SetValue(runtime, GetStaticData(DataProperty.GetValue(runtime).GetType()));
+                        }
+                    });
                     
                     // Create the Runtime Singleton Game Object
                     var runtimeSingleton = new GameObject("Runtime " + System.Text.RegularExpressions.Regex.Replace(

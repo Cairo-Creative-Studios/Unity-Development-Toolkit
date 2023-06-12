@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UDT.DataTypes;
 using UnityEditor;
 using UnityEngine;
@@ -16,6 +17,8 @@ namespace UDT.Core
     [Serializable]
     public class RuntimeBase
     {
+        public MonoBehaviour _singletonObject { get; set; }
+        
         public virtual void Start()
         {
             
@@ -103,5 +106,44 @@ namespace UDT.Core
         }
 
         public Type type { get; set; }
+        
+        
+        
+        /// <summary>
+        /// Wait for a number of seconds, then execute an action.
+        /// </summary>
+        /// <param name="seconds"></param>
+        /// <param name="action"></param>
+        public static void Wait(float seconds, Action action)
+        {
+            Instance._singletonObject.StartCoroutine(WaitCoroutine(seconds, action));
+        }
+        
+        private static IEnumerator WaitCoroutine(float seconds, Action action)
+        {
+            yield return new WaitForSeconds(seconds);
+            action();
+        }
+        
+        /// <summary>
+        /// Repeat an action until the time has elapsed.
+        /// </summary>
+        /// <param name="time"></param>
+        /// <param name="action"></param>
+        public static void Repeat(float time, Action action)
+        {
+            Instance._singletonObject.StartCoroutine(RepeatCoroutine(time, action));
+        }
+        
+        private static IEnumerator RepeatCoroutine(float time, Action action)
+        {
+            float startTime = Time.time;
+            
+            while (Time.time - startTime < time)
+            {
+                action();
+                yield return new WaitForSeconds(0.2f);
+            }
+        }
     }
 }
