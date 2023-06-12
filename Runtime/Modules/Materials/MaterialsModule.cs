@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace UDT.Materials
 {
-    public class MaterialsModule : Runtime<MaterialsModule, MaterialData>
+    public class MaterialsModule : Runtime<MaterialsModule>, IStaticData<MaterialData>
     {
         /// <summary>
         /// Finds the material type of the given material.
@@ -12,12 +12,12 @@ namespace UDT.Materials
         /// <returns></returns>
         public static string FindMaterialType(Material material)
         {
-            for(int i = 0; i < Data.MaterialTypes.Count; i++)
+            for(int i = 0; i < Instance.Data.MaterialTypes.Count; i++)
             {
-                var key = Data.MaterialTypes.KeyAt(i);
-                for(int j = 0; j < Data.MaterialTypes[key].Count; j++)
+                var key = Instance.Data.MaterialTypes.KeyAt(i);
+                for(int j = 0; j < Instance.Data.MaterialTypes[key].Count; j++)
                 {
-                    var storedMaterial = Data.MaterialTypes[key][j];
+                    var storedMaterial = Instance.Data.MaterialTypes[key][j];
                     if(material == storedMaterial)
                     {
                         return key;
@@ -27,5 +27,8 @@ namespace UDT.Materials
             
             return "";
         }
+
+        public bool Initialized { get; set; }
+        public MaterialData Data { get; set; }
     }
 }

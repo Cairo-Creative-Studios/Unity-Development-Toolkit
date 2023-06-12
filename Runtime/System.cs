@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using NaughtyAttributes;
-using UDT.Data;
+using UDT.DataTypes;
 using UnityEngine;
 using UnityEngine.Serialization;
 

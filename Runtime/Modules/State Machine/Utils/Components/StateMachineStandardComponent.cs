@@ -1,5 +1,5 @@
 using System;
-using UDT.Data;
+using UDT.DataTypes;
 using UnityEngine;
 
 namespace UDT.Core

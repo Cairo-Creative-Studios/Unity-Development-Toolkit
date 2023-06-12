@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace UDT.Data
+namespace UDT.DataTypes
 {
     [Serializable]
     public class Node<T> : ISerializationCallbackReceiver

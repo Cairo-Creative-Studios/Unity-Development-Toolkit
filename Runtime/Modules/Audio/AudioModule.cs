@@ -7,7 +7,7 @@ namespace UDT.Audio
     /// <summary>
     /// The AudioModule is a Singleton that manages all the AudioSources in the Game.
     /// </summary>
-    public class AudioModule : Runtime<AudioModule, AudioModuleData>
+    public class AudioModule : Runtime<AudioModule>, IStaticData<AudioModuleData>
     {
         private List<SoundInfo> recentSounds = new List<SoundInfo>(); // Array to store recent sounds
         private List<AudioSourceController> audioSourceControllers = new List<AudioSourceController>(); // List of all AudioSourceController instances
@@ -54,6 +54,9 @@ namespace UDT.Audio
             // Remove the AudioSourceController from the list
             Instance.audioSourceControllers.Remove(audioSourceController);
         }
+
+        public bool Initialized { get; set; }
+        public AudioModuleData Data { get; set; }
     }
     
 }

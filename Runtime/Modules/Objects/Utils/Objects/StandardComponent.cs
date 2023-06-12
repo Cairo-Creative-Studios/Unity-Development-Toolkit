@@ -1,7 +1,7 @@
 using System;
 using NaughtyAttributes;
 using UDT.Core.Controllables;
-using UDT.Data;
+using UDT.DataTypes;
 using UnityEngine;
 using UnityEngine.InputSystem;
 

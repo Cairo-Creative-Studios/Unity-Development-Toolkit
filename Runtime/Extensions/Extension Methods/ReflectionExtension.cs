@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
-using UDT.Data;
+using UDT.DataTypes;
 using System.Linq;
 
 namespace UDT.Reflection

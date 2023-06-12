@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace UDT.Data
+namespace UDT.DataTypes
 {
     [Serializable]
     public class Vec3Curve
