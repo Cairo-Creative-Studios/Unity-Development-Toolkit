@@ -75,7 +75,7 @@ namespace UDT.Core
     /// </summary>
     /// <typeparam name="T">The inheriting class's Type</typeparam>
     /// <typeparam name="TData">The Data for the Runtime</typeparam>
-    public class Runtime<T, TData> : Singleton<T>, IRuntime where TData : RuntimeData where T : Runtime<T>
+    public class Runtime<T, TData> : Singleton<T>, IRuntime, IFSM where TData : RuntimeData where T : Runtime<T, TData>
     {
         public static TData Data; //= Resources.LoadAll<TData>("")[0];
         public Tree<IStateNode> states { get; set; }
