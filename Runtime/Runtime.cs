@@ -90,18 +90,6 @@ namespace UDT.Core
         {
             Instance._Transition<TPreviousState, TNextState>();
         }
-
-        
-        /// <summary>
-        /// This Static Method spawns any Runtime Classes that are exist in Scripts as soon as the Runtime starts.
-        /// That said, you should limit yourself to only one Runtime. If you would like to create seperate management
-        /// scripts, use Systems instead. 
-        /// </summary>
-        void Awake()
-        {
-            StateMachineModule.AddStateMachine(this);
-            stateTree = states;
-        }
         
         public static void SetState(string path)
         {
@@ -110,7 +98,8 @@ namespace UDT.Core
 
         void IRuntime.RuntimeStarted()
         {
-            
+            StateMachineModule.AddStateMachine(this);
+            stateTree = states;
         }
 
         public Type type { get; set; }
@@ -180,18 +169,6 @@ namespace UDT.Core
         {
             Instance._Transition<TPreviousState, TNextState>();
         }
-
-        
-        /// <summary>
-        /// This Static Method spawns any Runtime Classes that are exist in Scripts as soon as the Runtime starts.
-        /// That said, you should limit yourself to only one Runtime. If you would like to create seperate management
-        /// scripts, use Systems instead. 
-        /// </summary>
-        void Awake()
-        {
-            StateMachineModule.AddStateMachine(this);
-            stateTree = states;
-        }
         
         public static void SetState(string path)
         {
@@ -203,6 +180,9 @@ namespace UDT.Core
             var Datas = Resources.LoadAll<TData>("");
             if (Datas.Length > 0)
                 Data = Datas[0];
+            
+            StateMachineModule.AddStateMachine(this);
+            stateTree = states;
         }
 
         public Type type { get; set; }
