@@ -57,6 +57,7 @@ namespace UDT.Audio
 
         public bool Initialized { get; set; }
         public AudioModuleData _Data { get; set; }
+        public AudioModuleData Data { get; set; }
     }
     
 }

@@ -30,5 +30,6 @@ namespace UDT.Materials
 
         public bool Initialized { get; set; }
         public MaterialData _Data { get; set; }
+        public MaterialData Data { get; set; }
     }
 }
