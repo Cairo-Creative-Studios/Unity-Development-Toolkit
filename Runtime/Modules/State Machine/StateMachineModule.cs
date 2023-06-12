@@ -62,7 +62,7 @@ namespace UDT.Core
                     stateNode.Context = node.parent.value;
 
                     var path = "";
-                    while (node.parent != null)
+                    if (node.parent == null)
                     {
                         path = node.parent.value + "/" + path;
                     }
