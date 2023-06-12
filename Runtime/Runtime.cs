@@ -36,6 +36,7 @@ namespace UDT.Core
         public Tree<IStateNode> stateTree = new Tree<IStateNode>();
         public Transition[] transitions { get; set; }
 
+        public T _instance { get; set; }
         public static T Instance;
 
         public static object GenericInstance

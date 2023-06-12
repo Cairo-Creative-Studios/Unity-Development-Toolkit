@@ -14,7 +14,7 @@ namespace UDT.Audio
 
         public static SoundInfo[] GetRecentSounds()
         {
-            return _instance.recentSounds.ToArray();
+            return Instance.recentSounds.ToArray();
         }
 
         /// <summary>
@@ -23,7 +23,7 @@ namespace UDT.Audio
         /// <param name="controller"></param>
         public static void AddSound(SoundInfo soundInfo)
         {
-            _instance.recentSounds.Add(soundInfo);
+            Instance.recentSounds.Add(soundInfo);
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace UDT.Audio
         /// <param name="soundInfo"></param>
         public static void RemoveSound(SoundInfo soundInfo)
         {
-            _instance.recentSounds.Remove(soundInfo);
+            Instance.recentSounds.Remove(soundInfo);
         }
         
         /// <summary>
@@ -42,7 +42,7 @@ namespace UDT.Audio
         public static void AddAudioSourceController(AudioSourceController audioSourceController)
         {
             // Add the AudioSourceController to the list
-            _instance.audioSourceControllers.Add(audioSourceController);
+            Instance.audioSourceControllers.Add(audioSourceController);
         }
         
         /// <summary>
@@ -52,7 +52,7 @@ namespace UDT.Audio
         public static void RemoveAudioSourceController(AudioSourceController audioSourceController)
         {
             // Remove the AudioSourceController from the list
-            _instance.audioSourceControllers.Remove(audioSourceController);
+            Instance.audioSourceControllers.Remove(audioSourceController);
         }
     }
     
