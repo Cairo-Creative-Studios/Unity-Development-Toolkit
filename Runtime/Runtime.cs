@@ -1,24 +1,54 @@
+using System;
 using UDT.Data;
 using UnityEditor;
 using UnityEngine;
 
 namespace UDT.Core
 {
+    public class RuntimeSingleton : MonoBehaviour
+    {
+        [Tooltip("The actual Runtime Instance")]
+        public RuntimeBase runtime;
+    }
+    
     public interface IRuntime
     {
         public void RuntimeStarted();
+        public Type type { get; set; }
+        public static object GenericInstance { get; set; }
     }
 
+    [Serializable]
+    public class RuntimeBase
+    {
+        
+    }
+    
     /// <summary>
     /// A Runtime Object is a Singleton that can be used to manage the state of the game's Runtime.
     /// Extend this class to create custom Runtimes.
     /// </summary>
     /// <typeparam name="T">The inheriting class's Type</typeparam>
-    public class Runtime<T> : Singleton<T>, IFSM, IRuntime where T : Runtime<T>
+    [Serializable]
+    public class Runtime<T> : RuntimeBase, IFSM, IRuntime where T : Runtime<T>
     {        
         public Tree<IStateNode> states { get; set; }
         public Tree<IStateNode> stateTree = new Tree<IStateNode>();
         public Transition[] transitions { get; set; }
+
+        public static T Instance;
+
+        public static object GenericInstance
+        {
+            get
+            {
+                return Instance;
+            }
+            set
+            {
+                Instance = (T)value;
+            }
+        }
 
         public void InitMachine()
         {
@@ -66,6 +96,8 @@ namespace UDT.Core
         {
             
         }
+
+        public Type type { get; set; }
     }
 
 
@@ -75,12 +107,27 @@ namespace UDT.Core
     /// </summary>
     /// <typeparam name="T">The inheriting class's Type</typeparam>
     /// <typeparam name="TData">The Data for the Runtime</typeparam>
-    public class Runtime<T, TData> : Singleton<T>, IRuntime, IFSM where TData : RuntimeData where T : Runtime<T, TData>
+    [Serializable]
+    public class Runtime<T, TData> : RuntimeBase, IFSM, IRuntime where TData : RuntimeData where T : Runtime<T, TData>
     {
         public static TData Data; //= Resources.LoadAll<TData>("")[0];
         public Tree<IStateNode> states { get; set; }
         public Tree<IStateNode> stateTree = new Tree<IStateNode>();
         public Transition[] transitions { get; set; }
+
+        public static T Instance;
+
+        public static object GenericInstance
+        {
+            get
+            {
+                return Instance;
+            }
+            set
+            {
+                Instance = (T)value;
+            }
+        }
 
         public void InitMachine()
         {
@@ -126,8 +173,9 @@ namespace UDT.Core
 
         void IRuntime.RuntimeStarted()
         {
-            Data = Resources.LoadAll<TData>("")[0];
+            
         }
-        
+
+        public Type type { get; set; }
     }
 }

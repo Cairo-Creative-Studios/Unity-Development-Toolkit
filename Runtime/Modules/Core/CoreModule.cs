@@ -10,7 +10,7 @@ namespace UDT.Core
 {
     public class CoreModule : Singleton<CoreModule>
     {
-        public List<MonoBehaviour> runtimes = new List<MonoBehaviour>();
+        public List<RuntimeSingleton> runtimes = new List<RuntimeSingleton>();
         public List<SingletonBase> singletons = new List<SingletonBase>();
 
         [RuntimeInitializeOnLoadMethod]
@@ -33,9 +33,15 @@ namespace UDT.Core
                 }
                 else
                 {
-                    var runtimeInstance = (IRuntime)type.GetProperty("Instance", BindingFlags.Static |  BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy).GetValue(null);
-                    //runtimeInstance.RuntimeStarted();
-                    //Instance.runtimes.Add(runtimeInstance as MonoBehaviour);
+                    // Create the Runtime
+                    var runtime = (IRuntime)Activator.CreateInstance(type);
+                    runtime.RuntimeStarted();
+
+                    // Create the Runtime Singleton Game Object
+                    var runtimeSingleton = new GameObject("Runtime " + type.Name).AddComponent<RuntimeSingleton>();
+                    runtimeSingleton.runtime = (RuntimeBase)runtime;
+                    
+                    
                 }
             }
         }
@@ -52,6 +58,12 @@ namespace UDT.Core
             {
                 if (singleton.gameObject.scene.name != "UDT")
                     SceneManager.MoveGameObjectToScene(singleton.gameObject, SceneManager.GetSceneByName("UDT"));
+            }
+
+            foreach (var runtimeSingleton in runtimes)
+            {
+                if(runtimeSingleton.gameObject.scene.name != "UDT")
+                    SceneManager.MoveGameObjectToScene(runtimeSingleton.gameObject, SceneManager.GetSceneByName("UDT"));
             }
         }
     }
