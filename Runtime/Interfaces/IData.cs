@@ -7,7 +7,7 @@ namespace UDT.Core
     
     public interface IData<T> : IData where T : Data
     {
-        public T _Data
+        public T Data
         {
             get
             {
@@ -15,10 +15,10 @@ namespace UDT.Core
             }
             set
             {
-                Data = value;
+                _data = value;
             }
         }
 
-        public static T Data;
+        public static T _data;
     }
 }
