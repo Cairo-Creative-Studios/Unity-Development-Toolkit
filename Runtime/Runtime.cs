@@ -9,6 +9,7 @@ namespace UDT.Core
     {
         public void RuntimeStarted();
         public Type type { get; set; }
+        public object _genericInstance { get; set; }
         public static object GenericInstance { get; set; }
     }
 
@@ -41,6 +42,18 @@ namespace UDT.Core
         public T _instance { get; set; }
         public static T Instance;
 
+        public object _genericInstance
+        {
+            get
+            {
+                return GenericInstance;
+            }
+            set
+            {
+                GenericInstance = (T)value;
+            }
+        }
+        
         public static object GenericInstance
         {
             get
@@ -120,6 +133,17 @@ namespace UDT.Core
 
         public static T Instance;
 
+        public object _genericInstance
+        {
+            get
+            {
+                return GenericInstance;
+            }
+            set
+            {
+                GenericInstance = (T)value;
+            }
+        }
         public static object GenericInstance
         {
             get

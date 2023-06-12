@@ -36,6 +36,7 @@ namespace UDT.Core
                     // Create the Runtime
                     var runtime = (IRuntime)Activator.CreateInstance(type);
                     runtime.RuntimeStarted();
+                    runtime._genericInstance = runtime;
                     
                     // Create the Runtime Singleton Game Object
                     var runtimeSingleton = new GameObject("Runtime " + type.Name).AddComponent<RuntimeSingleton>();
