@@ -40,6 +40,7 @@ namespace UDT.Core
                     // Create the Runtime Singleton Game Object
                     var runtimeSingleton = new GameObject("Runtime " + type.Name).AddComponent<RuntimeSingleton>();
                     runtimeSingleton.runtime = (RuntimeBase)runtime;
+                    Instance.runtimes.Add(runtimeSingleton);
                 }
             }
         }
