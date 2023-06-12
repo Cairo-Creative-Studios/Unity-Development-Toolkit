@@ -1,4 +1,4 @@
-using System;
+using System.Reflection;
 using UnityEngine;
 
 namespace UDT.Core
@@ -43,6 +43,22 @@ namespace UDT.Core
                     _instance.Init();  
                     
                     CoreModule.AddSingleton(_instance);
+
+                    if (_instance is IStaticData && !(_instance as IStaticData).Initialized)
+                    {
+                        var interfaces = _instance.GetType().GetInterfaces();
+                        
+                        foreach (var interfaceType in interfaces)
+                        {
+                            if (interfaceType == typeof(IStaticData))
+                            {
+                                interfaceType.GetProperty("Data", BindingFlags.Static)
+                                    ?.SetValue(null, CoreModule.GetStaticData(interfaceType));
+                            }
+                        }
+                        
+                        (_instance as IStaticData).Initialized = true;
+                    }
                 }
 
                 Instance = _instance;

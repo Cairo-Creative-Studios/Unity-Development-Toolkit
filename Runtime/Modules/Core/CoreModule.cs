@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using UDT.Reflection;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 namespace UDT.Core
 {
@@ -12,18 +11,18 @@ namespace UDT.Core
     {
         public List<RuntimeSingleton> runtimes = new List<RuntimeSingleton>();
         public List<SingletonBase> singletons = new List<SingletonBase>();
+        public List<StaticData> staticData = new List<StaticData>();
 
         [RuntimeInitializeOnLoadMethod]
         static void OnRuntimeLoad()
         {
+            // Create the Core Module and UDT Scene
             SceneManager.CreateScene("UDT");
             Instance.enabled = true;
             SceneManager.MoveGameObjectToScene(Instance.gameObject, SceneManager.GetSceneByName("UDT"));
-
-            //Create the Runtime Types list and add all the Runtime Types to it that exist in the current project
-            List<Type> runtimeTypes = new List<Type>();
-            runtimeTypes.AddRange(Type.GetType("UDT.Core.Runtime`1").GetInheritedTypes()); 
-            runtimeTypes.AddRange(Type.GetType("UDT.Core.Runtime`2").GetInheritedTypes());
+            
+            // Create the Runtime Types list and add all the Runtime Types to it that exist in the current project
+            Type[] runtimeTypes = Type.GetType("UDT.Core.Runtime`1").GetInheritedTypes(); 
 
             foreach (var type in runtimeTypes)
             {
@@ -39,9 +38,34 @@ namespace UDT.Core
                     runtime._genericInstance = runtime;
                     
                     // Create the Runtime Singleton Game Object
-                    var runtimeSingleton = new GameObject("Runtime " + type.Name).AddComponent<RuntimeSingleton>();
+                    var runtimeSingleton = new GameObject("Runtime " + System.Text.RegularExpressions.Regex.Replace(
+                        type.Name, "[A-Z]", " $0")).AddComponent<RuntimeSingleton>();
+                    
                     runtimeSingleton.runtime = (RuntimeBase)runtime;
                     Instance.runtimes.Add(runtimeSingleton);
+                }
+            }
+
+            // Generate or load all the Static Data for created classes that implement IStaticData
+            List<Type> staticDataTypes = new List<Type>();
+            staticDataTypes.AddRange(typeof(StaticData).GetInterfacingTypes());
+
+            foreach (var dataType in staticDataTypes)
+            {
+                var staticData = Resources.LoadAll(dataType.Name, dataType);
+                if (staticData.Length > 0)
+                {
+                    Instance.staticData.Add((StaticData)staticData[0]);
+                }
+                else
+                {
+                    var createdInstance = ScriptableObject.CreateInstance(dataType);
+#if UNITY_EDITOR
+                    UnityEditor.AssetDatabase.CreateAsset(createdInstance,
+                        "Assets/Resources/" + dataType.Name + ".asset");
+                    UnityEditor.AssetDatabase.SaveAssets();
+#endif
+                    Instance.staticData.Add((StaticData)createdInstance);
                 }
             }
         }
@@ -52,14 +76,6 @@ namespace UDT.Core
                 Instance.singletons.Add(singleton);
         }
 
-        void Start()
-        {
-            foreach (var runtimeSingleton in runtimes)
-            {
-                runtimeSingleton.runtime.Start();
-            }
-        }
-        
         void Update()
         {
             foreach (var singleton in singletons)
@@ -72,9 +88,18 @@ namespace UDT.Core
             {
                 if(runtimeSingleton.gameObject.scene.name != "UDT")
                     SceneManager.MoveGameObjectToScene(runtimeSingleton.gameObject, SceneManager.GetSceneByName("UDT"));
-                
-                runtimeSingleton.runtime.Update();
             }
+        }
+        
+        public static StaticData GetStaticData(Type type)
+        {
+            foreach (var data in Instance.staticData)
+            {
+                if (data.GetType() == type)
+                    return data;
+            }
+
+            return null;
         }
     }
 }

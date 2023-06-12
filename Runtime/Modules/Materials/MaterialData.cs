@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace UDT.Materials
 {
-    public class MaterialData : RuntimeData
+    public class MaterialData : StaticData
     {
         /// <summary>
         /// A dictionary of material types and their corresponding materials.

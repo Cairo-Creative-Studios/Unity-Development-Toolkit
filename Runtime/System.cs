@@ -243,16 +243,4 @@ namespace UDT.Core
             StopSystem();
         }
     }
-
-    public class System<TSystem, TSystemData> : System<TSystem> where TSystem : System<TSystem, TSystemData>
-        where TSystemData : SystemData
-    {
-        [Expandable]
-        public static new TSystemData Data;
-
-        protected override void InitData()
-        {
-            Data = (TSystemData)SystemData.GetSystemData<TSystemData>();
-        }
-    }
 }

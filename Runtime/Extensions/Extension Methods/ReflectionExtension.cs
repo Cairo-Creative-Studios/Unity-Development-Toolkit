@@ -83,6 +83,19 @@ namespace UDT.Reflection
             return types.ToArray();
         }
         
+        public static Type[] GetInterfacingTypes(this Type Interface)
+        {
+            List<Type> types = new List<Type>();
+            
+            foreach(var assembly in AppDomain.CurrentDomain.GetAssemblies())
+                foreach (var type in assembly.GetTypes())
+                    if(type.GetInterfaces().Length > 0)
+                        if(type.GetInterfaces().Contains(Interface))
+                            types.Add(type);
+            
+            return types.ToArray();
+        }
+        
         /// <summary>
         /// Calls a Method on the Instance
         /// </summary>

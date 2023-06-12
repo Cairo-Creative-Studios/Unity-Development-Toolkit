@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace UDT.Core
@@ -6,6 +7,16 @@ namespace UDT.Core
     {
         [Tooltip("The actual Runtime Instance")]
         public RuntimeBase runtime;
+        
+        void Start()
+        {
+            runtime.Start();
+        }
+        
+        void Update()
+        {
+            runtime.Update();
+        }
     }
 
 }
