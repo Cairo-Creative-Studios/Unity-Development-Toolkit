@@ -64,7 +64,7 @@ namespace UDT.Core
         /// <param name="path">The Path to the desired State</param>
         public void _SetState(string path)
         {
-            StateMachineModule.SetState(this, path);
+            StateMachineModule.SetState((IFSM)GenericInstance, path);
         }
         
         
@@ -92,7 +92,7 @@ namespace UDT.Core
         
         public static void SetState(string path)
         {
-            StateMachineModule.SetState(Instance, path);
+            StateMachineModule.SetState((IFSM)GenericInstance, path);
         }
 
         void IRuntime.RuntimeStarted()
@@ -143,7 +143,7 @@ namespace UDT.Core
         /// <param name="path">The Path to the desired State</param>
         public void _SetState(string path)
         {
-            StateMachineModule.SetState(this, path);
+            StateMachineModule.SetState((IFSM)GenericInstance, path);
         }
         
         
@@ -171,12 +171,14 @@ namespace UDT.Core
         
         public static void SetState(string path)
         {
-            StateMachineModule.SetState(Instance, path);
+            StateMachineModule.SetState((IFSM)GenericInstance, path);
         }
 
         void IRuntime.RuntimeStarted()
         {
-            
+            var Datas = Resources.LoadAll<TData>("");
+            if (Datas.Length > 0)
+                Data = Datas[0];
         }
 
         public Type type { get; set; }
