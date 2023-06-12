@@ -50,6 +50,14 @@ namespace UDT.Core
             if (!Instance.singletons.Contains(singleton))
                 Instance.singletons.Add(singleton);
         }
+
+        void Start()
+        {
+            foreach (var runtimeSingleton in runtimes)
+            {
+                runtimeSingleton.runtime.Start();
+            }
+        }
         
         void Update()
         {
@@ -63,6 +71,8 @@ namespace UDT.Core
             {
                 if(runtimeSingleton.gameObject.scene.name != "UDT")
                     SceneManager.MoveGameObjectToScene(runtimeSingleton.gameObject, SceneManager.GetSceneByName("UDT"));
+                
+                runtimeSingleton.runtime.Update();
             }
         }
     }

@@ -15,7 +15,15 @@ namespace UDT.Core
     [Serializable]
     public class RuntimeBase
     {
-        
+        public virtual void Start()
+        {
+            
+        }
+
+        public virtual void Update()
+        {
+            
+        }
     }
     
     /// <summary>
