@@ -9,9 +9,9 @@ namespace UDT.Core
 {
     public class CoreModule : Singleton<CoreModule>
     {
-        public List<RuntimeSingleton> runtimes = new List<RuntimeSingleton>();
-        public List<SingletonBase> singletons = new List<SingletonBase>();
-        public List<Data> staticData = new List<Data>();
+        public List<RuntimeSingleton> runtimes = new();
+        public List<SingletonBase> singletons = new();
+        public List<Data> staticData = new();
 
         [RuntimeInitializeOnLoadMethod]
         static void OnRuntimeLoad()
@@ -21,7 +21,49 @@ namespace UDT.Core
             Instance.enabled = true;
             SceneManager.MoveGameObjectToScene(Instance.gameObject, SceneManager.GetSceneByName("UDT"));
             
-            
+        }
+        
+        public static void AddSingleton(SingletonBase singleton)
+        {
+            if (!Instance.singletons.Contains(singleton))
+                Instance.singletons.Add(singleton);
+        }
+
+        void Update()
+        {
+
+            foreach (var singleton in singletons)
+            {
+                if (singleton.gameObject.scene.name != "UDT")
+                    SceneManager.MoveGameObjectToScene(singleton.gameObject, SceneManager.GetSceneByName("UDT"));
+            }
+
+            foreach (var runtimeSingleton in runtimes)
+            {
+                if(runtimeSingleton.gameObject.scene.name != "UDT")
+                    SceneManager.MoveGameObjectToScene(runtimeSingleton.gameObject, SceneManager.GetSceneByName("UDT"));
+            }
+        }
+        
+        public static Data GetStaticData(Type type)
+        {
+            foreach (var data in Instance.staticData)
+            {
+                if (data.GetType() == type)
+                    return data;
+            }
+
+            return null;
+        }
+
+        void Start()
+        {
+            Instance.GenerateData();
+            Instance.GenerateRuntimes();
+        }
+        
+        void GenerateData()
+        {            
             // Generate or load all the Static Data for created classes that implement IStaticData
             List<Type> staticDataTypes = new List<Type>();
             staticDataTypes.AddRange(typeof(UDT.Core.Data).GetInheritedTypes());
@@ -35,6 +77,7 @@ namespace UDT.Core
                 }
                 else
                 {
+
                     var createdInstance = ScriptableObject.CreateInstance(dataType);
 #if UNITY_EDITOR
                     UnityEditor.AssetDatabase.CreateAsset(createdInstance,
@@ -44,6 +87,10 @@ namespace UDT.Core
                     Instance.staticData.Add((UDT.Core.Data)createdInstance);
                 }
             }
+        }
+
+        void GenerateRuntimes()
+        {
             
             // Create the Runtime Types list and add all the Runtime Types to it that exist in the current project
             Type[] runtimeTypes = Type.GetType("UDT.Core.Runtime`1").GetInheritedTypes(); 
@@ -77,38 +124,6 @@ namespace UDT.Core
                     Instance.runtimes.Add(runtimeSingleton);
                 }
             }
-        }
-        
-        public static void AddSingleton(SingletonBase singleton)
-        {
-            if (!Instance.singletons.Contains(singleton))
-                Instance.singletons.Add(singleton);
-        }
-
-        void Update()
-        {
-            foreach (var singleton in singletons)
-            {
-                if (singleton.gameObject.scene.name != "UDT")
-                    SceneManager.MoveGameObjectToScene(singleton.gameObject, SceneManager.GetSceneByName("UDT"));
-            }
-
-            foreach (var runtimeSingleton in runtimes)
-            {
-                if(runtimeSingleton.gameObject.scene.name != "UDT")
-                    SceneManager.MoveGameObjectToScene(runtimeSingleton.gameObject, SceneManager.GetSceneByName("UDT"));
-            }
-        }
-        
-        public static Data GetStaticData(Type type)
-        {
-            foreach (var data in Instance.staticData)
-            {
-                if (data.GetType() == type)
-                    return data;
-            }
-
-            return null;
         }
     }
 }
