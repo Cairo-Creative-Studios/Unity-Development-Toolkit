@@ -21,6 +21,30 @@ namespace UDT.Core
             Instance.enabled = true;
             SceneManager.MoveGameObjectToScene(Instance.gameObject, SceneManager.GetSceneByName("UDT"));
             
+            
+            // Generate or load all the Static Data for created classes that implement IStaticData
+            List<Type> staticDataTypes = new List<Type>();
+            staticDataTypes.AddRange(typeof(Data).GetInheritedTypes());
+
+            foreach (var dataType in staticDataTypes)
+            {
+                var staticData = Resources.LoadAll(dataType.Name, dataType);
+                if (staticData.Length > 0)
+                {
+                    Instance.staticData.Add((Data)staticData[0]);
+                }
+                else
+                {
+                    var createdInstance = ScriptableObject.CreateInstance(dataType);
+#if UNITY_EDITOR
+                    UnityEditor.AssetDatabase.CreateAsset(createdInstance,
+                        "Assets/Resources/" + dataType.Name + ".asset");
+                    UnityEditor.AssetDatabase.SaveAssets();
+#endif
+                    Instance.staticData.Add((Data)createdInstance);
+                }
+            }
+            
             // Create the Runtime Types list and add all the Runtime Types to it that exist in the current project
             Type[] runtimeTypes = Type.GetType("UDT.Core.Runtime`1").GetInheritedTypes(); 
 
@@ -46,28 +70,6 @@ namespace UDT.Core
                 }
             }
 
-            // Generate or load all the Static Data for created classes that implement IStaticData
-            List<Type> staticDataTypes = new List<Type>();
-            staticDataTypes.AddRange(typeof(Data).GetInheritedTypes());
-
-            foreach (var dataType in staticDataTypes)
-            {
-                var staticData = Resources.LoadAll(dataType.Name, dataType);
-                if (staticData.Length > 0)
-                {
-                    Instance.staticData.Add((Data)staticData[0]);
-                }
-                else
-                {
-                    var createdInstance = ScriptableObject.CreateInstance(dataType);
-#if UNITY_EDITOR
-                    UnityEditor.AssetDatabase.CreateAsset(createdInstance,
-                        "Assets/Resources/" + dataType.Name + ".asset");
-                    UnityEditor.AssetDatabase.SaveAssets();
-#endif
-                    Instance.staticData.Add((Data)createdInstance);
-                }
-            }
         }
         
         public static void AddSingleton(SingletonBase singleton)
