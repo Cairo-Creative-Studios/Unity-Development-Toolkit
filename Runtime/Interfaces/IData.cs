@@ -4,23 +4,14 @@ namespace UDT.Core
 {
     public interface IData
     {
-        public Type DataType { get; set; }
         public bool Initialized { get; set; }
     }
     
     public interface IData<T> : IData where T : Data
     {
-        public Type DataType
+        public Type GetDataType() 
         {
-            get
-            {
-                return Data.GetType();
-            }
-
-            set
-            {
-                // Do Nothing
-            }
+            return Data.GetType();
         }
 
         public T Data
