@@ -77,7 +77,8 @@ namespace UDT.Core
                 }
                 else
                 {
-
+                    if(dataType.IsAbstract || dataType.IsGenericType)
+                        continue;
                     var createdInstance = ScriptableObject.CreateInstance(dataType);
 #if UNITY_EDITOR
                     UnityEditor.AssetDatabase.CreateAsset(createdInstance,
