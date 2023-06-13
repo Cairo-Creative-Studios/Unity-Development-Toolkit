@@ -291,18 +291,12 @@ namespace UDT.Reflection
                 curIndex.AddRange(node.index);
                 curIndex.Add(index);
 
-                var curType = nestedType.BaseType;
-                while (curType != null)
+                if (typeof(TBaseType).IsAssignableFrom(nestedType))
                 {
-                    if (typeof(TBaseType).IsAssignableFrom(curType))
-                    {
-                        if (instantiate)
-                            nestedNodes.Add(new Node<TTreeType>(tree, (TTreeType)Activator.CreateInstance(nestedType), curIndex.ToArray(), node));
-                        //else
-                        //nestedNodes.Add(new Node<T>(tree, nestedType, curIndex.ToArray(), node));
-                    }
-
-                    curType = curType.BaseType;
+                    if (instantiate)
+                        nestedNodes.Add(new Node<TTreeType>(tree, (TTreeType)Activator.CreateInstance(nestedType), curIndex.ToArray(), node));
+                    //else
+                    //nestedNodes.Add(new Node<T>(tree, nestedType, curIndex.ToArray(), node));
                 }
 
                 index++;
