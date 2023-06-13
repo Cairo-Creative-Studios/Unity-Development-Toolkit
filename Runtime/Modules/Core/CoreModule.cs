@@ -59,7 +59,6 @@ namespace UDT.Core
         {
             Instance.GenerateData();
             Instance.GenerateRuntimes();
-            Instance.SetRuntimeData();
         }
         
         void GenerateData()
@@ -121,7 +120,7 @@ namespace UDT.Core
         {
             RuntimeSingleton.runtimeDataInitialized = true;
             
-            foreach (var runtimeSingleton in runtimes)
+            foreach (var runtimeSingleton in Instance.runtimes)
             {
                 var runtime = runtimeSingleton.runtime;
                 
