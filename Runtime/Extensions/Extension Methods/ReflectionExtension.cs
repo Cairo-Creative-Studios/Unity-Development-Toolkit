@@ -211,6 +211,7 @@ namespace UDT.Reflection
             return classes;
         }
 
+
         //TODO: Fix to allow Uninstantiated Classes to be Tree Nodes
         /// <summary>
         /// Search for Nested Classes to construct the given Tree
@@ -255,6 +256,63 @@ namespace UDT.Reflection
             {
                 tree.Add(child, node.index);
                 NestSearchMethod(tree, child, baseClassName, instantiate, count);
+            }
+        }
+
+        /// <summary>
+        /// Returns the Nested classes within the given Instance's Type, which extends from the given Base Type
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <param name="instantiate"></param>
+        /// <typeparam name="TTreeType"></typeparam>
+        /// <typeparam name="TBaseType"></typeparam>
+        /// <returns></returns>
+        public static Tree<TTreeType> GetNestedClassesAsTree<TTreeType, TBaseType>(this object instance,
+            bool instantiate = false)
+        {
+            //Create the Classes Tree
+            Tree<TTreeType> classes = new Tree<TTreeType>((TTreeType)instance);
+            //Call the Generation Method for the Tree, passing this method's Parameters
+            NestSearchMethod<TTreeType, TBaseType>(classes, classes.rootNode, instantiate, 0);
+            //Return the Tree
+            return classes;
+        }        
+        
+        private static void NestSearchMethod<TTreeType, TBaseType>(Tree<TTreeType> tree, Node<TTreeType> node, bool instantiate = true, int count = 0)
+        {
+            List<Node<TTreeType>> nestedNodes = new List<Node<TTreeType>>();
+
+            int index = 0;
+
+            foreach (Type nestedType in node.value.GetType().GetNestedTypes())
+            {
+                //Rebuild the Index list for each Nested Type in the passed Node
+                List<int> curIndex = new List<int>();
+                curIndex.AddRange(node.index);
+                curIndex.Add(index);
+
+                var curType = nestedType.BaseType;
+                while (curType != null)
+                {
+                    if (curType.IsAssignableFrom(typeof(TBaseType)))
+                    {
+                        if (instantiate)
+                            nestedNodes.Add(new Node<TTreeType>(tree, (TTreeType)Activator.CreateInstance(nestedType), curIndex.ToArray(), node));
+                        //else
+                        //nestedNodes.Add(new Node<T>(tree, nestedType, curIndex.ToArray(), node));
+                    }
+
+                    curType = curType.BaseType;
+                }
+
+                index++;
+            }
+
+            //Add the Node to the Tree, and calls this recursive Function again for the next Nodes
+            foreach (Node<TTreeType> child in nestedNodes)
+            {
+                tree.Add(child, node.index);
+                NestSearchMethod<TTreeType, TBaseType>(tree, child, instantiate, count);
             }
         }
         
