@@ -7,9 +7,12 @@ namespace UDT.Core
     {
         [Tooltip("The actual Runtime Instance")]
         public RuntimeBase runtime;
+        public static bool runtimeDataInitialized = false;
         
         void Start()
         {
+            if(!runtimeDataInitialized) CoreModule.SetRuntimeData();
+            
             runtime._singletonObject = this;
             runtime.Start();
         }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UDT.Reflection;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 
 namespace UDT.Core
 {
@@ -76,10 +75,8 @@ namespace UDT.Core
                 {
                     Instance.staticData.Add((UDT.Core.Data)staticData[0]);
                 }
-                else
+                else if(dataType.IsAssignableFrom(typeof(Data)) && !(dataType.IsAbstract || dataType.IsGenericType))
                 {
-                    if(dataType.IsAbstract || dataType.IsGenericType)
-                        continue;
                     var createdInstance = ScriptableObject.CreateInstance(dataType);
 #if UNITY_EDITOR
                     UnityEditor.AssetDatabase.CreateAsset(createdInstance,
@@ -93,7 +90,6 @@ namespace UDT.Core
 
         void GenerateRuntimes()
         {
-            
             // Create the Runtime Types list and add all the Runtime Types to it that exist in the current project
             Type[] runtimeTypes = Type.GetType("UDT.Core.Runtime`1").GetInheritedTypes(); 
 
@@ -121,8 +117,10 @@ namespace UDT.Core
             }
         }
 
-        void SetRuntimeData()
+        public static void SetRuntimeData()
         {
+            RuntimeSingleton.runtimeDataInitialized = true;
+            
             foreach (var runtimeSingleton in runtimes)
             {
                 var runtime = runtimeSingleton.runtime;
