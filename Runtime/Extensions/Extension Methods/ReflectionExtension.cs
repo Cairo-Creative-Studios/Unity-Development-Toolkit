@@ -294,7 +294,7 @@ namespace UDT.Reflection
                 var curType = nestedType.BaseType;
                 while (curType != null)
                 {
-                    if (curType.IsAssignableFrom(typeof(TBaseType)))
+                    if (typeof(TBaseType).IsAssignableFrom(curType))
                     {
                         if (instantiate)
                             nestedNodes.Add(new Node<TTreeType>(tree, (TTreeType)Activator.CreateInstance(nestedType), curIndex.ToArray(), node));
