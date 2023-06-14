@@ -145,5 +145,14 @@ namespace UDT.Core
                 yield return new WaitForSeconds(0.2f);
             }
         }
+
+        /// <summary>
+        /// Set the State of the Runtime using the Type of the State.
+        /// </summary>
+        /// <typeparam name="TState"></typeparam>
+        public static void SetState<TState>()
+        {
+            StateMachineModule.SetState<TState>(Instance);
+        }
     }
 }

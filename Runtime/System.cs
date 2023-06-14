@@ -235,6 +235,16 @@ namespace UDT.Core
             }
             return default;
         }
+        
+        
+        /// <summary>
+        /// Set the State of the System using the Type of the State.
+        /// </summary>
+        /// <typeparam name="TState"></typeparam>
+        public static void SetState<TState>()
+        {
+            StateMachineModule.SetState<TState>(Instance);
+        }
 
         /// <summary>
         /// When the System is destroyed, call Stop the System.
