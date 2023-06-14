@@ -27,7 +27,8 @@ namespace UDT.Core
             foreach (IFSM machine in machines)
             {
                 var node = machine.states.currentNode.value;
-                ((State)node).Update();
+                if(node.GetType().IsAssignableFrom(typeof(State)))
+                    ((State)node).Update();
             }
         }
 
@@ -73,8 +74,8 @@ namespace UDT.Core
 
             //Call the Enter Method on the active State
             var nodeValue = createdMachine.states.currentNode.value;
-            //if(nodeValue is State)
-            ((State)nodeValue).Enter();
+            if(nodeValue.GetType().IsAssignableFrom(typeof(State)))
+                ((State)nodeValue).Enter();
             
             createdMachine.InitMachine();
 
@@ -123,7 +124,8 @@ namespace UDT.Core
                 }
             }
             
-            ((State)lastState).Exit();
+            if(lastState.GetType().IsAssignableFrom(typeof(State)))
+                ((State)lastState).Exit();
             foreach (object state in activeStates) if(state is State) (state as State).Enter();
         }
 
@@ -311,7 +313,8 @@ namespace UDT.Core
             }
 
             //Call Exit and Enter Methods of appropriate States
-            ((State)lastState).Exit();
+            if(lastState.GetType().IsAssignableFrom(typeof(State)))
+                ((State)lastState).Exit();
             foreach (object state in activeStates) if(state is State) (state as State).Enter();
         }
 
