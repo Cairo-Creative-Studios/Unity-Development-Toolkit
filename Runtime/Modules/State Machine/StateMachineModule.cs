@@ -27,8 +27,7 @@ namespace UDT.Core
             foreach (IFSM machine in machines)
             {
                 var node = machine.states.currentNode.value;
-                if(node.GetType().IsAssignableFrom(typeof(State)))
-                    ((State)node).Update();
+                Update(node);
             }
         }
 
@@ -74,8 +73,7 @@ namespace UDT.Core
 
             //Call the Enter Method on the active State
             var nodeValue = createdMachine.states.currentNode.value;
-            if(nodeValue.GetType().IsAssignableFrom(typeof(State)))
-                ((State)nodeValue).Enter();
+            Enter(nodeValue);
             
             createdMachine.InitMachine();
 
@@ -111,15 +109,13 @@ namespace UDT.Core
                 if (stateNode.value is TState)
                 {
                     var currentState = machine.states.currentNode.value;
-            
-                    if(currentState.GetType().IsAssignableFrom(typeof(State)))
-                        ((State)currentState).Exit();
 
+                    Exit(currentState);
+                    
                     machine.states.currentNode = stateNode;
                     currentState = stateNode.value;
                     
-                    if (typeof(State).IsAssignableFrom(currentState.GetType()))
-                        ((State)currentState).Enter();
+                    Enter(currentState);
                     
                     return;
                 }
@@ -128,6 +124,25 @@ namespace UDT.Core
             Debug.LogError("Type " + typeof(TState) + " is not a nested Type of "+ machine);
         }
 
+        private static void Exit(object currentState)
+        {
+            if (typeof(State).IsAssignableFrom(currentState.GetType()))
+                ((State)currentState).Exit();
+        }
+
+        private static void Update(object currentState)
+        {
+            if (typeof(State).IsAssignableFrom(currentState.GetType()))
+                ((State)currentState).Update();
+        }
+
+        private static void Enter(object currentState)
+        {
+            if (typeof(State).IsAssignableFrom(currentState.GetType()))
+                ((State)currentState).Enter();
+        }
+        
+        
         /// <summary>
         /// Gets a Machine that has been enabled through the State Machine Module
         /// </summary>
@@ -248,44 +263,6 @@ namespace UDT.Core
         public string GetState()
         {
             return node.value.ToString();
-        }
-
-        /// <summary>
-        /// Sets the State to the State with the given path
-        /// </summary>
-        /// <param name="statePath">State path.</param>
-        public void SetState(string statePath)
-        {
-            Tree<IStateNode> tree = node.tree;
-            tree.Reset();
-
-            bool exists = true;
-
-            List<object> activeStates = new List<object>();
-            object lastState = tree.currentNode.value;
-
-            for (int i = 0; i < statePath.TokenCount('/'); i++)
-            {
-                if (exists)
-                {
-                    //Step the Tree Forward into the Nest
-                    exists = tree.StepForward(statePath.TokenAt(i, '/'));
-                    activeStates.Add(tree.currentNode.value);
-                }
-                else
-                {
-                    //If the Requested State wasn't found, call an error set the Active State back to this one and end the Search
-                    Debug.LogError("Given State Path is invalid, the given State Hiearchy does not exist: (" +
-                                   statePath + ")");
-                    tree.currentNode = node;
-                    return;
-                }
-            }
-
-            //Call Exit and Enter Methods of appropriate States
-            if(lastState.GetType().IsAssignableFrom(typeof(State)))
-                ((State)lastState).Exit();
-            foreach (object state in activeStates) if(state is State) (state as State).Enter();
         }
 
         /// <summary>
