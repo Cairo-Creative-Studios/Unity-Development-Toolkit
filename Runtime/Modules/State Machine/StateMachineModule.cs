@@ -97,43 +97,11 @@ namespace UDT.Core
         }
 
         /// <summary>
-        /// Sets the State of a given State Machine enabled Object
-        /// </summary>
-        /// <param name="root">The object to set the State of</param>
-        /// <param name="statePath">The path to the State to set to</param>
-        public static void SetState(IFSM machine, string statePath)
-        {
-            Tree<IStateNode> tree = machine.states;
-            tree.Reset();
-
-            List<object> activeStates = new List<object>();
-            object lastState = tree.currentNode.value;
-
-            for (int i = 0; i < statePath.TokenCount('/'); i++)
-            {
-                //Step the Tree Forward into the Nest
-                try
-                {
-                    tree.StepForward(statePath.TokenAt(i, '/'));
-                    activeStates.Add(tree.currentNode.value);
-                }
-                catch
-                {
-                    Debug.LogError("The requested State Path does not exist: "+statePath, (MonoBehaviour)machine);
-                    tree.currentNode = machine.states.currentNode;
-                }
-            }
-            
-            if(lastState.GetType().IsAssignableFrom(typeof(State)))
-                ((State)lastState).Exit();
-            foreach (object state in activeStates) if(state is State) (state as State).Enter();
-        }
-
-        /// <summary>
         /// Sets the State of a given State Machine enabled Object based on the Type of the State
         /// </summary>
         /// <param name="machine"></param>
         /// <typeparam name="TState"></typeparam>
+
         public static void SetState<TState>(IFSM machine)
         {
             var stateNodes = machine.states.Flatten();
@@ -142,10 +110,22 @@ namespace UDT.Core
             {
                 if (stateNode.value is TState)
                 {
+                    var currentState = machine.states.currentNode.value;
+            
+                    if(currentState.GetType().IsAssignableFrom(typeof(State)))
+                        ((State)currentState).Exit();
+
                     machine.states.currentNode = stateNode;
+                    currentState = stateNode.value;
+                    
+                    if (typeof(State).IsAssignableFrom(currentState.GetType()))
+                        ((State)currentState).Enter();
+                    
                     return;
                 }
             }
+            
+            Debug.LogError("Type " + typeof(TState) + " is not a nested Type of "+ machine);
         }
 
         /// <summary>
@@ -184,16 +164,6 @@ namespace UDT.Core
 
             //Step the Tree Forward into the First State
             states.StepForward(0);
-        }
-        
-        /// <summary>
-        /// Sets the State to the State with the given path
-        /// </summary>
-        /// <param name="statePath"></param>
-        public void _SetState(string statePath)
-        {
-            StateMachineModule.AddStateMachine(this);
-            StateMachineModule.SetState(this, statePath);
         }
         
         public IStateNode _GetState()
@@ -412,7 +382,7 @@ namespace UDT.Core
         
         public virtual void CompleteTransition()
         {
-            StateMachineModule.SetState(Machine, nextState.Path);
+            StateMachineModule.SetState<TNextState>(Machine);
         }
     }
 }

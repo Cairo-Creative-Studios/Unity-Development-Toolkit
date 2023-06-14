@@ -73,16 +73,6 @@ namespace UDT.Core
         {
             stateTree = states;
         }
-
-        /// <summary>
-        /// Set the State of the Runtime
-        /// </summary>
-        /// <param name="path">The Path to the desired State</param>
-        public void _SetState(string path)
-        {
-            StateMachineModule.SetState(this, path);
-        }
-        
         
         public void _Transition<TPreviousState, TNextState>()
         {
@@ -94,11 +84,6 @@ namespace UDT.Core
             Instance._Transition<TPreviousState, TNextState>();
         }
         
-        public static void SetState(string path)
-        {
-            Instance._SetState(path);
-        }
-
         void IRuntime.RuntimeStarted()
         {
             StateMachineModule.AddStateMachine(this);

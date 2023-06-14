@@ -49,15 +49,6 @@ namespace UDT.Core
             stateTree = states;
         }
 
-        /// <summary>
-        /// Set the State of the Runtime
-        /// </summary>
-        /// <param name="path">The Path to the desired State</param>
-        public void _SetState(string path)
-        {
-            StateMachineModule.SetState(this, path);
-        }
-
         private void Awake()
         {
             stateTree = states;
@@ -207,12 +198,6 @@ namespace UDT.Core
                 Components.Add(standardComponent);
             }
         }
-
-        public static void SetState(string statePath)
-        {
-            Instance._SetState(statePath);
-        }
-
         public void _Transition<TPreviousState, TNextState>()
         {
             ((IFSM)this).Transition<TPreviousState, TNextState>();

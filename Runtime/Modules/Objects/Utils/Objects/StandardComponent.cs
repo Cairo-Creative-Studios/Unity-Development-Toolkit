@@ -128,9 +128,9 @@ namespace UDT.Core
         /// Set the State of this Component
         /// </summary>
         /// <param name="stateName"></param>
-        public void SetComponentState(string stateName)
+        public void SetComponentState<TState>(string stateName)
         {
-            Object.SetComponentState(this, stateName);
+            Object.SetComponentState<TState>(this);
         }
         
         /// <summary>

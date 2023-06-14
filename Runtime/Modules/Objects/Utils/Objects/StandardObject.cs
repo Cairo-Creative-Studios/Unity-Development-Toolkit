@@ -224,20 +224,20 @@ namespace UDT.Core
         /// </summary>
         /// <param name="component"></param>
         /// <param name="stateName"></param>
-        public void SetComponentState(StandardComponent component, string stateName)
+        public void SetComponentState<TState>(StandardComponent component)
         {
-            StateMachineModule.SetState(component, stateName);
+            StateMachineModule.SetState<TState>(component);
         }
         
         /// <summary>
         /// Set the State of a Component
         /// </summary>
         /// <param name="stateName"></param>
-        /// <typeparam name="T">Component Type</typeparam>
-        public void SetComponentState<T>(string stateName) where T : StandardComponent
+        /// <typeparam name="TComponent">Component Type</typeparam>
+        public void SetComponentState<TComponent, TState>() where TComponent : StandardComponent
         {
-            var component = GetComponent<T>();
-            StateMachineModule.SetState(component, stateName);
+            var component = GetComponent<TComponent>();
+            StateMachineModule.SetState<TState>(component);
         }
         
         /// <summary>
