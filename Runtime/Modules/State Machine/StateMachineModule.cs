@@ -55,7 +55,7 @@ namespace UDT.Core
             createdMachine.states.currentNode = createdMachine.states.rootNode;
             
             //Add a reference to the Tree Node in the Created State
-            foreach (Node<IStateNode> node in createdMachine.states.ToArray())
+            foreach (Node<IStateNode> node in createdMachine.states.Flatten())
             {
                 if (node.value is State stateNode)
                 {
@@ -130,6 +130,25 @@ namespace UDT.Core
         }
 
         /// <summary>
+        /// Sets the State of a given State Machine enabled Object based on the Type of the State
+        /// </summary>
+        /// <param name="machine"></param>
+        /// <typeparam name="TState"></typeparam>
+        public static void SetState<TState>(IFSM machine)
+        {
+            var stateNodes = machine.states.Flatten();
+            
+            foreach (var stateNode in stateNodes)
+            {
+                if (stateNode.value is TState)
+                {
+                    machine.states.currentNode = stateNode;
+                    return;
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets a Machine that has been enabled through the State Machine Module
         /// </summary>
         /// <returns>The machine.</returns>
@@ -185,8 +204,8 @@ namespace UDT.Core
         
         public T _GetState<T>() where T : IStateNode
         {
-            var stateList = this.states.Nodes();
-            for(int i = 0; i < stateList.Count; i++)
+            var stateList = this.states.Flatten();
+            for(int i = 0; i < stateList.Length; i++)
             {
                 if (stateList[i] is T)
                 {

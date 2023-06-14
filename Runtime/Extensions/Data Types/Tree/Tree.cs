@@ -85,7 +85,7 @@ namespace UDT.DataTypes
         {
             get
             {
-                Node<T>[] nodeArray = ToArray();
+                Node<T>[] nodeArray = Flatten();
 
                 foreach (Node<T> node in nodeArray)
                 {
@@ -205,20 +205,10 @@ namespace UDT.DataTypes
         }
 
         /// <summary>
-        /// Get all the Nodes in the Tree
-        /// </summary>
-        /// <returns>The nodes.</returns>
-        public List<Node<T>> Nodes()
-        {
-            List<Node<T>> nodes = new List<Node<T>>();
-            return null;
-        }
-
-        /// <summary>
         /// Gets all the Nodes in the Tree as an Array
         /// </summary>
         /// <returns>The array.</returns>
-        public Node<T>[] ToArray()
+        public Node<T>[] Flatten()
         {
             List<Node<T>> asList = new List<Node<T>>();
             AddChildren(asList, rootNode);
