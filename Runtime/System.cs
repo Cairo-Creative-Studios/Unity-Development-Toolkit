@@ -79,6 +79,8 @@ namespace UDT.Core
             ObjectModule.OnComponentAdded += Instance.OnComponentAdded;
             ObjectModule.OnComponentRemoved += Instance.OnComponentRemoved;
 
+            StateMachineModule.AddStateMachine(Instance);
+
             return instance;
         }
 
