@@ -129,7 +129,8 @@ namespace UDT.Core
                 if (runtime is IData)
                 {
                     var DataProperty = runtime.GetType().GetProperty("Data");
-                    DataProperty.SetValue(runtime, GetStaticData(DataProperty.GetValue(runtime).GetType()));
+                    if(DataProperty != null)
+                        DataProperty.SetValue(runtime, GetStaticData(DataProperty.GetValue(runtime).GetType()));
                 }
             }
         }
