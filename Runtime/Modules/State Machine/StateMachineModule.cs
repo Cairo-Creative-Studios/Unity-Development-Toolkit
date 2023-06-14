@@ -41,6 +41,8 @@ namespace UDT.Core
             //Create the new State Machine
             createdMachine.states = createdMachine.GetNestedClassesAsTree<IStateNode, State>(true);
             
+            if(createdMachine.states.rootNode.children == null) return;
+            
             Type[] transitions = createdMachine.GetNestedTypesOfBaseType<IStateNode>();
             List<Transition> transitionInstances = new();
             
@@ -50,8 +52,7 @@ namespace UDT.Core
             }
             createdMachine.transitions = transitionInstances.ToArray();
 
-            createdMachine.states.StepForward(createdMachine.states.currentNode.children[0].value);
-            if(createdMachine.states.currentNode.children == null) return;
+            createdMachine.states.currentNode = createdMachine.states.rootNode;
             
             //Add a reference to the Tree Node in the Created State
             foreach (Node<IStateNode> node in createdMachine.states.ToArray())
