@@ -27,6 +27,7 @@ namespace UDT.Core
             foreach (IFSM machine in machines)
             {
                 var node = machine.states.currentNode.value;
+                machine.currentState = machine.states.currentNode.value;
                 Update(node);
             }
         }
@@ -41,7 +42,7 @@ namespace UDT.Core
             createdMachine.states = createdMachine.GetNestedClassesAsTree<IStateNode, State>(true);
             
             if(createdMachine.states.rootNode.children == null) return;
-            
+
             Type[] transitions = createdMachine.GetNestedTypesOfBaseType<IStateNode>();
             List<Transition> transitionInstances = new();
             
@@ -68,6 +69,8 @@ namespace UDT.Core
                     }
                     
                     stateNode.Path = path;
+
+                    stateNode.Machine = createdMachine;
                 }
             }
 
@@ -158,6 +161,21 @@ namespace UDT.Core
 
             return null;
         }
+        
+        public static bool IsState<T>(IFSM machine)
+        {
+            var stateNodes = machine.states.Flatten();
+            
+            foreach (var stateNode in stateNodes)
+            {
+                if (stateNode.value is T)
+                {
+                    return true;
+                }
+            }
+            
+            return false;
+        }
     }
 
     /// <summary>
@@ -170,6 +188,7 @@ namespace UDT.Core
         /// </summary>
         public Tree<IStateNode> states { get; set; }
         public Transition[] transitions { get; set; }
+        public IStateNode currentState { get; set; }
 
         public void InitMachine();
         
@@ -236,9 +255,10 @@ namespace UDT.Core
     public class State : IStateNode
     {
         public Node<IStateNode> node = null;
+        public IFSM Machine;
         public object Context;
         public string Path;
-        
+
         public virtual void Enter()
         {
         }
@@ -319,6 +339,11 @@ namespace UDT.Core
         public override string ToString()
         {
             return GetType().Name;
+        }
+
+        public void SetState<TState>()
+        {
+            StateMachineModule.SetState<TState>(Machine);
         }
     }
 

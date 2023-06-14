@@ -41,6 +41,7 @@ namespace UDT.Core
         public Tree<IStateNode> states { get; set; }
         public Tree<IStateNode> stateTree = new Tree<IStateNode>();
         public Transition[] transitions { get; set; }
+        public IStateNode currentState { get; set; }
 
         public T _instance { get; set; }
         public static T Instance;
@@ -138,6 +139,11 @@ namespace UDT.Core
         public static void SetState<TState>()
         {
             StateMachineModule.SetState<TState>(Instance);
+        }
+        
+        public static bool IsState<TState>()
+        {
+            return StateMachineModule.IsState<TState>(Instance);
         }
     }
 }

@@ -17,6 +17,7 @@ namespace UDT.Core
         public StandardObject Object { get; set; }
         public Type AttachedSystemType;
         public Transition[] transitions { get; set; }
+        public IStateNode currentState { get; set; }
 
         public virtual void OnInstantiate()
         {
@@ -145,6 +146,16 @@ namespace UDT.Core
         public void AddComponentToState(string stateName, StandardComponent componentType, bool enabled = true)
         {
             Object.AddComponentToState(stateName, componentType, enabled);
+        }
+
+        public void SetState<TState>()
+        {
+            StateMachineModule.SetState<TState>(this);
+        }
+        
+        public bool IsState<TState>()
+        {
+            return StateMachineModule.IsState<TState>(this);
         }
     }
 
