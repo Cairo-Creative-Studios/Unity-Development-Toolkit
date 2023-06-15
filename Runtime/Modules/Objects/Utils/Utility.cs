@@ -4,7 +4,6 @@ namespace UDT.Core.Utils
 {
     public class Utility
     {
-        public object Data { get; set; }
     }
     
     /// <summary>
