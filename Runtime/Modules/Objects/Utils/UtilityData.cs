@@ -13,7 +13,9 @@ namespace UDT.Core.Utils
         
         public T NewUtility()
         {
-            return new T();
+            var util = new T();
+            util.Data = this;
+            return util;
         }
     }
 }
