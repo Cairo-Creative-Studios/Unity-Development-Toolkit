@@ -1,3 +1,4 @@
+using UDT.Reflection;
 using UnityEngine;
 
 namespace UDT.Core.Utils
@@ -14,7 +15,7 @@ namespace UDT.Core.Utils
         public T NewUtility()
         {
             var util = new T();
-            util.Data = this;
+            util.SetProperty("Data", this);
             return util;
         }
     }
