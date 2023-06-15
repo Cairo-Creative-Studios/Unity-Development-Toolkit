@@ -4,7 +4,7 @@ namespace UDT.Core.Utils
 {
     public class Utility
     {
-        public object Data;
+        public object Data { get; set; }
     }
     
     /// <summary>
@@ -13,7 +13,7 @@ namespace UDT.Core.Utils
     /// <typeparam name="T"></typeparam>
     public class Utility<TUtility, TData> : Utility where TUtility : Utility, new() where TData : UtilityData
     {
-        public new TData Data { get; private set; }
+        public new TData Data { get; set; }
         
         public Utility()
         {
