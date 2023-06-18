@@ -72,8 +72,6 @@ namespace UDT.Core
                 return GetInstance();
             }
             
-            Debug.Log($"Starting System {typeof(T).Name} from {caller} in {file}");
-            
             var instance = GetInstance();
             if (objects != null) SetObjects(objects);
 
