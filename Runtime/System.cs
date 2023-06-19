@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using NaughtyAttributes;
 using UDT.DataTypes;
+using UDT.Reflection;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -79,6 +80,12 @@ namespace UDT.Core
             ObjectModule.OnComponentRemoved += Instance.OnComponentRemoved;
 
             StateMachineModule.AddStateMachine(Instance);
+
+            var data = Instance.GetType().GetProperty("Data");
+            if (data != null)
+            {
+                Instance.SetProperty("Data", CoreModule.GetStaticData(data.PropertyType));
+            }
 
             return instance;
         }
