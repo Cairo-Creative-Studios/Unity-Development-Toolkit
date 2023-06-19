@@ -16,7 +16,6 @@ namespace UDT.Core.Utils
         
         public Utility()
         {
-            Data = ScriptableObject.CreateInstance<TData>();
         }
         
         /// <summary>

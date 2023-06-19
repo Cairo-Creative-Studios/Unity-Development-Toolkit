@@ -43,7 +43,7 @@ namespace UDT.Core
             
             if(createdMachine.states.rootNode.children == null) return;
 
-            Type[] transitions = createdMachine.GetNestedTypesOfBaseType<IStateNode>();
+            Type[] transitions = createdMachine.GetNestedTypesOfBaseType<Transition>();
             List<Transition> transitionInstances = new();
             
             foreach (var transition in transitions)

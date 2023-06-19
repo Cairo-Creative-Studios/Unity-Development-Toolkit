@@ -27,6 +27,7 @@ namespace UDT.Core
     /// A Standard Event is a stored form of a UnityEvent, that allows the event's trigger to be checked from a condition.
     /// It can be used to check events from conditions, and as a UnityEvent.
     /// </summary>
+    [Serializable]
     public class StandardEvent : StandardEventBase
     {
         public UnityEvent UnityEvent;
@@ -65,7 +66,7 @@ namespace UDT.Core
         {
             this.triggered = true;
             this.tick = Time.frameCount;
-            this.UnityEvent.Invoke();
+            this.UnityEvent?.Invoke();
             this.Action?.Invoke();
         }
         
@@ -104,6 +105,7 @@ namespace UDT.Core
     /// A Standard Event is a stored form of a UnityEvent, that allows the event's trigger to be checked from a condition.
     /// It can be used to check events from conditions, and as a UnityEvent.
     /// </summary>
+    [Serializable]
     public class StandardEvent<T> : StandardEventBase
     {
         public UnityEvent<T> UnityEvent;
@@ -141,7 +143,7 @@ namespace UDT.Core
         {
             this.triggered = true;
             this.tick = Time.frameCount;
-            this.UnityEvent.Invoke(arg);
+            this.UnityEvent?.Invoke(arg);
             this.Action?.Invoke(arg);
         }
 
@@ -181,6 +183,7 @@ namespace UDT.Core
     /// A Standard Event is a stored form of a UnityEvent, that allows the event's trigger to be checked from a condition.
     /// It can be used to check events from conditions, and as a UnityEvent.
     /// </summary>
+    [Serializable]
     public class StandardEvent<T1, T2> : StandardEventBase
     {
         public UnityEvent<T1, T2> UnityEvent;
@@ -220,7 +223,7 @@ namespace UDT.Core
             this.triggered = true;
             this.tick = Time.frameCount;
             this.Args = new object[] { arg1, arg2 };
-            this.UnityEvent.Invoke(arg1, arg2);
+            this.UnityEvent?.Invoke(arg1, arg2);
             this.Action?.Invoke(arg1, arg2);
         }
 
@@ -261,6 +264,7 @@ namespace UDT.Core
     /// A Standard Event is a stored form of a UnityEvent, that allows the event's trigger to be checked from a condition.
     /// It can be used to check events from conditions, and as a UnityEvent.
     /// </summary>
+    [Serializable]
     public class StandardEvent<T1, T2, T3> : StandardEventBase
     {
         public UnityEvent<T1, T2, T3> UnityEvent;
@@ -300,7 +304,7 @@ namespace UDT.Core
             this.triggered = true;
             this.tick = Time.frameCount;
             this.Args = new object[] { arg1, arg2, arg3 };
-            this.UnityEvent.Invoke(arg1, arg2, arg3);
+            this.UnityEvent?.Invoke(arg1, arg2, arg3);
             this.Action?.Invoke(arg1, arg2, arg3);
         }
 
@@ -340,6 +344,7 @@ namespace UDT.Core
     /// A Standard Event is a stored form of a UnityEvent, that allows the event's trigger to be checked from a condition.
     /// It can be used to check events from conditions, and as a UnityEvent.
     /// </summary>
+    [Serializable]
     public class StandardEvent<T1, T2, T3, T4> : StandardEventBase
     {
         public UnityEvent<T1, T2, T3, T4> UnityEvent;
@@ -373,7 +378,7 @@ namespace UDT.Core
             this.triggered = true;
             this.tick = Time.frameCount;
             this.Args = new object[] { arg1, arg2, arg3, arg4 };
-            this.UnityEvent.Invoke(arg1, arg2, arg3, arg4);
+            this.UnityEvent?.Invoke(arg1, arg2, arg3, arg4);
             this.Action?.Invoke(arg1, arg2, arg3, arg4);
         }
 

@@ -19,7 +19,6 @@ namespace UDT.Core
             SceneManager.CreateScene("UDT");
             Instance.enabled = true;
             SceneManager.MoveGameObjectToScene(Instance.gameObject, SceneManager.GetSceneByName("UDT"));
-            
         }
         
         public static void AddSingleton(SingletonBase singleton)
@@ -30,7 +29,6 @@ namespace UDT.Core
 
         void Update()
         {
-
             foreach (var singleton in singletons)
             {
                 if (singleton.gameObject.scene.name != "UDT")
@@ -133,6 +131,17 @@ namespace UDT.Core
                         DataProperty.SetValue(runtime, GetStaticData(DataProperty.PropertyType));
                 }
             }
+        }
+
+        public static T GetData<T>() where T : Data
+        {
+            foreach (var data in Instance.staticData)
+            {
+                if (data.GetType() == typeof(T))
+                    return (T)data;
+            }
+
+            return null;
         }
     }
 }
