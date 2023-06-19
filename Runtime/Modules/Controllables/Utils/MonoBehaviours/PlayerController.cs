@@ -25,6 +25,8 @@ namespace UDT.Core.Controllables
         private CinemachineVirtualCameraBase _cameraRig;
         public List<CinemachineVirtualCameraBase> cameraRigs = new List<CinemachineVirtualCameraBase>();
         
+        public StandardEvent<InputAction.CallbackContext> OnInputEvent = new();
+
         /// <summary>
         /// Set the InputActionAsset to the one given
         /// </summary>
@@ -110,6 +112,8 @@ namespace UDT.Core.Controllables
         
         public void OnInputAction(InputAction.CallbackContext context)
         {
+            OnInputEvent?.Invoke(context);
+            
             //Set inputs to SerializedInputMap
             if(context.valueType == typeof(bool))
                 inputMap.SetInput(context.action.name, context.ReadValue<bool>());
