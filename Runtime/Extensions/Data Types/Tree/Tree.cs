@@ -205,6 +205,32 @@ namespace UDT.DataTypes
         }
 
         /// <summary>
+        /// Attaches one Node to a Node at the given Index
+        /// </summary>
+        /// <param name="node">Node.</param>
+        /// <param name="index">Index.</param>
+        public void Add(T node, int[] index)
+        {
+            bool searchedRoot = false;
+
+            Node<T> curNode = null;
+
+            foreach (int token in index)
+            {
+                if (!searchedRoot)
+                {
+                    curNode = rootNode;
+                }
+                else
+                if (curNode.children.Count > token)
+                    curNode = curNode.GetNode(token);
+
+                searchedRoot = true;
+            }
+
+            curNode.Add(new Node<T>(this, node, index));
+        }
+        /// <summary>
         /// Gets all the Nodes in the Tree as an Array
         /// </summary>
         /// <returns>The array.</returns>
