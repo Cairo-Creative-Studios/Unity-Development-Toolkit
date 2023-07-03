@@ -12,6 +12,7 @@ namespace UDT.Core
         public List<SingletonBase> singletons = new();
         public List<Data> staticData = new();
 
+
         [RuntimeInitializeOnLoadMethod]
         static void OnRuntimeLoad()
         {

@@ -15,7 +15,7 @@ namespace UDT.Core
         [SerializeField]
         private SerializableDictionary<string, ObjectPool> _objectPools = new SerializableDictionary<string, ObjectPool>();
         private ObjectDefinition[] _resourceData = new ObjectDefinition[] { };
-        private int UIDCounter = 0;
+        public static int UIDCounter = 0;
         
         public delegate void StandardComponentEvent(StandardComponent standardComponent, Type systemType);
         public delegate void StandardObjectEvent(StandardObject obj);
