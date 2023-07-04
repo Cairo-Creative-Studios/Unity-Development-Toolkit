@@ -1,4 +1,4 @@
-﻿namespace DefaultNamespace;
+﻿namespace UDT.Core;
 
 public interface IUID
 {
