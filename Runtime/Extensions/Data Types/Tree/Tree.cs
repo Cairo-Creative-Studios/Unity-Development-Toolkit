@@ -122,6 +122,7 @@ namespace UDT.DataTypes
         /// </summary>
         public bool StepForward(int node)
         {
+            if (currentNode.children == null) return false;
             if (currentNode.children.Count > node)
             {
                 currentNode = currentNode.children[node];
@@ -139,6 +140,7 @@ namespace UDT.DataTypes
         {
             Node<T> lastNode = currentNode;
 
+            if (lastNode.children == null) return false;
             foreach (Node<T> node in lastNode.children)
             {
                 if ((object)node.value == (object)value)
@@ -159,6 +161,7 @@ namespace UDT.DataTypes
         {
             Node<T> lastNode = currentNode;
 
+            if(lastNode.children == null) return false;
             foreach (Node<T> node in lastNode.children)
             {
                 if (node.value.ToString() == valueToString)
@@ -195,8 +198,12 @@ namespace UDT.DataTypes
                     curNode = rootNode;
                 }
                 else
+                {
+                    if (curNode.children == null) return;
+                    
                     if (curNode.children.Count > token)
-                    curNode = curNode.GetNode(token);
+                        curNode = curNode.GetNode(token);
+                }
 
                 searchedRoot = true;
             }
