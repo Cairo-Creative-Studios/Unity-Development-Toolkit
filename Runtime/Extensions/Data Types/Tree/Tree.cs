@@ -229,8 +229,10 @@ namespace UDT.DataTypes
                     curNode = rootNode;
                 }
                 else
-                if (curNode.children.Count > token)
-                    curNode = curNode.GetNode(token);
+                {
+					if (curNode.children == null) return;
+                	if (curNode.children.Count > token) curNode = curNode.GetNode(token);
+				}
 
                 searchedRoot = true;
             }

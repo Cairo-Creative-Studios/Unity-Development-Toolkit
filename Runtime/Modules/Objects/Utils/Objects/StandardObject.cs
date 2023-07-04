@@ -109,7 +109,7 @@ namespace UDT.Core
 
         private void Awake()
         {
-            UID = CoreModule.UIDCounter++;
+            UID = ObjectModule.UIDCounter++;
             if(Application.isPlaying)
             {
                 _standardEvents.onAwake?.Invoke();
