@@ -131,8 +131,8 @@ namespace UDT.Core
             }
             
             Instance._indexedObjects.Add(instance);
-            Instance.UIDCounter++;
-            instance.UID = Instance.UIDCounter;
+            UIDCounter++;
+            instance.UID = UIDCounter;
 
             if (instance.prefab != null&&Instance._objectPools.ContainsKey(instance.prefab.name))
             {
