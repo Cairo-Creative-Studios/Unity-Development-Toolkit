@@ -1,7 +1,6 @@
 using UnityEngine;
 using UDT.Core;
 
-
 namespace UDT.Core.Utils
 {
     public class Utility
