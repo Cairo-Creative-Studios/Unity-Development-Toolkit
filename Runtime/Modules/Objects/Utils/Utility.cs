@@ -11,7 +11,7 @@ namespace UDT.Core.Utils
     /// A utility is a generic object that can be paired with Utility Data
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class Utility<TUtility, TData> : Utility, IUID where TUtility : Utility, new() where TData : UtilityData
+    public class Utility<TUtility, TData> : Utility where TUtility : Utility, new() where TData : UtilityData
     {
         public new TData Data { get; set; }
         public int UID { get; set; }
