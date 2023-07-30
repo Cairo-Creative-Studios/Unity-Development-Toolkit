@@ -93,7 +93,7 @@ namespace UDT.Core
             this.tick = Time.frameCount;
             this.UnityEvent?.Invoke();
             this.Action?.Invoke();
-            InvokeBaseAction?.Invoke();
+            baseAction?.Invoke();
 
             triggered = true;
             await Task.Yield();
@@ -175,7 +175,7 @@ namespace UDT.Core
             this.UnityEvent?.Invoke(arg);
             this.Action?.Invoke(arg);
             this.Args = new object[] { arg };
-            InvokeBaseAction?.Invoke();
+            baseAction?.Invoke();
 
             triggered = true;
             await Task.Yield();
@@ -260,7 +260,7 @@ namespace UDT.Core
             this.Action?.Invoke(arg1, arg2);
             
             this.Args = new object[] { arg1, arg2 };
-            InvokeBaseAction?.Invoke();
+            baseAction?.Invoke();
 
             triggered = true;
             await Task.Yield();
@@ -346,7 +346,7 @@ namespace UDT.Core
             this.Action?.Invoke(arg1, arg2, arg3);
 
             this.Args = new object[] { arg1, arg2, arg3 };
-            InvokeBaseAction?.Invoke();
+            baseAction?.Invoke();
 
             triggered = true;
             await Task.Yield();
@@ -425,7 +425,7 @@ namespace UDT.Core
             this.Action?.Invoke(arg1, arg2, arg3, arg4);
 
             this.Args = new object[] { arg1, arg2, arg3, arg4 };
-            InvokeBaseAction?.Invoke();
+            baseAction?.Invoke();
 
             triggered = true;
             await Task.Yield();
