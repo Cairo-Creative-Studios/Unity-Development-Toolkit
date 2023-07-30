@@ -169,7 +169,7 @@ namespace UDT.Core
         /// <summary>
         /// Invoke the event.
         /// </summary>
-        public void Invoke(T arg)
+        public async Task Invoke(T arg)
         {
             this.tick = Time.frameCount;
             this.UnityEvent?.Invoke(arg);
@@ -253,7 +253,7 @@ namespace UDT.Core
         /// Invoke the event.
         /// </summary>
         /// <param name="args"></param>
-        public void Invoke(T1 arg1, T2 arg2)
+        public async Task Invoke(T1 arg1, T2 arg2)
         {
             this.tick = Time.frameCount;
             this.UnityEvent?.Invoke(arg1, arg2);
@@ -339,7 +339,7 @@ namespace UDT.Core
         /// Invoke the event.
         /// </summary>
         /// <param name="args"></param>
-        public void Invoke(T1 arg1, T2 arg2, T3 arg3)
+        public async Task Invoke(T1 arg1, T2 arg2, T3 arg3)
         {
             this.tick = Time.frameCount;
             this.UnityEvent?.Invoke(arg1, arg2, arg3);
@@ -418,7 +418,7 @@ namespace UDT.Core
         /// Invoke the event.
         /// </summary>
         /// <param name="args"></param>
-        public void Invoke(T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+        public async Task Invoke(T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
             this.tick = Time.frameCount;
             this.UnityEvent?.Invoke(arg1, arg2, arg3, arg4);
