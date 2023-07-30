@@ -2,6 +2,7 @@ using System;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
+using System.Threading.Tasks;
 
 namespace UDT.Core
 {
@@ -16,10 +17,35 @@ namespace UDT.Core
         public object[] Args;
         public bool triggered;
         public int tick;
+        public Action baseAction;
 
         public StandardEventBase(string name = "")
         {
             this.Name = name;
+        }
+
+        /// <summary>
+        /// Sets the Arguments of the Event and Invokes the Base Parameterless Base Action.
+        /// </summary>
+        /// <param name="arguments"></param>
+        public async Task InvokeBaseAction(params object[] arguments)
+        {
+            Args = arguments;
+            baseAction?.Invoke();
+
+            triggered = true;
+            await Task.Yield();
+            triggered = false;
+        }
+
+        public void AddListenerToBase(Action action)
+        {
+            baseAction += action;
+        }
+
+        public void RemoveListenerFromBase(Action action)
+        {
+            baseAction -= action;
         }
     }
 
@@ -62,12 +88,16 @@ namespace UDT.Core
         /// Invoke the event.
         /// </summary>
         /// <param name="args"></param>
-        public void Invoke()
+        public async Task Invoke()
         {
-            this.triggered = true;
             this.tick = Time.frameCount;
             this.UnityEvent?.Invoke();
             this.Action?.Invoke();
+            InvokeBaseAction?.Invoke();
+
+            triggered = true;
+            await Task.Yield();
+            triggered = false;
         }
         
         public StandardEvent(string name = "") : base(name)
@@ -141,10 +171,15 @@ namespace UDT.Core
         /// </summary>
         public void Invoke(T arg)
         {
-            this.triggered = true;
             this.tick = Time.frameCount;
             this.UnityEvent?.Invoke(arg);
             this.Action?.Invoke(arg);
+            this.Args = new object[] { arg };
+            InvokeBaseAction?.Invoke();
+
+            triggered = true;
+            await Task.Yield();
+            triggered = false;
         }
 
         public StandardEvent(string name = "") : base(name)
@@ -220,11 +255,16 @@ namespace UDT.Core
         /// <param name="args"></param>
         public void Invoke(T1 arg1, T2 arg2)
         {
-            this.triggered = true;
             this.tick = Time.frameCount;
-            this.Args = new object[] { arg1, arg2 };
             this.UnityEvent?.Invoke(arg1, arg2);
             this.Action?.Invoke(arg1, arg2);
+            
+            this.Args = new object[] { arg1, arg2 };
+            InvokeBaseAction?.Invoke();
+
+            triggered = true;
+            await Task.Yield();
+            triggered = false;
         }
 
         public StandardEvent(string name = "") : base(name)
@@ -301,11 +341,16 @@ namespace UDT.Core
         /// <param name="args"></param>
         public void Invoke(T1 arg1, T2 arg2, T3 arg3)
         {
-            this.triggered = true;
             this.tick = Time.frameCount;
-            this.Args = new object[] { arg1, arg2, arg3 };
             this.UnityEvent?.Invoke(arg1, arg2, arg3);
             this.Action?.Invoke(arg1, arg2, arg3);
+
+            this.Args = new object[] { arg1, arg2, arg3 };
+            InvokeBaseAction?.Invoke();
+
+            triggered = true;
+            await Task.Yield();
+            triggered = false;
         }
 
         public StandardEvent(string name = "") : base(name)
@@ -375,11 +420,16 @@ namespace UDT.Core
         /// <param name="args"></param>
         public void Invoke(T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
-            this.triggered = true;
             this.tick = Time.frameCount;
-            this.Args = new object[] { arg1, arg2, arg3, arg4 };
             this.UnityEvent?.Invoke(arg1, arg2, arg3, arg4);
             this.Action?.Invoke(arg1, arg2, arg3, arg4);
+
+            this.Args = new object[] { arg1, arg2, arg3, arg4 };
+            InvokeBaseAction?.Invoke();
+
+            triggered = true;
+            await Task.Yield();
+            triggered = false;
         }
 
         public StandardEvent(string name = "") : base(name)
