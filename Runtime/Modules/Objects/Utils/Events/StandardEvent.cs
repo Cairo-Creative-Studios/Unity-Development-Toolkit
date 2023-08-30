@@ -38,9 +38,27 @@ namespace UDT.Core
             triggered = false;
         }
 
+        /// <summary>
+        /// AddMethod a method to the event.
+        /// </summary>
+        /// <param name="method"></param>
+        public virtual void AddListener(Action method)
+        {
+
+        }
+
         public void AddListenerToBase(Action action)
         {
             baseAction += action;
+        }
+
+        /// <summary>
+        /// Remove a method from this Event's Action.
+        /// </summary>
+        /// <param name="method"></param>
+        public virtual void RemoveListener(Action method)
+        {
+
         }
 
         public void RemoveListenerFromBase(Action action)
@@ -108,7 +126,7 @@ namespace UDT.Core
         /// AddMethod a method to the event.
         /// </summary>
         /// <param name="method"></param>
-        public void AddListener(Action method)
+        public override void AddListener(Action method)
         {
             Action += method;
         }
@@ -117,7 +135,7 @@ namespace UDT.Core
         /// RemoveMethod a method from the event.
         /// </summary>
         /// <param name="method"></param>
-        public void RemoveListener(Action method)
+        public override void RemoveListener(Action method)
         {
             Action -= method;
         }
@@ -191,7 +209,7 @@ namespace UDT.Core
         /// AddMethod a method to the event.
         /// </summary>
         /// <param name="method"></param>
-        public void AddListener(Action<T> method)
+        public override void AddListener(Action<T> method)
         {
             Action += method;
         }
@@ -200,7 +218,7 @@ namespace UDT.Core
         /// RemoveMethod a method from the event.
         /// </summary>
         /// <param name="method"></param>
-        public void RemoveListener(Action<T> method)
+        public override void RemoveListener(Action<T> method)
         {
             Action -= method;
         }
@@ -276,7 +294,7 @@ namespace UDT.Core
         /// AddMethod a method to the event.
         /// </summary>
         /// <param name="method"></param>
-        public void AddListener(Action<T1, T2> method)
+        public override void AddListener(Action<T1, T2> method)
         {
             Action += method;
         }
@@ -285,7 +303,7 @@ namespace UDT.Core
         /// RemoveMethod a method from the event.
         /// </summary>
         /// <param name="method"></param>
-        public void RemoveListener(Action<T1, T2> method)
+        public override void RemoveListener(Action<T1, T2> method)
         {
             Action -= method;
         }
@@ -362,7 +380,7 @@ namespace UDT.Core
         /// AddMethod a method to the event.
         /// </summary>
         /// <param name="method"></param>
-        public void AddListener(Action<T1, T2, T3> method)
+        public override void AddListener(Action<T1, T2, T3> method)
         {
             Action += method;
         }
@@ -371,7 +389,7 @@ namespace UDT.Core
         /// RemoveMethod a method from the event.
         /// </summary>
         /// <param name="method"></param>
-        public void RemoveListener(Action<T1, T2, T3> method)
+        public override void RemoveListener(Action<T1, T2, T3> method)
         {
             Action -= method;
         }
@@ -441,7 +459,7 @@ namespace UDT.Core
         /// AddMethod a method to the event.
         /// </summary>
         /// <param name="method"></param>
-        public void AddListener(Action<T1, T2, T3, T4> method)
+        public override void AddListener(Action<T1, T2, T3, T4> method)
         {
             Action += method;
         }
@@ -449,7 +467,7 @@ namespace UDT.Core
         /// <summary>
         /// RemoveMethod a method from the event.
         /// </summary>
-        public void RemoveListener(Action<T1, T2, T3, T4> method)
+        public override void RemoveListener(Action<T1, T2, T3, T4> method)
         {
             Action -= method;
         }
