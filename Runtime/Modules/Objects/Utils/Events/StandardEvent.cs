@@ -3,6 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using System.Threading.Tasks;
+using UDT.Reflection;
 
 namespace UDT.Core
 {
@@ -18,6 +19,7 @@ namespace UDT.Core
         public bool triggered;
         public int tick;
         public Action baseAction;
+        public object Action;
 
         public StandardEventBase(string name = "")
         {
@@ -37,28 +39,24 @@ namespace UDT.Core
             await Task.Yield();
             triggered = false;
         }
-
-        /// <summary>
-        /// AddMethod a method to the event.
-        /// </summary>
-        /// <param name="method"></param>
-        public virtual void AddListener(Action method)
+        public async Task Invoke(bool calledFromEvent = false, params object[] arguments)
         {
+            this.tick = Time.frameCount;
+            baseAction?.Invoke();
 
+            if(calledFromEvent)
+            {
+                this.CallMethod("Invoke", Args);
+            }
+
+            triggered = true;
+            await Task.Yield();
+            triggered = false;
         }
 
         public void AddListenerToBase(Action action)
         {
             baseAction += action;
-        }
-
-        /// <summary>
-        /// Remove a method from this Event's Action.
-        /// </summary>
-        /// <param name="method"></param>
-        public virtual void RemoveListener(Action method)
-        {
-
         }
 
         public void RemoveListenerFromBase(Action action)
@@ -108,14 +106,9 @@ namespace UDT.Core
         /// <param name="args"></param>
         public async Task Invoke()
         {
-            this.tick = Time.frameCount;
             this.UnityEvent?.Invoke();
             this.Action?.Invoke();
-            baseAction?.Invoke();
-
-            triggered = true;
-            await Task.Yield();
-            triggered = false;
+            Invoke(true);
         }
         
         public StandardEvent(string name = "") : base(name)
@@ -126,7 +119,7 @@ namespace UDT.Core
         /// AddMethod a method to the event.
         /// </summary>
         /// <param name="method"></param>
-        public override void AddListener(Action method)
+        public void AddListener(Action method)
         {
             Action += method;
         }
@@ -135,7 +128,7 @@ namespace UDT.Core
         /// RemoveMethod a method from the event.
         /// </summary>
         /// <param name="method"></param>
-        public override void RemoveListener(Action method)
+        public void RemoveListener(Action method)
         {
             Action -= method;
         }
@@ -183,21 +176,17 @@ namespace UDT.Core
                 return this.triggered;
             }
         }
-        
+
         /// <summary>
         /// Invoke the event.
         /// </summary>
-        public async Task Invoke(T arg)
+        /// <param name="args"></param>
+        public async Task Invoke(T arg0)
         {
-            this.tick = Time.frameCount;
-            this.UnityEvent?.Invoke(arg);
-            this.Action?.Invoke(arg);
-            this.Args = new object[] { arg };
-            baseAction?.Invoke();
-
-            triggered = true;
-            await Task.Yield();
-            triggered = false;
+            Args = new object[] { arg0 };
+            this.UnityEvent?.Invoke(arg0);
+            this.Action?.Invoke(arg0);
+            Invoke(true, arg0);
         }
 
         public StandardEvent(string name = "") : base(name)
@@ -209,7 +198,7 @@ namespace UDT.Core
         /// AddMethod a method to the event.
         /// </summary>
         /// <param name="method"></param>
-        public override void AddListener(Action<T> method)
+        public void AddListener(Action<T> method)
         {
             Action += method;
         }
@@ -218,7 +207,7 @@ namespace UDT.Core
         /// RemoveMethod a method from the event.
         /// </summary>
         /// <param name="method"></param>
-        public override void RemoveListener(Action<T> method)
+        public void RemoveListener(Action<T> method)
         {
             Action -= method;
         }
@@ -266,23 +255,17 @@ namespace UDT.Core
                 return this.triggered;
             }
         }
-        
+
         /// <summary>
         /// Invoke the event.
         /// </summary>
         /// <param name="args"></param>
-        public async Task Invoke(T1 arg1, T2 arg2)
+        public async Task Invoke(T1 arg0, T2 arg1)
         {
-            this.tick = Time.frameCount;
-            this.UnityEvent?.Invoke(arg1, arg2);
-            this.Action?.Invoke(arg1, arg2);
-            
-            this.Args = new object[] { arg1, arg2 };
-            baseAction?.Invoke();
-
-            triggered = true;
-            await Task.Yield();
-            triggered = false;
+            Args = new object[] { arg0, arg1 };
+            this.UnityEvent?.Invoke(arg0, arg1);
+            this.Action?.Invoke(arg0, arg1);
+            Invoke(true, arg0, arg1);
         }
 
         public StandardEvent(string name = "") : base(name)
@@ -294,7 +277,7 @@ namespace UDT.Core
         /// AddMethod a method to the event.
         /// </summary>
         /// <param name="method"></param>
-        public override void AddListener(Action<T1, T2> method)
+        public void AddListener(Action<T1, T2> method)
         {
             Action += method;
         }
@@ -303,7 +286,7 @@ namespace UDT.Core
         /// RemoveMethod a method from the event.
         /// </summary>
         /// <param name="method"></param>
-        public override void RemoveListener(Action<T1, T2> method)
+        public void RemoveListener(Action<T1, T2> method)
         {
             Action -= method;
         }
@@ -352,23 +335,17 @@ namespace UDT.Core
                 return this.triggered;
             }
         }
-        
+
         /// <summary>
         /// Invoke the event.
         /// </summary>
         /// <param name="args"></param>
-        public async Task Invoke(T1 arg1, T2 arg2, T3 arg3)
+        public async Task Invoke(T1 arg0, T2 arg1, T3 arg2)
         {
-            this.tick = Time.frameCount;
-            this.UnityEvent?.Invoke(arg1, arg2, arg3);
-            this.Action?.Invoke(arg1, arg2, arg3);
-
-            this.Args = new object[] { arg1, arg2, arg3 };
-            baseAction?.Invoke();
-
-            triggered = true;
-            await Task.Yield();
-            triggered = false;
+            Args = new object[] { arg0, arg1, arg2 };
+            this.UnityEvent?.Invoke(arg0, arg1, arg2);
+            this.Action?.Invoke(arg0, arg1, arg2);
+            Invoke(true, arg0, arg1, arg2);
         }
 
         public StandardEvent(string name = "") : base(name)
@@ -380,7 +357,7 @@ namespace UDT.Core
         /// AddMethod a method to the event.
         /// </summary>
         /// <param name="method"></param>
-        public override void AddListener(Action<T1, T2, T3> method)
+        public void AddListener(Action<T1, T2, T3> method)
         {
             Action += method;
         }
@@ -389,7 +366,7 @@ namespace UDT.Core
         /// RemoveMethod a method from the event.
         /// </summary>
         /// <param name="method"></param>
-        public override void RemoveListener(Action<T1, T2, T3> method)
+        public void RemoveListener(Action<T1, T2, T3> method)
         {
             Action -= method;
         }
@@ -436,19 +413,14 @@ namespace UDT.Core
         /// Invoke the event.
         /// </summary>
         /// <param name="args"></param>
-        public async Task Invoke(T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+        public async Task Invoke(T1 arg0, T2 arg1, T3 arg2, T4 arg3)
         {
-            this.tick = Time.frameCount;
-            this.UnityEvent?.Invoke(arg1, arg2, arg3, arg4);
-            this.Action?.Invoke(arg1, arg2, arg3, arg4);
-
-            this.Args = new object[] { arg1, arg2, arg3, arg4 };
-            baseAction?.Invoke();
-
-            triggered = true;
-            await Task.Yield();
-            triggered = false;
+            Args = new object[] { arg0, arg1, arg2, arg3 };
+            this.UnityEvent?.Invoke(arg0, arg1, arg2, arg3);
+            this.Action?.Invoke(arg0, arg1, arg2, arg3);
+            Invoke(true, arg0, arg1, arg2, arg3);
         }
+
 
         public StandardEvent(string name = "") : base(name)
         {
@@ -459,7 +431,7 @@ namespace UDT.Core
         /// AddMethod a method to the event.
         /// </summary>
         /// <param name="method"></param>
-        public override void AddListener(Action<T1, T2, T3, T4> method)
+        public void AddListener(Action<T1, T2, T3, T4> method)
         {
             Action += method;
         }
@@ -467,7 +439,7 @@ namespace UDT.Core
         /// <summary>
         /// RemoveMethod a method from the event.
         /// </summary>
-        public override void RemoveListener(Action<T1, T2, T3, T4> method)
+        public void RemoveListener(Action<T1, T2, T3, T4> method)
         {
             Action -= method;
         }
